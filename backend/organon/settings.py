@@ -37,18 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-<<<<<<< HEAD
-    'app',
-    'rest_framework',
-=======
 
     # Django Rest Framework
     'rest_framework',
     'corsheaders',
 
-    # APPs
+    # started APPs
     'home',
->>>>>>> f1a538a708a9318545aed4b3fcc1aff825623c05
+    'perfil',
 ]
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSIONS_CLASSES': [
