@@ -42,8 +42,9 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
 
-    # APPs
+    # started APPs
     'home',
+    'perfil',
 ]
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSIONS_CLASSES': [
