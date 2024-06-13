@@ -9,7 +9,7 @@ import { IoHomeOutline, IoPersonOutline } from "react-icons/io5";
 
 const NavMenuHamburguer:React.FC = () => {
     return (
-        <nav className=' bg-blue-5 pt-4 pb-7  ' >
+        <nav className=' bg-blue-5 py-7  ' >
             <ul>
                 <li>
                     <Link 

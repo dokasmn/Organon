@@ -28,6 +28,8 @@ export default {
         "white-2-dark": "#BFBFBF",
         "dark-primary": "#282828",
         'dark-primary-op-1': 'rgba(40,40,40,.3)',
+        "black-opacity-65": 'rgba(0,0,0, .65)',
+        "gray-1":"#797979",
       },
       height: {
         '128':'32rem',
