@@ -7,24 +7,33 @@ from login.models import Professor_user
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
+
+# classe de autenticação
+class ProfessorTokenObtainPairView(TokenObtainPairView):
+    serializer_class = ProfessorTokenObtainPairSerializer
     
-# Note classes
-class NoteAPIView(APIView):
+class ProfessorUserAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, pk=None):
         if pk is None:
-            notes = Note.objects.all()
-            serializer = NoteSerializer(notes, many=True)
+            professors = Professor_user.objects.all()
+            serializer = ProfessorUserSerializer(professors, many=True)
             return Response(serializer.data)
         else:
             try:
-                note = Note.objects.get(pk=pk)
-                serializer = NoteSerializer(note)
+                professor = Professor_user.objects.get(pk=pk)
+                serializer = ProfessorUserSerializer(professor)
                 return Response(serializer.data)
-            except Note.DoesNotExist:
+            except Professor_user.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):
-        serializer = NoteSerializer(data=request.data)
+        serializer = ProfessorUserSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -32,25 +41,19 @@ class NoteAPIView(APIView):
 
     def put(self, request, pk):
         try:
-            note = Note.objects.get(pk=pk)
-            serializer = NoteSerializer(note, data=request.data)
+            professor = Professor_user.objects.get(pk=pk)
+            serializer = ProfessorUserSerializer(professor, data=request.data)
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        except Note.DoesNotExist:
+        except Professor_user.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def delete(self, request, pk):
         try:
-            note = Note.objects.get(pk=pk)
-            note.delete()
+            professor = Professor_user.objects.get(pk=pk)
+            professor.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        except Note.DoesNotExist:
+        except Professor_user.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
-
-    
-    
-    
-
-    
