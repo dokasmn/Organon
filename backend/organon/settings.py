@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     # started APPs
     'home',
     'perfil',
+    'course',
 ]
 
 REST_FRAMEWORK = {'DEFAULT_PERMISSIONS_CLASSES': [
