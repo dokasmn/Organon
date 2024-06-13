@@ -19,7 +19,7 @@ class Content(models.Model):
     content_name = models.CharField(max_length=70, verbose_name="Nome do conteúdo")
     content_description = models.TextField(null=True, blank=True)
     content_subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name="Matéria do conteúdo")
-    content_professor_user = models.ForeignKey('perfil.Professor_user', on_delete=models.CASCADE, verbose_name="Professor do conteúdo")
+    content_professor_user = models.ForeignKey('login.Professor_user', on_delete=models.CASCADE, verbose_name="Professor do conteúdo")
     notes = models.ManyToManyField(User, through='perfil.Note')
     
     def __str__(self):
