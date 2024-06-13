@@ -24,3 +24,5 @@ class Note(models.Model):
         ordering = ["note_content"]
         verbose_name = 'Anotação'
         verbose_name_plural = 'Anotações'
+
+''

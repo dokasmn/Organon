@@ -17,7 +17,8 @@ class ProfessorUserAPIView(APIView):
                 return Response(serializer.data)
             except Professor_user.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-
+        
+    
     def post(self, request):
         serializer = ProfessorUserSerializer(data=request.data)
         if serializer.is_valid():
