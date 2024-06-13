@@ -1,38 +1,39 @@
-import { useState, useEffect } from 'react'
+//REACT
+import { BrowserRouter as Router, Routes, Route, useLocation} from "react-router-dom";
+import React from 'react';
 
-import './App.css'
+//IMAGES
 
-function App() {
-  const [data, setData] = useState<[{title:String, body:String}]>([{"title":"", "body":""}])
+//PAGES
+import Profile from './pages/Profile.tsx';
+import Notes from './pages/Notes.tsx';
+import Login from './pages/Login.tsx';
+import SecurityAccount from './pages/SecurityAccount.tsx';
+import Home from './pages/Home.tsx';
 
-  useEffect(() => {
-    async function fetchData(){
-      try {
-        const response = await fetch(`${
-          import.meta.env.VITE_API_URL
-        }`)
 
-        if(!response.ok){
-          throw new Error('network response was not ok')
-        }
+//COMPONENTS
+import Header from './components/layout/Header.tsx';
+import ButtonNavigationBar from "./components/items/BottomNavigationBar.tsx";
 
-        const result = await response.json();
-        console.log(result);
-        setData(result);
-      }catch(error){
-        console.error("Error fetching data", error);
-      }
-    }
-
-    fetchData();
-  }, [])
-
+const App = () => {
   return (
-    <>
-      <p>{data[0].title}</p>
-      <p>{data[0].body}</p>
-    </>
-  )
+    
+    <Router>
+      {/* <Header search /> */}
+      <Header/>
+      <section className={' text-sm pb-20 '} >
+        <Routes>
+          <Route path="/" element={<Home/>}/>
+          <Route path="/home" element={<Home/>}/>
+          <Route path="/profile" element={<Profile/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/notes" element={<Notes/>}/>
+          <Route path="/securityAccount" element={<SecurityAccount/>}/>
+        </Routes>
+      </section>
+    </Router>
+  );
 }
 
 export default App
