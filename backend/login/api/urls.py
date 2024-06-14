@@ -10,8 +10,9 @@ from rest_framework_simplejwt.views import (
 router = DefaultRouter()
 router.register(r"professor", ProfessorUserViewSet)
 
+app_name="login_app"
 urlpatterns = [
     path('', include(router.urls)),
-    path('login/api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('login/api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
