@@ -1,5 +1,8 @@
 from ..models import *
 from .serializers import *
+from ..api.utils import *
+
+from login.models import Professor_user
 
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -17,7 +20,8 @@ class ProfessorUserAPIView(APIView):
                 return Response(serializer.data)
             except Professor_user.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
-
+        
+    
     def post(self, request):
         serializer = ProfessorUserSerializer(data=request.data)
         if serializer.is_valid():
