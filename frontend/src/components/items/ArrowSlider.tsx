@@ -3,17 +3,12 @@ import React, { ReactHTMLElement, ReactNode } from 'react';
 interface ArrowSliderProps {
     icon: React.ReactNode,
     handleEvent: () => void,
-    left?: boolean, 
     style?: string,
 }
 
-const ArrowSlider:React.FC<ArrowSliderProps> = ({icon, handleEvent, left, style}) => {
-
-    let position = "right";
-    left ? position = "left" : false; 
-
+const ArrowSlider:React.FC<ArrowSliderProps> = ({icon, handleEvent, style}) => {
     return (
-        <div className={`absolute top-1/2 transform -translate-y-1/2 ${position}-0 ${style}`}>
+        <div className={`absolute top-1/2 transform -translate-y-1/2 ${style}`}>
             <button onClick={handleEvent} className="">
                 {icon}
             </button>

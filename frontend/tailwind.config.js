@@ -12,7 +12,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        'blue-1': '#92BDF9',
+        "blue-1": '#92BDF9',
         "blue-1-dark": "#76A0E0",
         "blue-2": "#3380F3",
         "blue-2-dark": "#2865CC",

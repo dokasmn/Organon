@@ -38,8 +38,8 @@ const NavigationSubject = () => {
             ))}
         </div>
         
-        <ArrowSlider icon={<MdArrowLeft className='text-xl' />} handleEvent={handlePrev} left />
-        <ArrowSlider icon={<MdArrowRight className='text-xl'/>} handleEvent={handleNext}/>
+        <ArrowSlider icon={<MdArrowLeft className='text-xl' />} handleEvent={handlePrev} style="left-0" />
+        <ArrowSlider icon={<MdArrowRight className='text-xl'/>} handleEvent={handleNext} style="right-0"/>
     </div>
     
   );

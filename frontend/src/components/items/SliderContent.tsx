@@ -42,8 +42,8 @@ const SliderContent: React.FC<SliderContentProps> = ({slides}) => {
             ))}
         </div>
 
-        <ArrowSlider icon={<MdArrowLeft className='text-3xl' />} handleEvent={handlePrev} left style="px-10" />
-        <ArrowSlider icon={<MdArrowRight className='text-3xl'/>} handleEvent={handleNext} style="px-10"/>
+        <ArrowSlider icon={<MdArrowLeft className='text-3xl' />} handleEvent={handlePrev} style="px-10 left-0" />
+        <ArrowSlider icon={<MdArrowRight className='text-3xl'/>} handleEvent={handleNext} style="px-10 right-0 "/>
     </div>
   );
 };

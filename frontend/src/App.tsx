@@ -10,7 +10,7 @@ import Notes from './pages/Notes.tsx';
 import Login from './pages/Login.tsx';
 import SecurityAccount from './pages/SecurityAccount.tsx';
 import Home from './pages/Home.tsx';
-
+import Contents from "./pages/Contents.tsx";
 
 //COMPONENTS
 import Header from './components/layout/Header.tsx';
@@ -30,6 +30,7 @@ const App = () => {
           <Route path="/login" element={<Login/>}/>
           <Route path="/notes" element={<Notes/>}/>
           <Route path="/securityAccount" element={<SecurityAccount/>}/>
+          <Route path="/contents" element={<Contents/>}/>
         </Routes>
       </section>
     </Router>

@@ -21,7 +21,7 @@ const NavMenuHamburguer:React.FC = () => {
                 <li className='mt-7' >
                     <Link 
                         style="text-white flex justify-center" 
-                        to="" 
+                        to="/profile" 
                         text={<p className='flex gap-4'><IoPersonOutline className='text-xl' />Perfil</p>} 
                     />
                 </li>
