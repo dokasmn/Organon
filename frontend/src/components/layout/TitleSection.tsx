@@ -2,11 +2,7 @@
 import React from 'react';
 
 //COMPONENTS
-import InputSearch from '../items/InputSearch';
-
-//IMAGES
-import logo from '../../assets/images/logo.png';
-import menuHamburguer from '../../assets/icons/menuHamburguer.png'
+import InputSearch from '../items/inputs/InputSearch';
 
 interface TitleSectionProps{
     title: string,

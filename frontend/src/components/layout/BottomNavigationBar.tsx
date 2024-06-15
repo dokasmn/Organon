@@ -1,7 +1,7 @@
 import React from 'react';
 
 // COMPONENT
-import Link from './Link';
+import Link from '../items/buttons/Link';
 
 // IMAGES
 import { IoPersonOutline } from "react-icons/io5";

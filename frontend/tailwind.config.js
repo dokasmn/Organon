@@ -3,6 +3,14 @@
 
 export default {
   // Específica aonde o tailwind deve procurar as classes css
+
+  purge: {
+    content: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
+    safelist: [
+      'bg-blue-1',
+      'bg-gray-500',
+    ],
+  },
   content: [ 
     './src/**/*.{js,jsx,ts,tsx}',
     './public/index.html',
@@ -14,6 +22,7 @@ export default {
       colors: {
         "blue-1": '#92BDF9',
         "blue-1-dark": "#76A0E0",
+        "blue-1-opacity": "rgba(148, 189, 249, .3)",
         "blue-2": "#3380F3",
         "blue-2-dark": "#2865CC",
         "blue-3": "#316FF6",
@@ -22,6 +31,7 @@ export default {
         "blue-4-dark": "#133392",
         "blue-5": "#2E3D4A",
         "blue-5-dark": "#242F3A",
+        "blue-5-opacity": "rgba(40,40,40,.3)",
         "white-1": "#F3F3F3",
         "white-1-dark": "#CCCCCC",
         "white-2": "#E8E8E8",
@@ -30,9 +40,37 @@ export default {
         'dark-primary-op-1': 'rgba(40,40,40,.3)',
         "black-opacity-65": 'rgba(0,0,0, .65)',
         "gray-1":"#797979",
+        
+
       },
       height: {
+        '104': '26rem',
+        '112': '28rem',
+        '120': '30rem',
         '128':'32rem',
+        '144': '36rem',
+        '160': '40rem',
+        '176': '44rem',
+        '192': '48rem',
+        '208': '52rem',
+        '224': '56rem',
+        '240': '60rem',
+      },
+      width: {
+        '104': '26rem',
+        '112': '28rem',
+        '120': '30rem',
+        '128': '32rem',
+        '144': '36rem',
+        '160': '40rem',
+        '176': '44rem',
+        '192': '48rem',
+        '208': '52rem',
+        '224': '56rem',
+        '240': '60rem',
+      },
+      backgroundImage: {
+        'gradient-blue-bottom': 'linear-gradient(180deg, hsla(208, 23%, 24%, 1) 0%, hsla(207, 23%, 26%, 1) 16%, hsla(208, 23%, 27%, 1) 34%, hsla(207, 24%, 29%, 1) 51%, hsla(207, 23%, 32%, 1) 63%, hsla(207, 23%, 37%, 1) 74%, hsla(208, 23%, 42%, 1) 89%, hsla(208, 23%, 44%, 1) 100%);',
       },
     },
   },

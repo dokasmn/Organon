@@ -2,12 +2,13 @@
 import React from 'react';
 
 // COMPONENTS
-import NavigationSubject from '../components/items/NavigationSubject';
-import SubTitle from "../components/items/SubTitle";
-import CardNewContent from "../components/items/CardNewContent";
-import SliderContent from '../components/items/SliderContent';
-import  GeoGraphySmall from "../assets/images/subjects_image/geography-small.png";
-import NoticeCard from '../components/items/NoticeCard';
+import NavigationSubject from '../components/items/cards/NavigationSubject';
+import SubTitle from "../components/items/texts/SubTitle";
+import CardNewContent from "../components/items/cards/CardNewContent";
+import SliderContent from '../components/items/cards/SliderContent';
+import GeoGraphySmall from "../assets/images/subjects_image/geography-small.png";
+import NoticeCard from '../components/items/cards/NoticeCard';
+import Footer from '../components/layout/Footer';
 
 // CSS
 import "./Home.css";
@@ -15,7 +16,7 @@ import "./Home.css";
 // TYPES
 import { SliderContentInterface } from "../types"
 
-// IMAGE 
+// IMAGES 
 import  highSchoolImage from "../assets/images/high_school.png"
 
 const Home:React.FC = () => {
@@ -29,7 +30,7 @@ const Home:React.FC = () => {
     return (
         <>
             <NavigationSubject/>
-            <main className={' h-100vh '}>
+            <main className={' bg-white-2 '}>
                 <section className={' relative w-screen overflow-hidden h-128 '} >
                     <div className='bg-black-opacity-65 absolute h-full w-full text-white px-10 flex justify-center items-center '>
                         <div>
@@ -43,15 +44,25 @@ const Home:React.FC = () => {
                     </div>
                     <div className='welcome-container-home h-full w-full'></div>
                 </section>
-                <section className=' bg-white-2 ' >
+                <section>
                     <section className='py-10' >
                         <SubTitle text="O que há de novo?" />
                         <SliderContent slides={slides} />
                         <SliderContent slides={slides} />
                         <SliderContent slides={slides} />
                     </section>
-                    <section className=' bg-white-2 '>
+                    <section className='px-5'>
                         <SubTitle text="Últimas Notícias?" />
+                        <NoticeCard 
+                            title="Novo ensino médio revogado" 
+                            description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada.' 
+                            image={highSchoolImage}
+                        />
+                        <NoticeCard 
+                            title="Novo ensino médio revogado" 
+                            description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada.' 
+                            image={highSchoolImage}
+                        />
                         <NoticeCard 
                             title="Novo ensino médio revogado" 
                             description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada.' 
@@ -61,6 +72,7 @@ const Home:React.FC = () => {
                     
                 </section>
             </main>
+            <Footer/>
         </>
         
     )

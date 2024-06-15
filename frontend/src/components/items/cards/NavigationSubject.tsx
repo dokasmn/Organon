@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 // COMPONENTS
-import ArrowSlider from './ArrowSlider';
+import ArrowSlider from '../cards/ArrowSlider';
 
 // IMAGES
 import { MdArrowRight, MdArrowLeft } from "react-icons/md";
@@ -27,7 +27,7 @@ const NavigationSubject = () => {
 
   return (
 
-    <div className="relative w-full bg-white rounded overflow-hidden py-5">
+    <div className="relative w-full bg-white rounded overflow-hidden py-5 ">
         <div className="flex transition-transform duration-500" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
             {slides.map((words, __) => (
             <div key={uuidv4()} className="w-full flex-shrink-0 flex justify-center items-center">
