@@ -8,3 +8,8 @@ class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
     permission_classes = [AllowAny] 
+    
+class ContentViewSet(viewsets.ModelViewSet):
+    queryset = Content.objects.all()
+    serializer_class = ContentSerializer
+    permission_classes = [AllowAny]
