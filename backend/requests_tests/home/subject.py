@@ -1,7 +1,7 @@
 import requests
 
 # Obtenção do token
-response = requests.post('http://localhost:8000/api/token/', data={
+response = requests.post('http://localhost:8000/login/api/token/', data={
     'username': 'dokasmn',
     'password': 'doka#123'
 })
@@ -17,52 +17,48 @@ def print_response(title, response):
         print(f"Erro ao imprimir a resposta: {e}")
         print(response.text)
 
-# Create - Criar um novo subject
+# Create - Criar uma nova matéria (Subject)
 response = requests.post('http://localhost:8000/home/subject/', headers={
     'Authorization': f'Bearer {access_token}',
     'Content-Type': 'application/json'
 }, json={
-    'name': 'Mathematics',
-    'description': 'An advanced course on algebra and calculus'
-    # Adicione outros campos conforme necessário
+    'subject_name': 'Matemática'
 })
 print_response("Create Subject", response)
 
-# Read - Listar todos os subjects
+# Read - Listar todas as matérias (Subjects)
 response = requests.get('http://localhost:8000/home/subject/', headers={
     'Authorization': f'Bearer {access_token}'
 })
 print_response("List Subjects", response)
 
-# Read - Recuperar um subject específico pelo ID
-subject_id = 1  # Substitua pelo ID do subject que você deseja recuperar
+# Read - Recuperar uma matéria específica pelo ID
+subject_id = 1  # Substitua pelo ID da matéria que você deseja recuperar
 response = requests.get(f'http://localhost:8000/home/subject/{subject_id}/', headers={
     'Authorization': f'Bearer {access_token}'
 })
 print_response("Get Subject by ID", response)
 
-# Update - Atualizar completamente um subject específico pelo ID
+# Update - Atualizar completamente uma matéria específica pelo ID
 response = requests.put(f'http://localhost:8000/home/subject/{subject_id}/', headers={
     'Authorization': f'Bearer {access_token}',
     'Content-Type': 'application/json'
 }, json={
-    'name': 'Advanced Mathematics',
-    'description': 'An advanced course on algebra, calculus, and more'
-    # Adicione outros campos conforme necessário
+    'subject_name': 'História'
 })
 print_response("Update Subject", response)
 
-# Update - Atualizar parcialmente um subject específico pelo ID
+# Update - Atualizar parcialmente uma matéria específica pelo ID
 response = requests.patch(f'http://localhost:8000/home/subject/{subject_id}/', headers={
     'Authorization': f'Bearer {access_token}',
     'Content-Type': 'application/json'
 }, json={
-    'description': 'An advanced course on algebra, calculus, geometry, and more'
+    'subject_name': 'Geografia'
     # Adicione outros campos conforme necessário
 })
 print_response("Partial Update Subject", response)
 
-# Delete - Deletar um subject específico pelo ID
+# Delete - Deletar uma matéria específica pelo ID
 response = requests.delete(f'http://localhost:8000/home/subject/{subject_id}/', headers={
     'Authorization': f'Bearer {access_token}'
 })
