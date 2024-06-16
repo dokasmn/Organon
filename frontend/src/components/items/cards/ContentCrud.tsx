@@ -1,7 +1,7 @@
 import React, {useState, useMemo} from 'react';
 
 // COMPONENTS
-import ButtonSmallMobile from './ButtonSmallMobile';
+import ButtonSmallMobile from '../buttons/ButtonSmallMobile';
 
 
 // IMAGES

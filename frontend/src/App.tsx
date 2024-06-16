@@ -1,36 +1,39 @@
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 //REACT
 import { BrowserRouter as Router, Routes, Route, useLocation} from "react-router-dom";
 import React from 'react';
 
-//IMAGES
-
 //PAGES
-import Profile from './pages/Profile.tsx';
+import Contents from './pages/Contents.tsx';
 import Notes from './pages/Notes.tsx';
 import Login from './pages/Login.tsx';
 import SecurityAccount from './pages/SecurityAccount.tsx';
 import Home from './pages/Home.tsx';
-import Contents from "./pages/Contents.tsx";
+import CreateContent from "./pages/CreateContent.tsx";
+import Register from "./pages/Register.tsx";
+import Profile from "./pages/Profile.tsx";
 
 //COMPONENTS
 import Header from './components/layout/Header.tsx';
-import ButtonNavigationBar from "./components/items/BottomNavigationBar.tsx";
 
 const App = () => {
   return (
     
     <Router>
-      {/* <Header search /> */}
       <Header/>
-      <section className={' text-sm pb-20 '} >
+      <section>
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/home" element={<Home/>}/>
-          <Route path="/profile" element={<Profile/>}/>
+          <Route path="/contents" element={<Contents/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/notes" element={<Notes/>}/>
           <Route path="/securityAccount" element={<SecurityAccount/>}/>
-          <Route path="/contents" element={<Contents/>}/>
+          <Route path="/create-content" element={<CreateContent/>}/>
+          <Route path="/register" element={<Register/>}/>
+          <Route path="/profile" element={<Profile/>}/>
         </Routes>
       </section>
     </Router>
