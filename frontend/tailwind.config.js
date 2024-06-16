@@ -72,6 +72,9 @@ export default {
       backgroundImage: {
         'gradient-blue-bottom': 'linear-gradient(180deg, hsla(208, 23%, 24%, 1) 0%, hsla(207, 23%, 26%, 1) 16%, hsla(208, 23%, 27%, 1) 34%, hsla(207, 24%, 29%, 1) 51%, hsla(207, 23%, 32%, 1) 63%, hsla(207, 23%, 37%, 1) 74%, hsla(208, 23%, 42%, 1) 89%, hsla(208, 23%, 44%, 1) 100%);',
       },
+      borderWidth: {
+        '1': '1px',
+      }
     },
   },
 

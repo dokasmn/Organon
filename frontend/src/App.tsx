@@ -1,8 +1,9 @@
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 //REACT
 import { BrowserRouter as Router, Routes, Route, useLocation} from "react-router-dom";
 import React from 'react';
-
-//IMAGES
 
 //PAGES
 import Contents from './pages/Contents.tsx';

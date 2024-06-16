@@ -5,21 +5,20 @@ interface InputDarkProps {
     placeholder: string,
     type: string,
     value: string,
-    pattern?: string | RegExp,
     title?: string,
     required?: boolean,
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void, 
     name: string,
     maxLength?: number,
     minLength?: number,
+    error: string,
 }
 
-    const InputDark:React.FC<InputDarkProps> = ({id, name, placeholder, type, value, pattern, title, required=false, maxlength, minlength, onChange}) => {
+    const InputDark:React.FC<InputDarkProps> = ({id, name, error, placeholder, type, value, title, required=false, maxLength, minLength, onChange}) => {
     return (
         <div>
             <input 
                 value={value} 
-                pattern={pattern} 
                 type={type} 
                 name={name} 
                 id={id} 
@@ -28,9 +27,10 @@ interface InputDarkProps {
                 placeholder={placeholder}
                 required={required}
                 onChange={onChange}
-                maxLength={maxlength}
-                minLength={minlength}
+                maxLength={maxLength}
+                minLength={minLength}
             />
+            {error && <div className="error-message">{error}</div>}
         </div>
     )
 }

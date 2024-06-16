@@ -2,10 +2,10 @@
 import React from 'react';
 
 // COMPONENTS
-import NavigationSubject from '../components/items/cards/NavigationSubject';
+import NavigationSubject from '../components/items/sliders/NavigationSubject';
 import SubTitle from "../components/items/texts/SubTitle";
 import CardNewContent from "../components/items/cards/CardNewContent";
-import SliderContent from '../components/items/cards/SliderContent';
+import SliderContent from '../components/items/sliders/SliderContent';
 import GeoGraphySmall from "../assets/images/subjects_image/geography-small.png";
 import NoticeCard from '../components/items/cards/NoticeCard';
 import Footer from '../components/layout/Footer';

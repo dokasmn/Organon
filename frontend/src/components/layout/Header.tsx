@@ -24,7 +24,7 @@ const Header:React.FC = () => {
             {
                 location.pathname !== "/login" && location.pathname !== "/register" ?
                 <>
-                    <section className='bg-blue-5 h-16 flex items-center text-white'>
+                    <section className='bg-blue-5 h-16 flex items-center text-white border-b-1 border-white '>
                         <div className={' w-4/12 flex justify-center cursor-pointer'}>
                             {
                                 location.pathname === "/home" || location.pathname === "/" ? 

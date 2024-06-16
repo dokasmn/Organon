@@ -18,7 +18,6 @@ const Login: React.FC = () => {
     const [emailError, setEmailError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
     
-
     const { formData, handleChange, handleSubmit, resetForm } = useForm(
         { email: '', password: '', rememberMe: false },
         (data) => {

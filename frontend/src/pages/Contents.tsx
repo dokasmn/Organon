@@ -28,7 +28,7 @@ const Contents:React.FC = () => {
                 <Link 
                     text="Add Content" 
                     style=' flex justify-center w-full text-black bg-white-2 hover:bg-white-2-dark rounded font-bold py-3' 
-                    to='/contents'
+                    to='/create-content'
                 />
 
             </main>

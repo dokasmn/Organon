@@ -9,6 +9,9 @@ import { MdArrowRight, MdArrowLeft } from "react-icons/md";
 import CardNewContent from "../cards/CardNewContent";
 import ArrowSlider from '../cards/ArrowSlider';
 
+// HOOKS
+import useSliderArrow from '../../../hooks/useSliderArrow';
+
 // TYPES
 import { SliderContentInterface } from "../../../types"
 
@@ -17,15 +20,10 @@ interface SliderContentProps{
 } 
 
 const SliderContent: React.FC<SliderContentProps> = ({slides}) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const handleNext = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentSlide((prevSlide) => (prevSlide - 1 + slides.length) % slides.length);
-  };
+  const { currentSlide, handleNext, handlePrev } = useSliderArrow(
+    0, slides
+  );
 
   return (
     <div className="relative w-full rounded overflow-hidden py-10 px-14">
