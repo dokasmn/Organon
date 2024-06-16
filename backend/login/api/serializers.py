@@ -6,7 +6,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 class ProfessorUserSerializer(serializers.ModelSerializer):
     class Meta():
         model=Professor_user
-        filds=['professor_cpf','professor_auth_user']
+        fields='__all__'
 
 class ProfessorTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod

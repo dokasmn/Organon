@@ -7,7 +7,6 @@ router = DefaultRouter()
 router.register(r'subject', SubjectViewSet)
 router.register(r'content', ContentViewSet)
 
-app_name="course_app"
 urlpatterns = [
     path('', include(router.urls)),
 ]

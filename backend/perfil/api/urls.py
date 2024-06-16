@@ -5,7 +5,6 @@ from .utils import NoteViewSet
 router = DefaultRouter()
 router.register(r"notes", NoteViewSet)
 
-app_name="perfil_app"
 urlpatterns = [
     path('', include(router.urls)),
 ]
