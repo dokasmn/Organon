@@ -1,0 +1,11 @@
+admin/
+^professor/$ [name='professor_user-list']
+^professor\.(?P<format>[a-z0-9]+)/?$ [name='professor_user-list']
+^professor/(?P<pk>[^/.]+)/$ [name='professor_user-detail']
+^professor/(?P<pk>[^/.]+)\.(?P<format>[a-z0-9]+)/?$ [name='professor_user-detail']
+[name='api-root']
+<drf_format_suffix:format> [name='api-root']
+api/token/ [name='token_obtain_pair']
+api/token/refresh/ [name='token_refresh']
+home/
+perfil/
