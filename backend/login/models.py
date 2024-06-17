@@ -1,23 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-<<<<<<< HEAD
-class Professor_user(models.Model):
-    professor_auth_user = models.OneToOneField(User, on_delete=models.CASCADE)
-=======
 class Professor_User(models.Model):
-    cpf_professor = models.CharField(max_length=14, verbose_name="CPF do professor", unique=True)
-    name_professor = models.CharField(max_length=60, verbose_name="Nome do professor")
-    email_professor = models.CharField(max_length=60, verbose_name="Email do professor")
     professor_auth_user = models.OneToOneField(User, on_delete=models.CASCADE)    
->>>>>>> b7da658278354436a4c7c97973a4fcc1ad60d198
     class Meta:
         ordering = ['professor_auth_user']
         verbose_name = 'Professor'
         verbose_name_plural = 'Professores'
 
-<<<<<<< HEAD
-=======
 class Profession(models.Model):
     profession_name = models.CharField(max_length=45)
 
@@ -29,4 +19,3 @@ class Academic_Education(models.Model):
     degree = models.CharField(max_length=30)
     training_name = models.CharField(max_length=30)
     
->>>>>>> b7da658278354436a4c7c97973a4fcc1ad60d198
