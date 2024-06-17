@@ -9,7 +9,7 @@ interface CardNewContentProps {
 
 const CardNewContent:React.FC<CardNewContentProps> = ({subject, content, date, image}) => {
     return (
-        <div className='rounded-xl w-52 h-60 overflow-hidden bg-white ' >
+        <div className='rounded-xl w-52 h-60 overflow-hidden bg-white transition-all transform duration-500 hover:scale-105 hover:border-2 hover:border-blue-1 hover:shadow' >
             <div className='' >
                 <img src={image} alt="" height={"h-full"} />
             </div>

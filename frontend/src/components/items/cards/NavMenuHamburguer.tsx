@@ -1,7 +1,7 @@
 import React, {useState, useMemo} from 'react';
 
 // COMPONENTS
-import Link from './Link';
+import Link from '../buttons/Link';
 
 // IMAGES
 import { IoHomeOutline, IoPersonOutline } from "react-icons/io5";

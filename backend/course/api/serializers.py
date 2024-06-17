@@ -4,4 +4,9 @@ from ..models import *
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta():
         model=Subject
-        fields=['subject_name']
+        fields='_all__'
+        
+class ContentSerializer(serializers.ModelSerializer):
+    class Meta():
+        model=Content
+        fields='__all__'

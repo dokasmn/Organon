@@ -1,0 +1,13 @@
+funções para fazer:
+
+change e-mail
+calcular o progresso no curso
+função de pesquisa na home
+função de retornar meus conteúdos
+função de retornar os ultimos conteúdos lançados
+logout
+adicionar um comentário a um comteúdo
+
+# onde armazenar a foto de perfil do usuário #
+# como armazenar os recursos de cada conteudo e o video de cada conteudo #
+

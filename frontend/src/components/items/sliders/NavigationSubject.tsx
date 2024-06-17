@@ -3,10 +3,13 @@ import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 // COMPONENTS
-import ArrowSlider from './ArrowSlider';
+import ArrowSlider from '../cards/ArrowSlider';
 
 // IMAGES
 import { MdArrowRight, MdArrowLeft } from "react-icons/md";
+
+// HOOKS
+import useSliderArrow from '../../../hooks/useSliderArrow';
 
 const NavigationSubject = () => {
   const slides = [
@@ -15,19 +18,12 @@ const NavigationSubject = () => {
     ["Biologia", "Artes", "Literatura", "Geografia"],
   ];
 
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const handleNext = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-  };
-
-  const handlePrev = () => {
-    setCurrentSlide((prevSlide) => (prevSlide - 1 + slides.length) % slides.length);
-  };
+  const { currentSlide, handleNext, handlePrev } = useSliderArrow(
+    0, slides
+  );
 
   return (
-
-    <div className="relative w-full bg-white rounded overflow-hidden py-5">
+    <div className="relative w-full bg-white rounded overflow-hidden py-5 ">
         <div className="flex transition-transform duration-500" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
             {slides.map((words, __) => (
             <div key={uuidv4()} className="w-full flex-shrink-0 flex justify-center items-center">
@@ -41,7 +37,6 @@ const NavigationSubject = () => {
         <ArrowSlider icon={<MdArrowLeft className='text-xl' />} handleEvent={handlePrev} style="left-0" />
         <ArrowSlider icon={<MdArrowRight className='text-xl'/>} handleEvent={handleNext} style="right-0"/>
     </div>
-    
   );
 };
 
