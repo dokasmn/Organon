@@ -1,24 +1,22 @@
-from ..models import *
-
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from ..models import Professor_user
 
 class ProfessorUserSerializer(serializers.ModelSerializer):
-    class Meta():
-        model=Professor_user
-        fields='__all__'
+    class Meta:
+        model = Professor_user
+        fields = '__all__'
 
 class ProfessorTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         token = super().get_token(user)
-        token['name'] = user.username
-        token['email'] = user.email
         try:
             professor_user = Professor_user.objects.get(professor_auth_user=user)
-            token['professor_cpf'] = professor_user.professor_cpf
+            token['name'] = user.username
+            token['email'] = user.email
         except Professor_user.DoesNotExist:
-            token['professor_cpf'] = None
+            pass
         return token
 
     def validate(self, attrs):
@@ -27,7 +25,6 @@ class ProfessorTokenObtainPairSerializer(TokenObtainPairSerializer):
         data['email'] = self.user.email
         try:
             professor_user = Professor_user.objects.get(professor_auth_user=self.user)
-            data['professor_cpf'] = professor_user.professor_cpf
         except Professor_user.DoesNotExist:
-            data['professor_cpf'] = None
+            professor_user = None
         return data
