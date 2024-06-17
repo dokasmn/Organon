@@ -1,7 +1,7 @@
 import requests
 
 def auth_user(username, password):  
-    response = requests.post('http://localhost:8000/api/token/', data={
+    response = requests.post('http://localhost:8000/login/api/token/', data={
         'username': username,
         'password': password,
     })
@@ -13,7 +13,7 @@ def auth_user(username, password):
     return tokens.get('access', None)
 
 def get_user_profile(access_token):
-    response = requests.get('http://localhost:8000/api/user_profile/', headers={
+    response = requests.get('http://localhost:8000/login/api/get_user_data/', headers={
         'Authorization': f'Bearer {access_token}'
     })
     return response.json()

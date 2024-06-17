@@ -14,6 +14,5 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 class ProfessorTokenObtainPairView(TokenObtainPairView):
     serializer_class = ProfessorTokenObtainPairSerializer
 
-    
 class ProfessorUserAPIView(APIView):
     permission_classes = [IsAuthenticated]
