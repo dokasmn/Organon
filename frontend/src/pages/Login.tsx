@@ -1,6 +1,8 @@
 // REACT
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import axiosInstance from '../axiosConfig';
 
 // COMPONENTS
 import Title from '../components/items/texts/Title';
@@ -14,6 +16,8 @@ import useForm from '../hooks/useForm';
 const Login: React.FC = () => {
     const navigate = useNavigate();
 
+    const [passwordIsValid, setPasswordIsValid] = useState<boolean>(false);
+    const [emailIsvalid, setEmailIsValid] = useState<boolean>(false)
     const [colorCheckRememberMe, setColorCheckRememberMe] = useState<string>("gray-500");
     const [emailError, setEmailError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
@@ -24,11 +28,29 @@ const Login: React.FC = () => {
           console.log(data);
 
           // A requisição vai aqui
-          navigate('/home');
+          if(passwordIsValid && emailIsvalid){
+            fetchData(data);
+          }
+          
         }
-        
     );
     
+    const fetchData = async (data: { email: string, password: string }) => {
+        axiosInstance.post('api/token/', 
+            { 
+                username: data.email, 
+                password: data.password 
+            }
+        )
+        .then(response => {
+            console.log('Success:', response.data);
+            navigate("/home")
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    };
+
     const handleClickRememberMe = () => {
         handleChange({
             target: {
@@ -62,7 +84,9 @@ const Login: React.FC = () => {
 
         if (!validateEmail(value)) {
             setEmailError('Por favor, insira um e-mail válido.');
+            setEmailIsValid(false);
         } else {
+            setEmailIsValid(true);
             setEmailError('');
         }
     };
@@ -73,8 +97,10 @@ const Login: React.FC = () => {
 
         if (!validatePassword(value)) {
             setPasswordError('A senha deve conter no mínimo 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial.');
+            setPasswordIsValid(false);
         } else {
             setPasswordError('');
+            setPasswordIsValid(true);
         }
     };
     
