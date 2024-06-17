@@ -4,4 +4,4 @@ from ..models import *
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta():
         model=Subject
-        filds=['subject_name']
+        fields=['subject_name']
