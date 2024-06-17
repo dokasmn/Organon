@@ -3,6 +3,7 @@ import React from 'react';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { v4 as uuidv4 } from 'uuid';
 
 // COMPONENTS
 import SubjectProgressCard from '../cards/SubjectProgressCard';
@@ -22,9 +23,9 @@ const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({slides}) 
   };
 
   return (
-    <div className="slider-container mx-auto max-w-full overflow-hidden pt-10">
+    <div key={uuidv4()} className="slider-container mx-auto max-w-full overflow-hidden pt-10">
       <Slider {...settings} >
-        {slides.map((slide, index) => (
+        {slides.map((slide, __) => (
           <>
             <SubjectProgressCard subject={slide.subject} teacher={slide.teacher} progress={slide.progress} image={slide.image}/>
           </>

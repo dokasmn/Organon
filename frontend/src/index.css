@@ -24,7 +24,7 @@ body {
 }
 
 main{
-  padding-bottom: 7rem !important;
+  padding-bottom: 7rem;
 }
 
 @tailwind base;
