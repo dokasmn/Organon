@@ -1,4 +1,6 @@
 import requests
+import json
+import os
 
 def auth_user(username, password):  
     response = requests.post('http://localhost:8000/login/api/token/', data={
@@ -16,12 +18,21 @@ def get_user_profile(access_token):
     response = requests.get('http://localhost:8000/login/api/get_user_data/', headers={
         'Authorization': f'Bearer {access_token}'
     })
-    return response.json()
+    print(response)
+    datas = response.json() 
+    return datas
 
 def print_response(title, response):
     print("="*30 + f" {title} " + "="*30)
     try:
-        print(response.json())
+        print(response)
     except Exception as e:
         print(f"Erro ao imprimir a resposta: {e}")
-        print(response.text)
+        print(response)
+        
+os.system('cls')
+username = input("username: ")
+password = input("password: ")
+my_token = auth_user(username,password)
+my_datas = get_user_profile(my_token)
+print_response("perfil",my_datas)
