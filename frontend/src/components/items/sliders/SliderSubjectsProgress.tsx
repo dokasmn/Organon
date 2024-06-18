@@ -26,9 +26,7 @@ const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({slides}) 
     <div key={uuidv4()} className="slider-container mx-auto max-w-full overflow-hidden pt-10">
       <Slider {...settings} >
         {slides.map((slide, __) => (
-          <>
-            <SubjectProgressCard subject={slide.subject} teacher={slide.teacher} progress={slide.progress} image={slide.image}/>
-          </>
+          <SubjectProgressCard key={uuidv4()} subject={slide.subject} teacher={slide.teacher} progress={slide.progress} image={slide.image}/>
         ))}
       </Slider>
     </div>

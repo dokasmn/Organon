@@ -14,7 +14,7 @@ import MathSmallImage from '../assets/images/math-small.png'
 const Contents:React.FC = () => {
     return (
         <>            
-            <main className={'p-6 pb-24 '} >
+            <main className={'px-5'} >
                 <section className='pb-7' >
                     <TitleSection title="CONTENTS" />
                 </section>

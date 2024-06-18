@@ -2,7 +2,7 @@ import React from 'react';
 
 // COMPONENTS
 import Title from '../components/items/texts/Title';
-import InputDark from '../components/items/inputs/InputDark';
+import InputDark from '../components/items/inputs/Input';
 import ButtonBigMobile from '../components/items/buttons/ButtonBigMobile';
 import Link from '../components/items/buttons/Link';
 import { useNavigate } from 'react-router-dom';

@@ -16,11 +16,11 @@ import { BsNodePlus } from "react-icons/bs";
 const CreateContent:React.FC = () => {
     return (
         <>
-            <main className={'py-5'}>
-                    <section className='pb-7 px-6' >
+            <main>
+                    <section className='pb-7 px-5' >
                         <TitleSection title="CONTENTS" />
                     </section>
-                    <section className='bg-white-2 px-6 py-10' >
+                    <section className='bg-white-2 px-5 py-10' >
                         <h3 className=' font-bold text-xl mb-2 ' >Add New Content</h3>
                         <p className='' >Lorem ipsum dolor sit amet, consectetur adipisicing elit.!</p>
                     </section>

@@ -14,6 +14,7 @@ import Home from './pages/Home.tsx';
 import CreateContent from "./pages/CreateContent.tsx";
 import Register from "./pages/Register.tsx";
 import Profile from "./pages/Profile.tsx";
+import CloseAccount from "./pages/CloseAccount.tsx";
 
 //COMPONENTS
 import Header from './components/layout/Header.tsx';
@@ -30,10 +31,11 @@ const App = () => {
           <Route path="/contents" element={<Contents/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/notes" element={<Notes/>}/>
-          <Route path="/securityAccount" element={<SecurityAccount/>}/>
+          <Route path="/security-account" element={<SecurityAccount/>}/>
           <Route path="/create-content" element={<CreateContent/>}/>
           <Route path="/register" element={<Register/>}/>
           <Route path="/profile" element={<Profile/>}/>
+          <Route path="/Close-account" element={<CloseAccount/>}/>
         </Routes>
       </section>
     </Router>
