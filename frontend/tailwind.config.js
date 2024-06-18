@@ -40,10 +40,13 @@ export default {
         'dark-primary-op-1': 'rgba(40,40,40,.3)',
         "black-opacity-65": 'rgba(0,0,0, .65)',
         "gray-1":"#797979",
-        
-
+        "red-1":"#FDEAEC",
+        "red-2":"#F63131",
       },
       height: {
+        '0.3':'0.0875rem',
+        '0.2':'0.075rem',
+        '0.1':'0.0625rem',
         '104': '26rem',
         '112': '28rem',
         '120': '30rem',

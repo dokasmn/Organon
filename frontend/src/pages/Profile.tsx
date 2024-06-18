@@ -14,6 +14,7 @@ import mathBlueSmall from '../assets/images/subjects_image/math-blue-small.png'
 import historyYellowSmall from '../assets/images/subjects_image/history-yellow-small.png'
 
 const Profile:React.FC = () => {
+
     const slidesSubject = [
         {subject:"Matemática", teacher:"Ronaldo da Silva", progress:'75', image:philosophyRedSmall},
         {subject:"Matemática", teacher:"Ronaldo da Silva", progress:'75', image:mathBlueSmall},
@@ -25,7 +26,7 @@ const Profile:React.FC = () => {
 
     return (
         <>            
-            <main className={'py-5'} >
+            <main className={'pt-5'} >
                 <div className='px-5'>
                     <SectionEditProfile username='Daniel Lima' useremail='daniel@gmail.com' userphoto={profilePicture}/>
                     <AnswersStudent answers={24} correctAnswers={16} incorrectAnswers={8}/>

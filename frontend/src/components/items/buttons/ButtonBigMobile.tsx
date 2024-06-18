@@ -10,7 +10,11 @@ interface ButtonBigMobileProps {
 
 const ButtonBigMobile:React.FC<ButtonBigMobileProps> = ({backgroundColor, text, textColor, hover, type="button"}) => {
     return (
-        <input type={type} value={text} className={`w-full cursor-pointer hover: bg-${backgroundColor} font-bold text-${textColor} px-5 py-2 rounded hover:bg-${hover}`}/>
+        <input 
+            type={type} 
+            value={text} 
+            className={`w-full cursor-pointer hover:${hover} shadow bg-${backgroundColor} font-bold text-${textColor} px-5 py-2 rounded hover:bg-${hover}`}
+        />
     )
 }
 

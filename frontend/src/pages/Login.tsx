@@ -6,7 +6,7 @@ import axiosInstance from '../axiosConfig';
 
 // COMPONENTS
 import Title from '../components/items/texts/Title';
-import InputDark from '../components/items/inputs/InputDark';
+import InputDark from '../components/items/inputs/Input';
 import ButtonBigMobile from '../components/items/buttons/ButtonBigMobile';
 import Link from '../components/items/buttons/Link';
 
@@ -25,13 +25,12 @@ const Login: React.FC = () => {
     const { formData, handleChange, handleSubmit, resetForm } = useForm(
         { email: '', password: '', rememberMe: false },
         (data) => {
-          console.log(data);
+            console.log(data);
 
-          // A requisição vai aqui
-          if(passwordIsValid && emailIsvalid){
-            fetchData(data);
-          }
-          
+            // A requisição vai aqui
+            if(passwordIsValid && emailIsvalid){
+                fetchData(data);
+            }
         }
     );
     
@@ -74,7 +73,8 @@ const Login: React.FC = () => {
     };
 
     const validatePassword = (password: string): boolean => {
-        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+        
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
         return passwordRegex.test(password);
     };
 
@@ -105,7 +105,7 @@ const Login: React.FC = () => {
     };
     
     return (
-        <main className="bg-gradient-blue-bottom h-screen px-7 flex items-center pb-0">
+        <main className="bg-gradient-blue-bottom h-screen px-7 flex items-center pb-0 pt-0">
             <form className="w-full text-white" onSubmit={handleSubmit}>
                 <Title color="white" text="BEM VINDO DE VOLTA!" />
                 <section>
@@ -116,11 +116,11 @@ const Login: React.FC = () => {
                         type="text"
                         id="email-input"
                         value={formData.email}
-                        title="Digite um email válido."
-                        required={true}
+                        required
                         onChange={handleEmailChange}
                         maxLength={254}
-                        error={emailError} 
+                        error={emailError}
+                        style='text-white bg-blue-5-opacity border-blue-1-opacity'
                     />
                     <InputDark
                         placeholder="Senha"
@@ -128,12 +128,12 @@ const Login: React.FC = () => {
                         type="password"
                         id="password-input"
                         value={formData.password}
-                        title="A senha deve conter no mínimo 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial."
-                        required={true}
+                        required
                         onChange={handlePasswordChange}
                         maxLength={64}
                         minLength={8}
                         error={passwordError}
+                        style='text-white bg-blue-5-opacity border-blue-1-opacity'
                     />
                     </div>
                     <div className="flex justify-between items-center pb-10">
@@ -157,7 +157,11 @@ const Login: React.FC = () => {
                 </section>
                 <ButtonBigMobile type="submit" text="Logar" backgroundColor="blue-3" textColor="white" hover="blue-4-dark"/>
                 <p className="pt-7">
-                    Não possui uma conta? <Link to="/register" text="Registrar" style="text-blue-1 hover:text-blue-1-dark" />
+                    Não possui uma conta? <Link 
+                                            to="/register" 
+                                            text="Registrar" 
+                                            style="text-blue-1 hover:text-blue-1-dark"
+                                            />
                 </p>
             </form>
         </main>
