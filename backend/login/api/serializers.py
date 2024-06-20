@@ -1,70 +1,85 @@
-from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from djoser.serializers import UserCreateSerializer as BaseUserSerializer
+from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 
-from django.contrib.auth.models import User
-from ..models import Professor_user
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
-class ProfessorUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Professor_user
-        fields = '__all__'
+# from ..models import Professor_user
 
-class ProfessorTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        try:
-            professor_user = Professor_user.objects.get(professor_auth_user=user)
-            token['name'] = user.username
-            token['email'] = user.email
-        except Professor_user.DoesNotExist:
-            pass
-        return token
+from ..models import CustomUser
 
-    def validate(self, attrs):
-        data = super().validate(attrs)
-        data['name'] = self.user.username
-        data['email'] = self.user.email
-        try:
-            professor_user = Professor_user.objects.get(professor_auth_user=self.user)
-        except Professor_user.DoesNotExist:
-            professor_user = None
-        return data
+class UserCreateSerializer(BaseUserCreateSerializer):
+    class Meta(BaseUserCreateSerializer.Meta):
+        model = CustomUser
+        fields = ('id', 'email', 'username', 'password')
 
-class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
-    email = serializers.EmailField()
-    password = serializers.CharField(
-        max_length=128,
-        write_only=True,
-    )
+class UserSerializer(BaseUserSerializer):
+    class Meta(BaseUserSerializer.Meta):
+        model = CustomUser
+        fields = ('id', 'email', 'username')
 
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        token['email'] = user.email
-        return token
 
-    def validate(self, attrs):
-        email = attrs.get("email")
-        password = attrs.get("password")
+# class ProfessorUserSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Professor_user
+#         fields = '__all__'
 
-        if email and password:
-            try:
-                user = User.objects.get(email=email)
-            except User.DoesNotExist:
-                raise serializers.ValidationError("Invalid email or password")
+# class ProfessorTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     @classmethod
+#     def get_token(cls, user):
+#         token = super().get_token(user)
+#         try:
+#             professor_user = Professor_user.objects.get(professor_auth_user=user)
+#             token['name'] = user.username
+#             token['email'] = user.email
+#         except Professor_user.DoesNotExist:
+#             pass
+#         return token
 
-            if not user.check_password(password):
-                raise serializers.ValidationError("Invalid email or password")
+#     def validate(self, attrs):
+#         data = super().validate(attrs)
+#         data['name'] = self.user.username
+#         data['email'] = self.user.email
+#         try:
+#             professor_user = Professor_user.objects.get(professor_auth_user=self.user)
+#         except Professor_user.DoesNotExist:
+#             professor_user = None
+#         return data
 
-            attrs['user'] = user
-        else:
-            raise serializers.ValidationError("Must include 'email' and 'password'.")
+# class UserTokenObtainPairSerializer(TokenObtainPairSerializer):
+#     email = serializers.EmailField()
+#     password = serializers.CharField(
+#         max_length=128,
+#         write_only=True,
+#     )
 
-        return super().validate(attrs)
+#     @classmethod
+#     def get_token(cls, user):
+#         token = super().get_token(user)
+#         token['email'] = user.email
+#         return token
 
-    def validate_email(self, value):
-        return value.lower()  # Convertendo o email para minúsculas
+#     def validate(self, attrs):
+#         email = attrs.get("email")
+#         password = attrs.get("password")
 
-    def validate_password(self, value):
-        return value
+#         if email and password:
+#             try:
+#                 user = User.objects.get(email=email)
+#             except User.DoesNotExist:
+#                 raise serializers.ValidationError("Invalid email or password")
+
+#             if not user.check_password(password):
+#                 raise serializers.ValidationError("Invalid email or password")
+
+#             attrs['user'] = user
+#         else:
+#             raise serializers.ValidationError("Must include 'email' and 'password'.")
+
+#         return super().validate(attrs)
+
+#     def validate_email(self, value):
+#         return value.lower()  # Convertendo o email para minúsculas
+
+#     def validate_password(self, value):
+#         return value

@@ -1,11 +1,9 @@
-from django.urls import path
-from .views import UserTokenObtainPairView
-from rest_framework_simplejwt.views import TokenRefreshView
-from . import views
-from .views import UserTokenObtainAPIView
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path('api/token/', UserTokenObtainAPIView.as_view(), name='token_obtain_api'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/get_user_data/', views.get_user_data, name="get_user_data")
+    path('admin/', admin.site.urls),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
 ]
+

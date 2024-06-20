@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 from django.db import models
-from django.contrib.auth.models import User
+from login.models import CustomUser
 
 class Subject(models.Model):
     subject_name = models.CharField(max_length=30, verbose_name="Título da matéria", unique=True)
@@ -20,7 +20,7 @@ class Content(models.Model):
     content_description = models.TextField(null=True, blank=True)
     content_subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name="Matéria do conteúdo")
     content_professor_user = models.ForeignKey('login.Professor_user', on_delete=models.CASCADE, verbose_name="Professor do conteúdo")
-    notes = models.ManyToManyField(User, through='perfil.Note')
+    notes = models.ManyToManyField(CustomUser, through='perfil.Note')
     
     def __str__(self):
         return self.content_name
