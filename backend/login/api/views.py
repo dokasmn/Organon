@@ -7,12 +7,13 @@ from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework import status
+from .utils import auth_user 
+from rest_framework.permissions import AllowAny
 
 import jwt
 from jwt.exceptions import InvalidTokenError
-
 
 # classe de autenticação
 class ProfessorTokenObtainPairView(TokenObtainPairView):
@@ -20,7 +21,25 @@ class ProfessorTokenObtainPairView(TokenObtainPairView):
 
 class ProfessorUserAPIView(APIView):
     permission_classes = [IsAuthenticated]
-    
+
+class UserTokenObtainPairView(TokenObtainPairView):
+    serializer_class = UserTokenObtainPairSerializer
+    email = serializers.EmailField()
+
+class UserTokenObtainAPIView(APIView):
+    permission_classes = [AllowAny]
+    def post(self, request):
+        email = request.data.get('email')
+        print(email)
+        password = request.data.get('password')
+        print(password)
+        if not email or not password:
+            return Response({'error': 'Email and password are required'}, status=status.HTTP_400_BAD_REQUEST)
+        tokens = auth_user(email, password)
+        if tokens is None:
+            return Response({'error': 'Invalid credentials'}, status=status.HTTP_401_UNAUTHORIZED)
+        return Response(tokens, status=status.HTTP_200_OK)
+
 
 @api_view(['GET'])
 def get_user_data(request):
@@ -47,8 +66,6 @@ def get_user_data(request):
     if user:
         user_data['username'] = user.username
         user_data['email'] = user.email
-        user_data['first_name'] = user.first_name
-        user_data['last_name'] = user.last_name
         return Response(user_data, status=200)
     else:
         return Response({'detail': 'Invalid token or user not found'}, status=401)
