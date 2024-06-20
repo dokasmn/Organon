@@ -14,6 +14,7 @@ import { RiMenu2Fill } from "react-icons/ri";
 
 const Header:React.FC = () => {
     const location = useLocation();
+    
     let [navBar, setNavBar] = useState<boolean>(false);
 
     const handleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
@@ -22,9 +23,9 @@ const Header:React.FC = () => {
     return (
         <>
             {
-                location.pathname !== "/login" && location.pathname !== "/register" ?
+                location.pathname !== "/login" && location.pathname !== "/register" && location.pathname !== "/welcome" ?
                 <>
-                    <section className='bg-blue-5 h-16 flex items-center text-white border-b-1 border-white '>
+                    <header className='bg-blue-5 h-16 flex items-center text-white border-white '>
                         <div className={' w-4/12 flex justify-center cursor-pointer'}>
                             {
                                 location.pathname === "/home" || location.pathname === "/" ? 
@@ -46,7 +47,7 @@ const Header:React.FC = () => {
                                 <RiMenu2Fill className={' text-2xl '}/>
                             </div>
                         </div>
-                    </section>
+                    </header>
                     {
                         navBar ? 
                         <NavMenuHamburguer/>

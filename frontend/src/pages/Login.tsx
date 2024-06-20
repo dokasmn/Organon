@@ -14,6 +14,9 @@ import Link from '../components/items/buttons/Link';
 // HOOKS
 import useForm from '../hooks/useForm';
 
+// IMAGES
+import logo from '../assets/images/logo.png'
+
 const Login: React.FC = () => {
     const navigate = useNavigate();
 
@@ -112,8 +115,9 @@ const Login: React.FC = () => {
     };
     
     return (
-        <main className="bg-gradient-blue-bottom h-screen px-7 flex items-center pb-0 pt-0">
-            <form className="w-full text-white" onSubmit={handleSubmit}>
+        <main className="bg-gradient-blue-bottom h-screen px-7 flex justify-center items-center pb-0 pt-0">
+            <form className="w-full text-white relative" onSubmit={handleSubmit}>
+                <img src={logo} alt="" className={'absolute w-10 -top-20 right-0 '} />
                 <Title color="white" text="BEM VINDO DE VOLTA!" />
                 <section>
                     <div className="pb-7">
@@ -144,22 +148,22 @@ const Login: React.FC = () => {
                     />
                     </div>
                     <div className="flex justify-between items-center pb-10">
-                    <label className="flex gap-2 items-center" htmlFor="remember-me-checkbox">
-                        <input
-                            type="checkbox"
-                            name="rememberMe"
-                            id="remember-me-checkbox"
-                            checked={formData.rememberMe}
-                            onChange={handleClickRememberMe} 
-                            className='hidden'
-                        />
-                        <div className={`relative w-10 h-5 rounded-3xl transition-all duration-500 bg-${colorCheckRememberMe} flex items-center`} >
-                            <div className={`absolute transition-all duration-300 transform ${formData.rememberMe ? 'translate-x-full' : 'translate-x-0'} bg-white w-5 h-5 rounded-full`} >
+                        <label className="flex gap-2 items-center" htmlFor="remember-me-checkbox">
+                            <input
+                                type="checkbox"
+                                name="rememberMe"
+                                id="remember-me-checkbox"
+                                checked={formData.rememberMe}
+                                onChange={handleClickRememberMe} 
+                                className='hidden'
+                            />
+                            <div className={`relative w-10 h-5 rounded-3xl transition-all duration-500 bg-${colorCheckRememberMe} flex items-center`} >
+                                <div className={`absolute transition-all duration-300 transform ${formData.rememberMe ? 'translate-x-full' : 'translate-x-0'} bg-white w-5 h-5 rounded-full`} >
+                                </div>
                             </div>
-                        </div>
-                        <span className="text-sm">Lembrar de mim</span>
-                    </label>
-                    <Link style="text-sm hover:text-blue-1" to="#" text="Esqueceu a senha?" />
+                            <span className="text-sm">Lembrar de mim</span>
+                        </label>
+                        <Link style="text-sm hover:text-blue-1" to="#" text="Esqueceu a senha?" />
                     </div>
                 </section>
                 <ButtonBigMobile type="submit" text="Logar" backgroundColor="blue-3" textColor="white" hover="blue-4-dark"/>
@@ -168,7 +172,7 @@ const Login: React.FC = () => {
                                             to="/register" 
                                             text="Registrar" 
                                             style="text-blue-1 hover:text-blue-1-dark"
-                                            />
+                                        />
                 </p>
             </form>
         </main>

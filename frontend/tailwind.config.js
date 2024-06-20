@@ -42,6 +42,7 @@ export default {
         "white-1-dark": "#CCCCCC",
         "white-2": "#E8E8E8",
         "white-2-dark": "#BFBFBF",
+        "white-opacity-15": 'rgba(255, 255, 255, .15)',
         "dark-primary": "#282828",
         'dark-primary-op-1': 'rgba(40,40,40,.3)',
         "black-opacity-65": 'rgba(0,0,0, .65)',
@@ -54,6 +55,7 @@ export default {
         "yellow-orange-subject":"rgba(243, 173, 108, .7)",
         "green-subject":"rgba(108, 243, 162, .7)",
         "yellow-subject":"rgba(241, 243, 108, .7)",
+        
       },
       height: {
         '0.3':'0.0875rem',

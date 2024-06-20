@@ -10,7 +10,7 @@ interface ButtonSmallMobileProps {
 const ButtonSmallMobile:React.FC<ButtonSmallMobileProps> = ({backgroundColor, text, textColor, hover}) => {
     return (
         <>
-            <input type="button" value={text} className={` cursor-pointer hover: bg-${backgroundColor} text-${textColor} px-5 py-1 rounded hover:bg-${hover} `}/>
+            <input type="button" value={text} className={`cursor-pointer font-semibold hover:${hover} ${backgroundColor} text-${textColor} px-5 py-1 rounded hover:bg-${hover} `}/>
         </>
     )
 }

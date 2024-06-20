@@ -23,7 +23,7 @@ const Contents:React.FC = () => {
                     <ContentCrud content='Matrizes' subject='Matemática' image={MathSmallImage} />
                     <ContentCrud content='Matrizes' subject='Matemática' image={MathSmallImage} />
                 </section>
-                <HorizontalLine width='w-full'/>
+                <HorizontalLine style='w-full'/>
                 
                 <Link 
                     text="Add Content" 

@@ -9,6 +9,7 @@ import SliderContent from '../components/items/sliders/SliderContent';
 import GeoGraphySmall from "../assets/images/subjects_image/geography-small.png";
 import NoticeCard from '../components/items/cards/NoticeCard';
 import Footer from '../components/layout/Footer';
+import { v4 as uuidv4 } from 'uuid';
 
 // CSS
 import "./Home.css";
@@ -53,16 +54,7 @@ const Home:React.FC = () => {
                     </section>
                     <section className='px-5'>
                         <SubTitle text="Últimas Notícias?" />
-                        <NoticeCard 
-                            title="Novo ensino médio revogado" 
-                            description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada.' 
-                            image={highSchoolImage}
-                        />
-                        <NoticeCard 
-                            title="Novo ensino médio revogado" 
-                            description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada.' 
-                            image={highSchoolImage}
-                        />
+
                         <NoticeCard 
                             title="Novo ensino médio revogado" 
                             description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada.' 

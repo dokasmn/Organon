@@ -41,7 +41,7 @@ const ContentCrud:React.FC<ContentCrudProps> = ({content, subject, image}) => {
             </div>
             <div className={'w-2/4 flex '} >
                 <div className={' w-5/6 flex justify-center items-center '} >
-                    <ButtonSmallMobile text='View' textColor="white" backgroundColor='blue-5' hover="blue-5-dark" />
+                    <ButtonSmallMobile text='View' textColor="white" backgroundColor='bg-blue-5' hover="blue-5-dark" />
                 </div>
                 <div className={' w-1/6 flex items-center justify-center cursor-pointer hover:bg-gray-300 rounded px-1 py-2'} >
                     <SlOptionsVertical  className=' text-xl ' />
