@@ -5,6 +5,7 @@ import Link from '../buttons/Link';
 
 // IMAGES
 import { IoHomeOutline, IoPersonOutline } from "react-icons/io5";
+import { IoExitOutline } from "react-icons/io5";
 
 
 const NavMenuHamburguer:React.FC = () => {
@@ -23,6 +24,13 @@ const NavMenuHamburguer:React.FC = () => {
                         style="text-white flex justify-center" 
                         to="/profile" 
                         text={<p className='flex gap-4'><IoPersonOutline className='text-xl' />Perfil</p>} 
+                    />
+                </li>
+                <li className='mt-7' >
+                    <Link 
+                        style="text-white flex justify-center" 
+                        to="/profile" 
+                        text={<p className='flex gap-4'><IoExitOutline className='text-xl' />Deslogar</p>} 
                     />
                 </li>
             </ul>
