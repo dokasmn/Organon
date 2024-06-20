@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import axiosInstance from '../axiosConfig';
+import CryptoJS from 'crypto-js';
 
 // COMPONENTS
 import Title from '../components/items/texts/Title';
@@ -28,22 +29,28 @@ const Login: React.FC = () => {
             console.log(data);
 
             // A requisição vai aqui
-            if(passwordIsValid && emailIsvalid){
+            if(passwordIsValid){
                 fetchData(data);
             }
         }
     );
-    
+
     const fetchData = async (data: { email: string, password: string }) => {
-        axiosInstance.post('api/token/', 
+
+        const hashedPassword = CryptoJS.SHA256(data.password).toString();
+        
+        axiosInstance.post('login/api/token/', 
             { 
                 username: data.email, 
-                password: data.password 
+                password: hashedPassword, 
             }
         )
         .then(response => {
             console.log('Success:', response.data);
             navigate("/home")
+
+            localStorage.setItem('access_token', response.data.access);
+            localStorage.setItem('refresh_token', response.data.refresh);
         })
         .catch(error => {
             console.error('Error:', error);

@@ -9,6 +9,12 @@ export default {
     safelist: [
       'bg-blue-1',
       'bg-gray-500',
+      'green-subject',
+      'yellow-subject',
+      'yellow-orange-subject',
+      'red-subject',
+      'blue-subject',
+      'purple-subject',
     ],
   },
   content: [ 
@@ -42,6 +48,12 @@ export default {
         "gray-1":"#797979",
         "red-1":"#FDEAEC",
         "red-2":"#F63131",
+        "purple-subject":"rgba(176, 108, 243, .7)",
+        "red-subject":"rgba(243, 108, 108, .7)",
+        "blue-subject":"rgba(108, 138, 243, .7)",
+        "yellow-orange-subject":"rgba(243, 173, 108, .7)",
+        "green-subject":"rgba(108, 243, 162, .7)",
+        "yellow-subject":"rgba(241, 243, 108, .7)",
       },
       height: {
         '0.3':'0.0875rem',
