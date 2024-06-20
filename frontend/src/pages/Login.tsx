@@ -25,8 +25,8 @@ const Login: React.FC = () => {
     const [colorCheckRememberMe, setColorCheckRememberMe] = useState<string>("gray-500");
     const [emailError, setEmailError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
+    const { formData, handleChange, handleSubmit } = useForm(
     
-    const { formData, handleChange, handleSubmit, resetForm } = useForm(
         { email: '', password: '', rememberMe: false },
         (data) => {
             console.log(data);
