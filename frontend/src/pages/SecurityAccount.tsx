@@ -50,9 +50,9 @@ const SecurityAccount:React.FC = () => {
                         </div>
                         <ButtonBigMobile 
                             text='Mudar Email' 
-                            backgroundColor='blue-5' 
+                            backgroundColor='bg-blue-5' 
                             textColor='white' 
-                            hover='blue-5-dark' 
+                            hover='bg-blue-5-dark' 
                             type='submit'
                         />
                     </form>
@@ -89,9 +89,9 @@ const SecurityAccount:React.FC = () => {
                         </div>
                         <ButtonBigMobile 
                             text='Mudar Senha' 
-                            backgroundColor='blue-5' 
+                            backgroundColor='bg-blue-5' 
                             textColor='white' 
-                            hover='blue-5-dark' 
+                            hover='bg-blue-5-dark' 
                             type='submit'
                         />
                     </form>

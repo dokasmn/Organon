@@ -2,7 +2,7 @@ import React, { ReactHTMLElement, ReactNode } from 'react';
 
 interface ArrowSliderProps {
     icon: React.ReactNode,
-    handleEvent: () => void,
+    handleEvent?: () => void,
     style?: string,
 }
 

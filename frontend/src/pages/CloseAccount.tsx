@@ -32,12 +32,12 @@ const CloseAccount:React.FC = () => {
                         <p className='text-red-2 font-semibold pb-2' >ALERT</p>
                         <p className=' text-gray-1 ' >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor sit.</p>
                     </div>
-                    <HorizontalLine width='w-full'/>
+                    <HorizontalLine style='w-full'/>
                     <ButtonBigMobile 
                         text='Desativar Conta' 
-                        backgroundColor='blue-5' 
+                        backgroundColor='bg-blue-5' 
                         textColor='white' 
-                        hover='blue-5-dark' 
+                        hover='bg-blue-5-dark' 
                         type='submit'
                     />
                 </section>

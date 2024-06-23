@@ -3,17 +3,17 @@ import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 
 interface InputProps {
     id: string,
-    placeholder: string,
+    placeholder?: string,
     type: string,
     value: string,
     title?: string,
     required?: boolean,
-    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void, 
-    name: string,
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void, 
+    name?: string,
     maxLength?: number,
     minLength?: number,
     error?: string | null,
-    style: string
+    style?: string
 }
 
 const Input:React.FC<InputProps> = ({id, style, name, error, placeholder, type, value, title, required=false, maxLength, minLength, onChange}) => {
@@ -27,7 +27,7 @@ const Input:React.FC<InputProps> = ({id, style, name, error, placeholder, type, 
     return (
         <div className='relative' >
             <input 
-                value={value} 
+                value={value}
                 type={type == "password" ? useType : type} 
                 name={name} 
                 id={id} 

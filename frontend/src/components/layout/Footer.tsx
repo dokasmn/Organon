@@ -8,7 +8,7 @@ import { AiOutlineInstagram } from "react-icons/ai";
 import { CiTwitter, CiFacebook } from "react-icons/ci";
 
 //COMPONENTS
-import SectionFooter from '../items/cards/SectionFooter';
+import SectionFooter from '../items/section/SectionFooter';
 
 const Footer:React.FC = () => {
     return (

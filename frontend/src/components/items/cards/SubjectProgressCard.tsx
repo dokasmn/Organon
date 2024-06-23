@@ -6,12 +6,12 @@ import ProgressBar from '../inputs/ProgressBar';
 
 interface SubjectProgressCardProps {
     subject: string,
-    teacher: string,
+    lastContent: string,
     progress: string,
     image: string,
 }
 
-const SubjectProgressCard:React.FC<SubjectProgressCardProps> = ({subject, teacher, progress, image}) => {
+const SubjectProgressCard:React.FC<SubjectProgressCardProps> = ({subject, lastContent, progress, image}) => {
     return (
         <div className='w-40 h-44 overflow-hidden' >
             <div className='' >
@@ -19,7 +19,7 @@ const SubjectProgressCard:React.FC<SubjectProgressCardProps> = ({subject, teache
             </div>
             <div className='pt-5 pb-7' >
                 <h4 className='font-semibold' >{subject}</h4>
-                <p className=' text-sm ' >{teacher}</p>
+                <p className=' text-sm ' >{lastContent}</p>
             </div>
             <ProgressBar progress={progress} />
         </div>

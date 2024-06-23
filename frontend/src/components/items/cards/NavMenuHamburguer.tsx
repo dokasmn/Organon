@@ -22,14 +22,14 @@ const NavMenuHamburguer:React.FC = () => {
                 <li className='mt-7' >
                     <Link 
                         style="text-white flex justify-center" 
-                        to="/profile" 
+                        to="/perfil" 
                         text={<p className='flex gap-4'><IoPersonOutline className='text-xl' />Perfil</p>} 
                     />
                 </li>
                 <li className='mt-7' >
                     <Link 
                         style="text-white flex justify-center" 
-                        to="/profile" 
+                        to="/logout" 
                         text={<p className='flex gap-4'><IoExitOutline className='text-xl' />Deslogar</p>} 
                     />
                 </li>

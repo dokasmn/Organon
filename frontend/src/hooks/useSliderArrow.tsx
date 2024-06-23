@@ -1,10 +1,12 @@
 import { useState } from 'react';
 
-const useSliderArrow = (startSlide = 0, slides:object[] = []) => {
+const useSliderArrow = (startSlide = 0, slides:object[]|number[] = []) => {
   const [currentSlide, setCurrentSlide] = useState(startSlide);
 
   const handleNext = () => {
-    setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+    setCurrentSlide(
+      (prevSlide) => (prevSlide + 1) % slides.length
+    );
   };
 
   const handlePrev = () => {

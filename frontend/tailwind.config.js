@@ -15,6 +15,7 @@ export default {
       'red-subject',
       'blue-subject',
       'purple-subject',
+      "orange-1",
     ],
   },
   content: [ 
@@ -55,7 +56,14 @@ export default {
         "yellow-orange-subject":"rgba(243, 173, 108, .7)",
         "green-subject":"rgba(108, 243, 162, .7)",
         "yellow-subject":"rgba(241, 243, 108, .7)",
-        
+        "pink-subject":"rgba(246, 49, 187, .7)",
+        "marine-blue-subject":"rgba(49, 211, 246, .7)",
+        "orange-subject":"rgba(246, 108, 49, .7)",
+        "green-yellow-subject":"rgba(148, 246, 49, .7)",
+        "purple-pink-subject":"rgba(183, 49, 246, .7)",
+        "red-pink-subject":"rgba(246, 49, 108, .7)",
+        "orange-1":"#F66C31",
+        "orange-1-dark":"#DA4100",
       },
       height: {
         '0.3':'0.0875rem',

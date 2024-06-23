@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import SubjectProgressCard from '../cards/SubjectProgressCard';
 
 interface SliderSubjectsProgressProps {
-  slides: {subject:string, teacher:string, progress:string, image:string}[],
+  slides: {subject:string, lastContent:string, progress:string, image:string}[],
 }
 
 const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({slides}) => {
@@ -26,7 +26,7 @@ const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({slides}) 
     <div key={uuidv4()} className="slider-container mx-auto max-w-full overflow-hidden pt-10">
       <Slider {...settings} >
         {slides.map((slide, __) => (
-          <SubjectProgressCard key={uuidv4()} subject={slide.subject} teacher={slide.teacher} progress={slide.progress} image={slide.image}/>
+          <SubjectProgressCard key={uuidv4()} subject={slide.subject} lastContent={slide.lastContent} progress={slide.progress} image={slide.image}/>
         ))}
       </Slider>
     </div>

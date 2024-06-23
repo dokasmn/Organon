@@ -106,8 +106,19 @@ const CreateContent:React.FC = () => {
                         </div>
                         <HorizontalLine width='w-full'/>
                         <div className='flex flex-col gap-5' >
-                            <ButtonBigMobile  text='Save' textColor='white' backgroundColor='blue-1' hover='blue-1-dark' type='submit'/>
-                            <ButtonBigMobile text='Cancel' textColor='black' backgroundColor='white-2' hover='white-2-dark'/>
+                            <ButtonBigMobile 
+                                text='Save' 
+                                textColor='white' 
+                                backgroundColor='bg-blue-1' 
+                                hover='bg-blue-1-dark' 
+                                type='submit'
+                            />
+                            <ButtonBigMobile 
+                                text='Cancel' 
+                                textColor='black' 
+                                backgroundColor='bg-white-2' 
+                                hover='bg-white-2-dark'
+                            />
                         </div>
                     </form>
            </main>

@@ -9,7 +9,6 @@ import SliderContent from '../components/items/sliders/SliderContent';
 import GeoGraphySmall from "../assets/images/subjects_image/geography-small.png";
 import NoticeCard from '../components/items/cards/NoticeCard';
 import Footer from '../components/layout/Footer';
-import { v4 as uuidv4 } from 'uuid';
 
 // CSS
 import "./Home.css";
@@ -66,7 +65,6 @@ const Home:React.FC = () => {
             </main>
             <Footer/>
         </>
-        
     )
 }
 

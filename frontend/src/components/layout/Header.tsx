@@ -6,6 +6,7 @@ import React from 'react';
 //COMPONENTS
 import InputSearch from '../items/inputs/InputSearch';
 import NavMenuHamburguer from '../items/cards/NavMenuHamburguer';
+import Link from '../items/buttons/Link';
 
 //IMAGES
 import logo from '../../assets/images/logo.png';
@@ -23,15 +24,19 @@ const Header:React.FC = () => {
     return (
         <>
             {
-                location.pathname !== "/login" && location.pathname !== "/register" && location.pathname !== "/welcome" ?
+                location.pathname !== "/login" && location.pathname !== "/registrar" && location.pathname !== "/bem-vindo" ?
                 <>
                     <header className='bg-blue-5 h-16 flex items-center text-white border-white '>
                         <div className={' w-4/12 flex justify-center cursor-pointer'}>
                             {
                                 location.pathname === "/home" || location.pathname === "/" ? 
                                     <img src={flagSantaCatarina} alt="" className={' w-14 '} />
+                                    
                                 :
-                                    <img src={logo} alt="" className={' w-10 '} />
+                                <Link to='/home' text={
+                                        <img src={logo} alt="" className={' w-10 '} />
+                                    }
+                                />
                             }
                         </div>
                         <div className={' w-7/12 font-semibold'} >

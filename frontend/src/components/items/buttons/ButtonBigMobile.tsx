@@ -13,7 +13,7 @@ const ButtonBigMobile:React.FC<ButtonBigMobileProps> = ({backgroundColor, text, 
         <input 
             type={type} 
             value={text} 
-            className={`w-full cursor-pointer hover:${hover} shadow bg-${backgroundColor} font-bold text-${textColor} px-5 py-2 rounded hover:bg-${hover}`}
+            className={`w-full cursor-pointer hover:${hover} shadow ${backgroundColor} font-bold text-${textColor} px-5 py-2 rounded hover:bg-${hover}`}
         />
     )
 }

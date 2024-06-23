@@ -15,16 +15,16 @@ const BottomNavigationBar:React.FC = () => {
             <nav className={'bg-blue-3 rounded h-14 '} >
                 <ul className='flex h-full text-xl gap-8 justify-center items-center  ' >
                     <li className=' p-3 hover:bg-blue-3-dark rounded cursor-pointer ' >
-                        <Link text={<IoPersonOutline className='text-white'/>} style="" to="/profile" />
+                        <Link text={<IoPersonOutline className='text-white'/>} style="" to="/perfil"/>
                     </li>
                     <li className=' p-3 hover:bg-blue-3-dark rounded cursor-pointer ' >
-                        <Link text={<GoInbox className='text-white' />} style="" to="/contents" />
+                        <Link text={<GoInbox className='text-white' />} style="" to="/conteudo"/>
                     </li>
                     <li className=' p-3 hover:bg-blue-3-dark rounded cursor-pointer '>
-                        <Link text={<PiLockLight className='text-white' />} style="" to="/security-account" />
+                        <Link text={<PiLockLight className='text-white' />} style="" to="/segurança-conta" />
                     </li>
                     <li className=' p-3 hover:bg-blue-3-dark rounded cursor-pointer '>
-                        <Link text={<IoExitOutline className='text-white'/>} style="" to="/close-account" />
+                        <Link text={<IoExitOutline className='text-white'/>} style="" to="/desativar-conta" />
                     </li>
                 </ul>
             </nav>

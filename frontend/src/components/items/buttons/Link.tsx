@@ -5,7 +5,7 @@ import React from 'react'
 
 interface LinkProps{
     text: React.ReactNode | string ,
-    style: string,
+    style?: string,
     to: string,
 }
 

@@ -1,6 +1,8 @@
 // REACT
 import React, {useState, useMemo} from 'react';
 
+// UTILS
+import { setColorSubject } from '../../../utils'  
 
 interface CardSubjectNoteProps {
     title: string,
@@ -8,20 +10,8 @@ interface CardSubjectNoteProps {
 }
 
 const CardSubjectNote:React.FC<CardSubjectNoteProps> = ({title, key}) => {
-
-    let color: string = "bg-red-subject";
-
-    if(title === "Matemática"){
-        color = "bg-blue-subject" 
-    }else if(title === "Biologia"){
-        color = "bg-green-subject" 
-    }else if(title === "Física"){
-        color = "bg-purple-subject" 
-    }else if(title === "Geografia"){
-        color = "bg-yellow-subject" 
-    }else if(title === "História"){
-        color = "bg-yellow-orange-subject" 
-    }
+    
+    let color: string = setColorSubject(title);
 
     return (
         <p 

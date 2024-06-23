@@ -12,7 +12,7 @@ import useForm from '../hooks/useForm';
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
-
+    
     const { formData, handleChange, handleSubmit } = useForm(
         { name: '', email: '', password: '', confirmPassword: '' },
         (data) => {
@@ -39,6 +39,7 @@ const Register: React.FC = () => {
                             onChange={handleChange}
                             maxLength={80}
                             minLength={2}
+                            style='text-white bg-blue-5-opacity border-blue-1-opacity'
                         />
                         <InputDark
                             placeholder="E-mail"
@@ -46,11 +47,11 @@ const Register: React.FC = () => {
                             type="text"
                             id="email-input"
                             value={formData.email}
-                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                             title="Digite um email válido."
                             required={true}
                             onChange={handleChange}
                             maxLength={254}
+                            style='text-white bg-blue-5-opacity border-blue-1-opacity'
                         />
                         <InputDark
                             placeholder="Senha"
@@ -58,12 +59,12 @@ const Register: React.FC = () => {
                             type="password"
                             id="password-input"
                             value={formData.password}
-                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                             title="A senha deve conter no mínimo 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial."
                             required={true}
                             onChange={handleChange}
                             maxLength={64}
                             minLength={8}
+                            style='text-white bg-blue-5-opacity border-blue-1-opacity'
                         />
                         <InputDark
                             placeholder="Confirmar senha"
@@ -71,16 +72,16 @@ const Register: React.FC = () => {
                             type="password"
                             id="confirmPassword-input"
                             value={formData.confirmPassword}
-                            pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$"
                             title="A senha deve conter no mínimo 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial."
                             required={true}
                             onChange={handleChange}
                             maxLength={64}
                             minLength={8}
+                            style='text-white bg-blue-5-opacity border-blue-1-opacity'
                         />
                     </div>
                 </section>
-                <ButtonBigMobile type="submit" text="Registrar" backgroundColor='blue-3' textColor='white' hover="blue-4-dark" />
+                <ButtonBigMobile type="submit" text="Registrar" backgroundColor='bg-blue-3' textColor='white' hover="bg-blue-4-dark" />
                 <p className='pt-7'>Possui uma conta? <Link to="/login" text="Logar" style="text-blue-1 hover:text-blue-1-dark" /></p>
             </form>
         </main>

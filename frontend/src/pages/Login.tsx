@@ -113,12 +113,17 @@ const Login: React.FC = () => {
             setPasswordIsValid(true);
         }
     };
+
+    useEffect(() => {
+        document.body.classList.add('bg-blue-5');
+        
+      }, []);
     
     return (
-        <main className="bg-gradient-blue-bottom h-screen px-7 flex justify-center items-center pb-0 pt-0">
-            <form className="w-full text-white relative" onSubmit={handleSubmit}>
-                <img src={logo} alt="" className={'absolute w-10 -top-20 right-0 '} />
-                <Title color="white" text="BEM VINDO DE VOLTA!" />
+        <main className="min-h-screen h-full px-7 relative flex justify-center items-center pb-0 pt-0">
+            <img src={logo} alt="" className={'absolute w-10 top-8 right-7 '} />
+            <form className="w-full text-white max-w-96 lg:text-xl" onSubmit={handleSubmit}>
+                <Title color="white" text="Bem Vindo de Volta!" />
                 <section>
                     <div className="pb-7">
                     <InputDark
@@ -161,17 +166,17 @@ const Login: React.FC = () => {
                                 <div className={`absolute transition-all duration-300 transform ${formData.rememberMe ? 'translate-x-full' : 'translate-x-0'} bg-white w-5 h-5 rounded-full`} >
                                 </div>
                             </div>
-                            <span className="text-sm">Lembrar de mim</span>
+                            <span className="text-sm lg:text-lg">Lembrar de mim</span>
                         </label>
-                        <Link style="text-sm hover:text-blue-1" to="#" text="Esqueceu a senha?" />
+                        <Link style="text-sm hover:text-blue-1 lg:text-lg" to="#" text="Esqueceu a senha?" />
                     </div>
                 </section>
-                <ButtonBigMobile type="submit" text="Logar" backgroundColor="blue-3" textColor="white" hover="blue-4-dark"/>
-                <p className="pt-7">
+                <ButtonBigMobile type="submit" text="Logar" backgroundColor="bg-blue-3" textColor="white" hover="bg-blue-4-dark"/>
+                <p className="pt-7 ">
                     Não possui uma conta? <Link 
-                                            to="/register" 
+                                            to="/registrar" 
                                             text="Registrar" 
-                                            style="text-blue-1 hover:text-blue-1-dark"
+                                            style="text-blue-1 hover:text-blue-1-dark "
                                         />
                 </p>
             </form>

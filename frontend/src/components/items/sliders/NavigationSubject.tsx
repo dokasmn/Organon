@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 // COMPONENTS
 import ArrowSlider from '../cards/ArrowSlider';
+import Link from '../buttons/Link';
 
 // IMAGES
 import { MdArrowRight, MdArrowLeft } from "react-icons/md";
@@ -12,7 +13,8 @@ import { MdArrowRight, MdArrowLeft } from "react-icons/md";
 import useSliderArrow from '../../../hooks/useSliderArrow';
 
 const NavigationSubject = () => {
-  const slides = [
+
+  const slides: string[][] = [
     ["Matemática", "Gramática", "Filosofia", "Inglês"],
     ["Sociologia", "História", "Física", "Química"],
     ["Biologia", "Artes", "Literatura", "Geografia"],
@@ -28,7 +30,12 @@ const NavigationSubject = () => {
             {slides.map((words, __) => (
             <div key={uuidv4()} className="w-full flex-shrink-0 flex justify-center items-center">
                 {words.map((word, __) => (
-                <span key={uuidv4()} className="mx-3 hover:text-blue-1-dark cursor-pointer">{word}</span>
+                  <Link 
+                    key={uuidv4()} 
+                    to={`/materia/${word}`} 
+                    style="mx-3 hover:text-blue-1-dark cursor-pointer" 
+                    text={word}
+                  />
                 ))}
             </div>
             ))}

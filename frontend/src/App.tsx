@@ -26,7 +26,7 @@ const App = () => {
   return (
     <Router>
       <Header/>
-      <section>
+      <section >
         <Routes>
           <Route path="/" element={<Home/>}/>
           <Route path="/home" element={<Home/>}/>
@@ -39,7 +39,7 @@ const App = () => {
           <Route path="/perfil" element={<Profile/>}/>
           <Route path="/desativar-conta" element={<CloseAccount/>}/>
           <Route path="/bem-vindo" element={<Welcome/>}/>
-          <Route path="/conteudo/:conteudo" element={<Class/>}/>
+          <Route path="/materia/:materia/:conteudo" element={<Class/>}/>
           <Route path="/materia/:materia" element={<Subject/>}/>
         </Routes>
       </section>
