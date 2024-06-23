@@ -12,11 +12,11 @@ interface SectionEditProfileProps {
 
 const SectionEditProfile:React.FC<SectionEditProfileProps> = ({username, useremail, userphoto}) => {
     return (
-        <section className="flex gap-3 items-center py-5 w-full">
-            <div className="w-2/12 flex items-center justify-center" >
-                <img src={userphoto} alt="Photo of user" className="rounded-full border border-black w-full "  />
+        <section className="flex gap-3 items-center py-5 w-full ">
+            <div className="w-2/12 flex items-center max-w-16 " >
+                <img src={userphoto} alt="Photo of user" className="rounded-full border border-black w-12 "  />
             </div>
-            <div className="w-7/12 px-2">
+            <div className="w-8/12 px-2">
                 <h3 className=" text-lg font-semibold ">{username}</h3>
                 <p className="">{useremail}</p>
             </div>

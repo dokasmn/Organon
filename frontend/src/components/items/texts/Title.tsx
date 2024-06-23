@@ -8,7 +8,7 @@ interface TitleProps{
 
 const Title: React.FC<TitleProps> = ({text, color="black"}) => {     
     return (
-        <h1 className={`py-7 font-semibold text-${color} text-2xl sm:text-3xl xl:text-4xl `} >
+        <h1 className={`py-7 font-semibold text-${color} text-2xl sm:text-3xl `} >
             {text}
         </h1>
     )

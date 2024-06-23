@@ -11,8 +11,8 @@ import { GoInbox } from "react-icons/go";
 
 const BottomNavigationBar:React.FC = () => {
     return (
-        <section className={' fixed bottom-0 w-full px-6 py-5 '} >
-            <nav className={'bg-blue-3 rounded h-14 '} >
+        <section className={' fixed bottom-0 w-full px-6 py-5 flex justify-center '} >
+            <nav className={'bg-blue-3 rounded h-14 min-w-80 w-full'} >
                 <ul className='flex h-full text-xl gap-8 justify-center items-center  ' >
                     <li className=' p-3 hover:bg-blue-3-dark rounded cursor-pointer ' >
                         <Link text={<IoPersonOutline className='text-white'/>} style="" to="/perfil"/>

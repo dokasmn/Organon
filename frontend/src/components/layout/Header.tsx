@@ -26,8 +26,8 @@ const Header:React.FC = () => {
             {
                 location.pathname !== "/login" && location.pathname !== "/registrar" && location.pathname !== "/bem-vindo" ?
                 <>
-                    <header className='bg-blue-5 h-16 flex items-center text-white border-white '>
-                        <div className={' w-4/12 flex justify-center cursor-pointer'}>
+                    <header className='bg-blue-5 h-16 flex items-center text-white border-white px-5 '>
+                        <div className={' w-3/12 cursor-pointer'}>
                             {
                                 location.pathname === "/home" || location.pathname === "/" ? 
                                     <img src={flagSantaCatarina} alt="" className={' w-14 '} />
@@ -39,7 +39,7 @@ const Header:React.FC = () => {
                                 />
                             }
                         </div>
-                        <div className={' w-7/12 font-semibold'} >
+                        <div className={'w-8/12 font-semibold max-w'} >
                             {
                                 location.pathname === "/home" || location.pathname === "/" ? 
                                     <InputSearch id="search-content" placeholder="Pesquisar" />
@@ -47,7 +47,7 @@ const Header:React.FC = () => {
                                     <p>Perfil</p>
                             }
                         </div>
-                        <div className={' w-4/12 flex justify-center cursor-pointer h-full items-center'} >
+                        <div className={' w-4/12 flex justify-end cursor-pointer h-full items-center'} >
                             <div className={' p-3 rounded hover:bg-dark-primary-op-1 '} onClick={handleClick} >
                                 <RiMenu2Fill className={' text-2xl '}/>
                             </div>
