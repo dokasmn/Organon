@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+import random
 
 
 class CustomUserManager(BaseUserManager):
@@ -28,6 +29,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    confirmation_code = models.CharField(max_length=5, blank=True, null=True)
 
     objects = CustomUserManager()
 
@@ -36,6 +38,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+    def generate_confirmation_code(self):
+        self.confirmation_code = str(random.randint(10000, 99999))
+        self.save()
+
+    def confirm_code(self, code):
+        return self.confirmation_code == code
 
 class Professor_user(models.Model):
     professor_auth_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)    
