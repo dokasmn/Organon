@@ -1,14 +1,15 @@
-from ..models import *
-from .serializers import *
-from ..api.utils import *
-
+# from ..models import *
+# from .serializers import *
+# from ..api.utils import *
 # from login.models import Professor_user
 
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import status
+# # from login.models import Professor_user
 
-# Professor classes
+# from rest_framework.response import Response
+# from rest_framework.views import APIView
+# from rest_framework import status
+
+# # Professor classes
 # class ProfessorUserAPIView(APIView):
 #     def get(self, request, pk=None):
 #         if pk is None:

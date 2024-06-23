@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -62,6 +63,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
+        'rest_framework.permissions.AllowAny',
     ),
 }
 
@@ -178,6 +180,8 @@ DJOSER = {
     'SERIALIZERS': {
         'user_create': 'login.api.serializers.UserCreateSerializer',
         'user': 'login.api.serializers.UserSerializer',
+        'user_create_password_retype': 'login.api.serializers.UserCreatePasswordRetypeSerializer',
+        'user_delete': 'djoser.serializers.UserDeleteSerializer',
     },
 }
 
@@ -186,9 +190,10 @@ AUTH_USER_MODEL = 'login.CustomUser'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587           
-EMAIL_HOST_USER = 'wellingtonurubu123@gmail.com'
-EMAIL_HOST_PASSWORD = 'vmxt dqbu hhho dtbo'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
+
 
 # # Debugging
 # import logging
