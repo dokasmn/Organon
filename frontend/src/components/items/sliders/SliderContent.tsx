@@ -26,7 +26,7 @@ const SliderContent: React.FC<SliderContentProps> = ({slides}) => {
   );
 
   return (
-    <div className="relative w-full rounded overflow-hidden py-10 px-14">
+    <div className="relative w-full rounded overflow-hidden py-10 px-14 sm:px-36 md:px-48">
         <div className="flex duration-700 transition-transform" style={{ transform: `translateX(-${currentSlide * 100}%)`}}>
             {slides.map((item, __) => (
               <div key={uuidv4()} className='w-full flex-shrink-0 flex justify-center items-center' >
@@ -40,8 +40,18 @@ const SliderContent: React.FC<SliderContentProps> = ({slides}) => {
             ))}
         </div>
 
-        <ArrowSlider icon={<MdArrowLeft className='text-3xl' />} handleEvent={handlePrev} style="px-10 left-0" />
-        <ArrowSlider icon={<MdArrowRight className='text-3xl'/>} handleEvent={handleNext} style="px-10 right-0 "/>
+        <ArrowSlider 
+          icon={<MdArrowLeft className='text-3xl' />} 
+          handleEvent={handlePrev} 
+          style="ml-10 sm:ml-32 md:ml-44 p-1 rounded-full flex items-center sm:bg-gray-300 left-0" 
+        />
+
+        <ArrowSlider 
+          icon={<MdArrowRight className='text-3xl'/>} 
+          handleEvent={handleNext} 
+          style="mr-10 sm:mr-32 md:mr-44 p-1 rounded-full flex items-center sm:bg-gray-300 right-0"
+        />
+
     </div>
   );
 };

@@ -7,6 +7,9 @@ import TitleSection from '../components/layout/TitleSection';
 import Input from '../components/items/inputs/Input';
 import BottomNavigationBar from '../components/layout/BottomNavigationBar.tsx';
 import HorizontalLine from '../components/items/texts/HorizontalLine.tsx';
+import Title from '../components/items/texts/Title.tsx';
+import TopNavigationBar from '../components/layout/TopNavigationBar.tsx';
+import SideBar from '../components/layout/SideBar.tsx';
 
 // HOOKS
 import useForm from '../hooks/useForm.tsx';
@@ -22,16 +25,18 @@ const SecurityAccount:React.FC = () => {
     );
 
     return (
-        <>
-            <main className='px-5' >
-                <section className='pb-7' >
-                    <TitleSection title="SECURITY ACCOUNT" />
+        <section className=''>    
+            <TopNavigationBar/>
+            <main className='px-5 sm:px-14 md:pl-0 md:ml-10 md:w-128 ' >
+                <section className='pb-7 md:pb-0' >
+                    <TitleSection title="SECURITY ACCOUNT"/>
+                    <div className='hidden md:block pt-20'>
+                        <Title text="Account"/>
+                    </div>
                 </section>
                 <section>
-                    <section>
-                        <p className=' text-gray-1 ' >Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
-                    </section>
-                    <HorizontalLine width='w-full'/>
+                    <p className=' text-gray-1 ' >Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+                    <HorizontalLine style='w-full'/>
                     <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="email-input-reset" className=' font-semibold '  >Email</label>
@@ -56,7 +61,7 @@ const SecurityAccount:React.FC = () => {
                             type='submit'
                         />
                     </form>
-                    <HorizontalLine width='w-full'/>
+                    <HorizontalLine style='w-full'/>
                     <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="email-input-reset" className=' font-semibold '  >Password</label>
@@ -97,8 +102,8 @@ const SecurityAccount:React.FC = () => {
                     </form>
                 </section>
             </main>
-            <BottomNavigationBar/>        
-        </>
+            <BottomNavigationBar />        
+        </section>
     )
 }
 

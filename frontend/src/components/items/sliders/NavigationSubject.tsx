@@ -33,7 +33,7 @@ const NavigationSubject = () => {
                   <Link 
                     key={uuidv4()} 
                     to={`/materia/${word}`} 
-                    style="mx-3 hover:text-blue-1-dark cursor-pointer" 
+                    style="mx-3 sm:mx-10 hover:text-blue-1-dark cursor-pointer" 
                     text={word}
                   />
                 ))}
@@ -41,8 +41,8 @@ const NavigationSubject = () => {
             ))}
         </div>
         
-        <ArrowSlider icon={<MdArrowLeft className='text-xl' />} handleEvent={handlePrev} style="left-0" />
-        <ArrowSlider icon={<MdArrowRight className='text-xl'/>} handleEvent={handleNext} style="right-0"/>
+        <ArrowSlider icon={<MdArrowLeft className='text-xl' />} handleEvent={handlePrev} style="left-0 sm:left-5 sm:bg-gray-300 p-1 flex items-center rounded-full" />
+        <ArrowSlider icon={<MdArrowRight className='text-xl'/>} handleEvent={handleNext} style="right-0 sm:right-5 sm:bg-gray-300 p-1 flex items-center rounded-full"/>
     </div>
   );
 };

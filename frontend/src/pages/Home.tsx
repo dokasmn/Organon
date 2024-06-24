@@ -20,7 +20,6 @@ import { SliderContentInterface } from "../types"
 import  highSchoolImage from "../assets/images/high_school.png"
 
 const Home:React.FC = () => {
-
     const slides: SliderContentInterface[] = [
         { subject: 'Geografia', content: 'Globalização', date: '04/06/2023', "image":GeoGraphySmall },
         { subject: 'História', content: 'Revolução Francesa', date: '05/06/2023', "image":GeoGraphySmall },
@@ -30,8 +29,8 @@ const Home:React.FC = () => {
     return (
         <>
             <NavigationSubject/>
-            <main className={' bg-white-2 '}>
-                <section className={' relative w-screen overflow-hidden h-128 '} >
+            <main className={' bg-white-2 pt-0 '}>
+                <section className={' relative w-full overflow-hidden h-128 '} >
                     <div className='bg-black-opacity-65 absolute h-full w-full text-white px-10 flex justify-center items-center '>
                         <div>
                             <h1 className='font-bold text-3xl pb-3' >
@@ -51,7 +50,7 @@ const Home:React.FC = () => {
                         <SliderContent slides={slides} />
                         <SliderContent slides={slides} />
                     </section>
-                    <section className='px-5'>
+                    <section className='px-5 flex flex-col items-center sm:px-14'>
                         <SubTitle text="Últimas Notícias?" />
 
                         <NoticeCard 

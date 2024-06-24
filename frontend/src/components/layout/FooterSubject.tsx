@@ -9,20 +9,19 @@ interface FooterSubjectProps {
     emailTeacher: string, 
 }
 
-const FooterSubject:React.FC<FooterSubjectProps> = (backgroundColor, emailTeacher) => {
+const FooterSubject:React.FC<FooterSubjectProps> = ({ backgroundColor, emailTeacher }) => {
     return (
-        <section className={`h-16 flex absolute top-full items-center text-white justify-between px-5 w-screen bg-blue-5 ${backgroundColor}`}>            
+        <footer className={`h-16 mt-20 flex items-center text-white justify-between px-5 sm:px-14 w-full ${backgroundColor}`}>            
             <p>
                 Entre em contato:    
             </p>
             <div className='flex gap-3 items-center'>
-                <MdOutlineAttachEmail/>
+                <MdOutlineAttachEmail className='text-xl'/>
                 {
-                    <p>emailTeacher</p>
-                    
+                    <p>{emailTeacher}</p>
                 }
             </div>
-        </section>      
+        </footer>      
     )
 }
 

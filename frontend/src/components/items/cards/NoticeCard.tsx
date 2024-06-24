@@ -1,4 +1,8 @@
-import React, {useState, useMemo} from 'react';
+// REACT
+import React from 'react';
+
+// COMPONENTS
+import SeeMore from '../buttons/seeMore';
 
 interface NoticeCardProps {
     title: string,
@@ -9,13 +13,24 @@ interface NoticeCardProps {
 
 const NoticeCard:React.FC<NoticeCardProps> = ({title, description, image, alt=`${title} - Imagem`}) => {
     return (
-        <div className='w-full overflow-hidden bg-white p-5 my-10 h-112 transition-all transform duration-500 hover:scale-105 hover:border-2 hover:border-blue-1 hover:shadow '>
-            <div className='flex justify-center'>
-                <img src={image} alt="title-image" height={"w-full"}/>
-            </div>
-            <div className='px-3 py-7 flex flex-col justify-center ' >
-                <h3 className='text-lg font-semibold pb-5'>{title}</h3>
-                <p>{description}</p>
+        <div>
+            <div className='w-full rounded overflow-hidden md:flex md:flex-row-reverse bg-white p-7 my-10 h-112 sm:h-128 max-w-112 md:max-w-full transition-all transform duration-500 hover:scale-105 hover:border-2 hover:border-blue-1 hover:shadow '>
+                <div className='flex justify-center md:w-2/4 md:py-10 w-full md:pl-5'>
+                    <div className='md:bg-gray-1'>
+                        <img src={image} alt="title-image" className='w-full h-full object-contain'/>
+                    </div>
+                </div>
+                <div className='py-7 md:py-0 text-justify flex flex-col justify-around md:w-2/4' >
+                    <div >
+                        <h3 className='text-lg font-semibold pb-5 sm:text-xl'>{title}</h3>
+                        <p className=''>{description}</p>
+                    </div>
+                    
+                    <div className='hidden sm:flex py-10 justify-center'>
+                        <SeeMore to='' />
+                    </div>
+                    
+                </div>
             </div>
         </div>
     )

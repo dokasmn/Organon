@@ -23,7 +23,7 @@ const CloseAccount:React.FC = () => {
 
     return (
         <>
-            <main className='px-5' >
+            <main className='px-5 sm:px-14' >
                 <section className='pb-7' >
                     <TitleSection title="CLOSE ACCOUNT" />
                 </section>
@@ -37,7 +37,7 @@ const CloseAccount:React.FC = () => {
                         text='Desativar Conta' 
                         backgroundColor='bg-blue-5' 
                         textColor='white' 
-                        hover='bg-blue-5-dark' 
+                        hover='hover:bg-blue-5-dark' 
                         type='submit'
                     />
                 </section>

@@ -6,9 +6,7 @@ interface HorizontalLineProps {
 
 const HorizontalLine:React.FC<HorizontalLineProps> = ({style}) => {
     return (
-        <section className='py-3'>
-            <input type="search" className={`bg-black ${style} h-0.1 opacity-25`}/>
-        </section>
+        <div className={`bg-black my-5 ${style} h-0.1 opacity-25`}></div>
     )
 }
 
