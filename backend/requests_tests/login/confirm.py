@@ -1,10 +1,10 @@
 import requests
 
-def test_user_login(email, password):
-    url = "http://127.0.0.1:8000/auth/token/login/"
+def test_confirm_user(email, confirmation_code):
+    url = "http://127.0.0.1:8000/auth/confirm-email/"
     payload = {
         "email": email,
-        "password": password
+        "confirmation_code": confirmation_code
     }
 
     headers = {
@@ -17,9 +17,9 @@ def test_user_login(email, password):
     response_data = response.json()
     assert "token" in response_data, "Token not found in response"
 
-    print("User logged in successfully!")
+    print("User confirmed successfully!")
 
 if __name__ == "__main__":
     email = input("Enter email: ")
-    password = input("Enter password: ")
-    test_user_login(email, password)
+    confirmation_code = input("Enter confirmation code: ")
+    test_confirm_user(email, confirmation_code)
