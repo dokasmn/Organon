@@ -13,9 +13,9 @@ const SubTitle: React.FC<SubTitleProps> = ({text}) => {
             {
                 wordList.map((word, index) => (
                     index % 2 == 0 ?  
-                    <span key={`${word}-${index}`} className={`text-black text-2xl`}>{word}  </span> 
+                    <span key={`${word}-${index}`} className={`text-black text-2xl sm:text-3xl`}>{word} </span> 
                     : 
-                    <span key={`${word}-${index}`} className={`text-gray-1 text-2xl`}>{word}  </span> 
+                    <span key={`${word}-${index}`} className={`text-gray-1 text-2xl sm:text-3xl`}>{word} </span> 
                     
                 ))
             }

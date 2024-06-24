@@ -14,7 +14,7 @@ import MathSmallImage from '../assets/images/math-small.png'
 const Contents:React.FC = () => {
     return (
         <>            
-            <main className={'px-5'} >
+            <main className={'px-5 sm:px-14 '} >
                 <section className='pb-7' >
                     <TitleSection title="CONTENTS" />
                 </section>
@@ -28,7 +28,7 @@ const Contents:React.FC = () => {
                 <Link 
                     text="Add Content" 
                     style=' flex justify-center w-full text-black bg-white-2 hover:bg-white-2-dark rounded font-bold py-3' 
-                    to='/create-content'
+                    to='/criar-conteudo'
                 />
 
             </main>

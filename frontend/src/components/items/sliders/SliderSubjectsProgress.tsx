@@ -37,8 +37,10 @@ const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({slides}) 
 
     }else if (windowWidth >= 500 && windowWidth <= 550){
       return "15px";
-    }else if (windowWidth >= 550){
+    }else if (windowWidth >= 550 && windowWidth < 640){
       return "30px";
+    }else if (windowWidth >= 640){
+     return "10px";
     }else{
       return "10px"
     }

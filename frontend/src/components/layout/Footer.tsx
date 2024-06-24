@@ -12,16 +12,16 @@ import SectionFooter from '../items/section/SectionFooter';
 
 const Footer:React.FC = () => {
     return (
-        <section className='bg-white h-16 p-7'>
-            <div className='flex gap-5 w-full' >
+        <footer className='bg-white h-16 p-7 sm:px-16'>
+            <div className='flex gap-5 w-full  ' >
                 <div className='w-2/12' >
                     <img src={logo} alt="Bandeira do Brasil" className='h-8 w-10' />
                 </div>
                 <h2 className='w-9/12 text-blue-3 font-semibold text-2xl '>
                     Organon
                 </h2>
-                <div className='w-3/12' >
-                    <img src={flagBrasil} alt="Bandeira do Brasil" className=' h-8' />
+                <div className='w-3/12 flex justify-end '>
+                    <img src={flagBrasil} alt="Bandeira do Brasil" className='h-8' />
                 </div>
             </div>
             <section className='py-14' >
@@ -41,8 +41,8 @@ const Footer:React.FC = () => {
                 </div>
                 <div className='flex gap-5'>
                     <div className=' w-6/12 h-40'>
-                        <h4 className='text-center font-medium text-base'>Redes Sociais</h4>
-                        <div className=' flex py-5 justify-around'>
+                        <h4 className='text-center sm:text-justify font-medium text-base'>Redes Sociais</h4>
+                        <div className=' flex py-5 justify-around sm:justify-normal sm:gap-10'>
                             <CiTwitter className='text-2xl'/>
                             <AiOutlineInstagram className=' text-2xl'/>
                             <CiFacebook className='text-2xl'/>
@@ -56,7 +56,7 @@ const Footer:React.FC = () => {
                     </div>
                 </div>
             </section>
-        </section>      
+        </footer>      
     )
 }
 

@@ -41,18 +41,18 @@ const Class:React.FC = () => {
 
     return (
         <>  
-            <header className=' h-14 flex items-center ' >
+            <header className='h-14 flex items-center sm:px-3 ' >
                 <section className='relative h-full px-4' >
                     <ArrowSlider icon={<MdArrowLeft className='text-3xl' />} style="left-0 top-8" />
                 </section>
                 <p>Voltar para a matéria</p>
             </header>
             <main className='pt-0' >
-                <section>
+                <section className='sm:px-5' >
                     <Video path="" />
                 </section>
                 <section className='px-1' >
-                    <div className='flex items-center justify-between px-2 pt-3  ' >
+                    <div className='flex items-center justify-between px-2 pt-3 sm:px-5 ' >
                         <h2 className='text-lg font-semibold   ' >
                             {titleClass}
                         </h2>
@@ -61,12 +61,12 @@ const Class:React.FC = () => {
                             <img src={makeNotes} alt="" className=' h-4 ' />
                         </div>
                     </div>
-                    <div className='px-2 opacity-80 ' >
+                    <div className='px-2 opacity-80 sm:px-5 ' >
                         <p>
                             {teacher}
                         </p>
                     </div>
-                    <div className='w-full h-5 flex justify-between py-5' >
+                    <div className='w-full h-5 flex justify-between py-5 sm:px-3' >
                         <section className='relative px-7 ' >
                             <ArrowSlider icon={<MdArrowLeft className='text-3xl' />} style="left-0 top-4" />
                             <p>Anterior</p>
@@ -78,7 +78,7 @@ const Class:React.FC = () => {
                     </div>
                 </section>
                 <HorizontalLine style='w-full ' />  
-                <section className='px-5 text-justify  ' >
+                <section className='px-5 text-justify sm:px-7' >
                     <p className='pb-5'>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima fuga, dicta voluptas deleniti officiis necessitatibus exercitationem saepe nam et nobis. Reiciendis doloribus et sint pariatur esse nostrum, veritatis aut animi. Accusamus et iure iste, voluptate omnis sapiente laborum modi ullam fugit. Iusto, nostrum nisi.
                     </p>
@@ -90,7 +90,7 @@ const Class:React.FC = () => {
                     />
                 </section>
                 <HorizontalLine style='w-full ' />  
-                <section className='px-5' >
+                <section className='px-5 sm:px-7' >
                     <h2 className=' font-semibold text-lg ' >Comments</h2>
                     
                     <section className='pt-10'>
