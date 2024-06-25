@@ -32,7 +32,7 @@ const Input:React.FC<InputProps> = ({id, style, name, error, placeholder, type, 
                 name={name} 
                 id={id} 
                 title={title}
-                className={`${style} my-2 outline-none border-2 transition-colors duration-400 focus:border-blue-1-dark rounded py-2 px-4 w-full`}
+                className={`${style} outline-none border-2 transition-colors duration-400 focus:border-blue-1-dark rounded py-2 px-4 w-full`}
                 placeholder={placeholder}
                 required={required}
                 onChange={onChange}
@@ -44,12 +44,12 @@ const Input:React.FC<InputProps> = ({id, style, name, error, placeholder, type, 
                 type === "password" ? 
                     useType === "password" ? 
                         <FaRegEye 
-                            className='text-2xl cursor-pointer opacity-50 absolute right-5 top-5' 
+                            className='text-2xl cursor-pointer opacity-50 absolute right-5 top-1/4' 
                             onClick={changeType} 
                         /> 
                     : 
                         <FaRegEyeSlash 
-                            className='text-2xl cursor-pointer opacity-40 absolute right-5 top-5' 
+                            className='text-2xl cursor-pointer opacity-40 absolute right-5 top-1/4' 
                             onClick={changeType}
                         /> 
                 : false

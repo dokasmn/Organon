@@ -25,17 +25,17 @@ const SecurityAccount:React.FC = () => {
     );
 
     return (
-        <section className=''>    
+        <>    
             <TopNavigationBar/>
-            <main className='px-5 sm:px-14 md:pl-0 md:ml-10 md:w-128 ' >
+            <main className='px-5 sm:px-14 md:pt-32 md:px-10 md:max-w-160'>
                 <section className='pb-7 md:pb-0' >
                     <TitleSection title="SECURITY ACCOUNT"/>
-                    <div className='hidden md:block pt-20'>
+                    <div className='hidden md:block'>
                         <Title text="Account"/>
+                        <p className=' text-gray-1 mt-1 '>A alteração de qualquer dado pessoal exige uma verificação de dois fatores.</p>
                     </div>
                 </section>
                 <section>
-                    <p className=' text-gray-1 ' >Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
                     <HorizontalLine style='w-full'/>
                     <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
                         <div>
@@ -103,7 +103,7 @@ const SecurityAccount:React.FC = () => {
                 </section>
             </main>
             <BottomNavigationBar />        
-        </section>
+        </>
     )
 }
 

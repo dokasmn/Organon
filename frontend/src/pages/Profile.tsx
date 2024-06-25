@@ -6,9 +6,11 @@ import AnswersStudent from '../components/items/cards/AnswersStudent.tsx';
 import SectionEditProfile from '../components/items/section/SectionEditProfile.tsx';
 import BottomNavigationBar from '../components/layout/BottomNavigationBar.tsx';
 import SliderSubjectsBar from '../components/items/sliders/SliderSubjectsProgress.tsx';
+import TopNavigationBar from '../components/layout/TopNavigationBar.tsx';
 
 // IMAGES
 import profilePicture from '../assets/images/profile-picture/profile-picture-2.png'
+import markerStudent from '../assets/images/marker-student.png'
 
 import philosophyRedSmall from '../assets/images/subjects_image/philosophy-red-small.png'
 import mathBlueSmall from '../assets/images/subjects_image/math-blue-small.png'
@@ -41,10 +43,15 @@ const Profile:React.FC = () => {
     ]
 
     return (
-        <>            
-            <main className={'pt-5'} >
-                <div className='px-5 sm:px-14'>
+        <>
+            <TopNavigationBar/>            
+            <main className={'md:px-10 md:pt-36'} >
+                <div className='px-5 sm:px-14 md:px-0 flex flex-col '>
                     <SectionEditProfile username='Daniel Lima' useremail='daniel@gmail.com' userphoto={profilePicture}/>
+                    <section className='py-10 flex items-center '>
+                        <div className="w-20 h-2 bg-dotted-line bg-repeat-x"></div>
+                        <img src={markerStudent} alt="" className='w-12' />
+                    </section>
                     <AnswersStudent answers={24} correctAnswers={16} incorrectAnswers={8}/>
                 </div>
                 <SliderSubjectsBar slides={slidesSubject} />    

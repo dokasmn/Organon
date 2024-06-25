@@ -11,7 +11,7 @@ interface FooterSubjectProps {
 
 const FooterSubject:React.FC<FooterSubjectProps> = ({ backgroundColor, emailTeacher }) => {
     return (
-        <footer className={`h-16 mt-20 flex items-center text-white justify-between px-5 sm:px-14 w-full ${backgroundColor}`}>            
+        <footer className={`h-20 mt-20 flex items-center text-white justify-between px-5 sm:px-14 w-full ${backgroundColor}`}>            
             <p>
                 Entre em contato:    
             </p>

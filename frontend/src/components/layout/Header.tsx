@@ -38,7 +38,7 @@ const Header:React.FC = () => {
                             {
                                 location.pathname === "/home" || location.pathname === "/" ? 
                                     <div className={' w-4/12 cursor-pointer '}>
-                                        <img src={flagSantaCatarina} alt="" className={' w-14 '} />
+                                        <img src={flagSantaCatarina} alt="" className={' w-10 '} />
                                     </div>            
                                 :
                                     <div className={' w-2/12 cursor-pointer max-w-16 '}>

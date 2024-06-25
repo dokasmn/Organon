@@ -22,8 +22,12 @@ const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({slides}) 
   const getSlidesToShow = ():number => {
     if (windowWidth >= 500 && windowWidth < 600 ) {
       return 2.6;
-    }else if (windowWidth >= 600) {
-      return 3;
+    }else if (windowWidth >= 600 && windowWidth < 850) {
+      return 3; 
+    }else if (windowWidth >= 850 && windowWidth < 950) {
+      return 3.3;
+    }else if (windowWidth >= 950) {
+      return 4;
     }else {
       return 2;
     }
@@ -65,7 +69,7 @@ const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({slides}) 
   }, [attributeSettings])
 
   return (
-    <div key={uuidv4()} className="slider-container mx-auto max-w-full overflow-hidden pt-10">
+    <div key={uuidv4()} className="slider-container mx-auto max-w-full overflow-hidden">
       <Slider {...settings} >
         {slides.map((slide, __) => (
           <SubjectProgressCard key={uuidv4()} subject={slide.subject} lastContent={slide.lastContent} progress={slide.progress} image={slide.image}/>
