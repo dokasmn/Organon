@@ -1,12 +1,6 @@
 import requests
-
-# Obtenção do token
-response = requests.post('http://localhost:8000/login/api/token/', data={
-    'username': 'dokasmn',
-    'password': 'doka#123'
-})
-tokens = response.json()
-access_token = tokens['access']
+import os
+import time
 
 def print_response(title, response):
     print("="*30 + f" {title} " + "="*30)
@@ -16,55 +10,120 @@ def print_response(title, response):
         print(f"Erro ao imprimir a resposta: {e}")
         print(response.text)
 
-# Create - Criar um novo conteúdo (Content)
-response = requests.post('http://localhost:8000/home/content/', headers={
-    'Authorization': f'Bearer {access_token}',
-    'Content-Type': 'application/json'
-}, json={
-    'content_name': 'Introdução à História',
-    'content_description': 'Este conteúdo introduz os principais conceitos da história mundial.',
-    'content_subject': 1,  # Substitua pelo ID da matéria relacionada
-    'content_professor_user': 1  # Substitua pelo ID do professor relacionado
-})
-print_response("Create Content", response)
 
-# Read - Listar todos os conteúdos (Contents)
-response = requests.get('http://localhost:8000/home/content/', headers={
-    'Authorization': f'Bearer {access_token}'
-})
-print_response("List Contents", response)
+def get_access_token(email, password):
+    url = f"http://localhost:8000/auth/login/"
+    data = {
+        "email": email,
+        "password": password
+    }
+    response = requests.post(url, json=data)
+    assert response.status_code == 200, f"Expected status code 200, but got {response.status_code}"
+    response_data = response.json()
+    print(f"Login test passed. Token: {response_data['token']}, Is Professor: {response_data['is_professor']}")
+    return response_data['token'], response_data['is_professor']
 
-# Read - Recuperar um conteúdo específico pelo ID
-content_id = 1  # Substitua pelo ID do conteúdo que você deseja recuperar
-response = requests.get(f'http://localhost:8000/home/content/{content_id}/', headers={
-    'Authorization': f'Bearer {access_token}'
-})
-print_response("Get Content by ID", response)
 
-# Update - Atualizar completamente um conteúdo específico pelo ID
-response = requests.put(f'http://localhost:8000/home/content/{content_id}/', headers={
-    'Authorization': f'Bearer {access_token}',
-    'Content-Type': 'application/json'
-}, json={
-    'content_name': 'Introdução à Geografia',
-    'content_description': 'Este conteúdo introduz os principais conceitos da geografia mundial.',
-    'content_subject': 2,  # Substitua pelo novo ID da matéria relacionada
-    'content_professor_user': 1  # Mantenha o mesmo ID do professor ou substitua conforme necessário
-})
-print_response("Update Content", response)
+def create_content(access_token, content_name, content_description, content_subject, content_professor_user_id):
+    url = 'http://localhost:8000/home/content/'
+    headers = {
+        'Authorization': f'Token {access_token}',
+        'Content-Type': 'application/json'
+    }
+    payload = {
+        'content_name': content_name,
+        'content_description': content_description,  # isto deverá ser o vídeo, talvez
+        'content_subject': content_subject,
+        'content_professor_user': content_professor_user_id
+    }
+    response = requests.post(url, headers=headers, json=payload)
+    print_response("Create Content", response)
 
-# Update - Atualizar parcialmente um conteúdo específico pelo ID
-response = requests.patch(f'http://localhost:8000/home/content/{content_id}/', headers={
-    'Authorization': f'Bearer {access_token}',
-    'Content-Type': 'application/json'
-}, json={
-    'content_name': 'Introdução à Geografia Humana'
-    # Adicione outros campos conforme necessário
-})
-print_response("Partial Update Content", response)
 
-# Delete - Deletar um conteúdo específico pelo ID
-response = requests.delete(f'http://localhost:8000/home/content/{content_id}/', headers={
-    'Authorization': f'Bearer {access_token}'
-})
-print_response("Delete Content", response)
+def list_contents(access_token):
+    url = 'http://localhost:8000/home/content/'
+    headers = {
+        'Authorization': f'Token {access_token}'
+    }
+    response = requests.get(url, headers=headers)
+    print_response("List Contents", response)
+
+
+def get_content_by_id(access_token, content_id):
+    url = f'http://localhost:8000/home/content/{content_id}/'
+    headers = {
+        'Authorization': f'Token {access_token}'
+    }
+    response = requests.get(url, headers=headers)
+    print_response("Get Content by ID", response)
+
+
+def update_content(access_token, content_id, new_name, new_description, new_content_subject):
+    url = f'http://localhost:8000/home/content/{content_id}/'
+    headers = {
+        'Authorization': f'Token {access_token}',
+        'Content-Type': 'application/json'
+    }
+    payload = {
+        'content_name': new_name,
+        'content_description': new_description,
+        'content_subject': new_content_subject,
+    }
+    response = requests.put(url, headers=headers, json=payload)
+    print_response("Update Content", response)
+
+
+def delete_content(access_token, content_id):
+    url = f'http://localhost:8000/home/content/{content_id}/'
+    headers = {
+        'Authorization': f'Token {access_token}'
+    }
+    response = requests.delete(url, headers=headers)
+    print_response("Delete Content", response)
+
+
+if __name__ == "__main__":
+    os.system("cls" if os.name == "nt" else "clear")
+    email = input("email: ")
+    password = input("password: ")
+    token, is_professor = get_access_token(email, password)
+    
+    if not is_professor:
+        print("Somente professores podem acessar esta aplicação.")
+        exit()
+    
+    while True:
+        time.sleep(3)
+        os.system("cls" if os.name == "nt" else "clear")
+        opcao = int(input("escolha a opção:\n\
+            [1] - create content\n\
+            [2] - list content\n\
+            [3] - view content\n\
+            [4] - update content\n\
+            [5] - delete content\n\
+            [6] - Sair\n\
+        "))
+        
+        match opcao:
+            case 1:
+                new_name = input("informe o nome do conteúdo: ")
+                new_description = input("informe a descrição do conteúdo: ")
+                new_content_subject = input("informe a matéria à qual o conteúdo pertence: ")
+                content_professor_user_id = input("informe o id do professor que cria o conteúdo: ")
+                create_content(token, new_name, new_description, new_content_subject, content_professor_user_id)
+            case 2:
+                list_contents(token)
+            case 3:
+                content_id = int(input("id do conteúdo: "))
+                get_content_by_id(token, content_id)
+            case 4:
+                content_id = int(input("id do conteúdo: "))
+                new_name = input("informe o novo nome do conteúdo: ")
+                new_description = input("informe a nova descrição do conteúdo: ")
+                new_content_subject = input("informe a nova matéria à qual o conteúdo pertence: ")
+                update_content(token, content_id, new_name, new_description, new_content_subject)
+            case 5:
+                content_id = int(input("id do conteúdo: "))
+                delete_content(token, content_id)
+            case 6:
+                exit()

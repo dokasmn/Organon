@@ -4,7 +4,6 @@ from rest_framework import status
 from login.models import CustomUser
 
 class UserCreationTestCase(TestCase):
-
     def setUp(self):
         self.client = APIClient()
 

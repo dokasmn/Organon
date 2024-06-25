@@ -1,25 +1,21 @@
+# test_requests.py
 import requests
 
-def test_user_login(email, password):
-    url = "http://127.0.0.1:8000/auth/token/login/"
-    payload = {
+BASE_URL = "http://127.0.0.1:8000/login/"
+
+# Teste de Login de Usuário
+def test_login_user(email, password):
+    url = f"{BASE_URL}auth/login/"
+    data = {
         "email": email,
         "password": password
     }
-
-    headers = {
-        "Content-Type": "application/json"
-    }
-
-    response = requests.post(url, json=payload, headers=headers)
-
+    response = requests.post(url, json=data)
     assert response.status_code == 200, f"Expected status code 200, but got {response.status_code}"
     response_data = response.json()
-    assert "token" in response_data, "Token not found in response"
-
-    print("User logged in successfully!")
+    print(f"Login test passed. Token: {response_data['token']}, Is Professor: {response_data['is_professor']}")
 
 if __name__ == "__main__":
-    email = input("Enter email: ")
-    password = input("Enter password: ")
-    test_user_login(email, password)
+    email = input("email: ")
+    password = input("password: ")
+    test_login_user(email, password)
