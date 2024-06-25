@@ -1,5 +1,6 @@
 from ..models import Content
-from login.api.views import IsProfessorOwner
+from login.permissions import IsProfessorOwner
+from ..permissions import IsSuperUser
 from .serializers import *
 
 from rest_framework import status, viewsets
@@ -13,21 +14,26 @@ class SubjectViewSet(viewsets.ModelViewSet):
     serializer_class = SubjectSerializer
     
     
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            self.permission_classes = [IsSuperUser]
+        else:
+            self.permission_classes = [IsAuthenticated]
+        return super(SubjectViewSet, self).get_permissions()
+    
+    
     def list(self, request, *args, **kwargs):
+        print("Headers:", request.headers)
         return super().list(request, *args, **kwargs)
     
     
-    @action(detail=False, methods=['post'])
     def get_id_by_name(self, request):
-        name_subject = request.data.get('name_subject')
-        if not name_subject:
-            return Response({'error': 'Nome da matéria é obrigatório'}, status=400)
-        try:
-            subject = Subject.objects.get(subject_name=name_subject)
-        except Subject.DoesNotExist:
-            raise NotFound('Matéria não encontrada')
-        serializer = self.get_serializer(subject)
-        return Response(serializer.data)
+        instance = self.get_object()
+        data = request.data.copy()
+        if data['name_subject'] == instance.subject_name:
+            serializer = self.get_serializer(instance, data=data, partial=False)
+            serializer.is_valid(raise_exception=True)
+            return Response(serializer.data)
 
 
 class ContentViewSet(viewsets.ModelViewSet):

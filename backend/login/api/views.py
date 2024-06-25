@@ -11,7 +11,6 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
-from rest_framework import permissions
 
 class CustomLoginView(APIView):
     permission_classes = [AllowAny]
@@ -66,10 +65,6 @@ class CustomObtainAuthToken(ObtainAuthToken):
         token = Token.objects.get(key=response.data['token'])
         return Response({'token': token.key, 'user_id': token.user_id, 'email': token.user.email})
 
-class IsProfessorOwner(permissions.BasePermission):
-    def has_object_permission(self, request, view, obj):
-        # Permite acesso apenas ao professor que criou o conteúdo
-        return obj.content_professor_user == request.user
 
 
 
