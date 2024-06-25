@@ -21,10 +21,10 @@ def get_access_token(email, password):
     assert response.status_code == 200, f"Expected status code 200, but got {response.status_code}"
     response_data = response.json()
     print(f"Login test passed. Token: {response_data['token']}, Is Professor: {response_data['is_professor']}")
-    return response_data['token']
+    return response_data['token'], response_data['is_professor']
 
 
-def create_content(access_token, content_name, content_description, content_subject, content_professor_user):
+def create_content(access_token, content_name, content_description, content_subject, content_professor_user_id):
     url = 'http://localhost:8000/home/content/'
     headers = {
         'Authorization': f'Token {access_token}',
@@ -32,9 +32,9 @@ def create_content(access_token, content_name, content_description, content_subj
     }
     payload = {
         'content_name': content_name,
-        'content_description': content_description, # isto deverá ser o vídeo, talvez
+        'content_description': content_description,  # isto deverá ser o vídeo, talvez
         'content_subject': content_subject,
-        'content_professor_user': content_professor_user.id
+        'content_professor_user': content_professor_user_id
     }
     response = requests.post(url, headers=headers, json=payload)
     print_response("Create Content", response)
@@ -58,7 +58,7 @@ def get_content_by_id(access_token, content_id):
     print_response("Get Content by ID", response)
 
 
-def update_content(access_token, content_id, new_name, new_description, new_content_subject, new_professor_user):
+def update_content(access_token, content_id, new_name, new_description, new_content_subject):
     url = f'http://localhost:8000/home/content/{content_id}/'
     headers = {
         'Authorization': f'Token {access_token}',
@@ -68,7 +68,6 @@ def update_content(access_token, content_id, new_name, new_description, new_cont
         'content_name': new_name,
         'content_description': new_description,
         'content_subject': new_content_subject,
-        'content_professor_user': new_professor_user
     }
     response = requests.put(url, headers=headers, json=payload)
     print_response("Update Content", response)
@@ -84,13 +83,18 @@ def delete_content(access_token, content_id):
 
 
 if __name__ == "__main__":
-    os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")
     email = input("email: ")
     password = input("password: ")
-    token = get_access_token(email, password)
+    token, is_professor = get_access_token(email, password)
+    
+    if not is_professor:
+        print("Somente professores podem acessar esta aplicação.")
+        exit()
+    
     while True:
         time.sleep(3)
-        os.system("cls")
+        os.system("cls" if os.name == "nt" else "clear")
         opcao = int(input("escolha a opção:\n\
             [1] - create content\n\
             [2] - list content\n\
@@ -102,25 +106,24 @@ if __name__ == "__main__":
         
         match opcao:
             case 1:
-                new_name = input("informe o novo nome do conteúdo: ")
-                new_description = input("informe a nova descrição do conteúdo: ")
-                new_content_subject = input("informe a nova materia a qual o conteúdo pertence: ")
-                new_professor = input("informe o novo professor da materia: ")
-                create_content(token, new_name, new_description, new_content_subject, new_professor)
+                new_name = input("informe o nome do conteúdo: ")
+                new_description = input("informe a descrição do conteúdo: ")
+                new_content_subject = input("informe a matéria à qual o conteúdo pertence: ")
+                content_professor_user_id = input("informe o id do professor que cria o conteúdo: ")
+                create_content(token, new_name, new_description, new_content_subject, content_professor_user_id)
             case 2:
                 list_contents(token)
             case 3:
-                content_id = int(input("id content: "))
+                content_id = int(input("id do conteúdo: "))
                 get_content_by_id(token, content_id)
             case 4:
-                content_id = int(input("id content: "))
+                content_id = int(input("id do conteúdo: "))
                 new_name = input("informe o novo nome do conteúdo: ")
                 new_description = input("informe a nova descrição do conteúdo: ")
-                new_content_subject = input("informe a nova materia a qual o conteúdo pertence: ")
-                new_professor = input("informe o novo professor da materia: ")
-                update_content(token, content_id, new_name, new_description, new_content_subject, new_professor)
+                new_content_subject = input("informe a nova matéria à qual o conteúdo pertence: ")
+                update_content(token, content_id, new_name, new_description, new_content_subject)
             case 5:
-                content_id = int(input("id content: "))
+                content_id = int(input("id do conteúdo: "))
                 delete_content(token, content_id)
             case 6:
                 exit()
