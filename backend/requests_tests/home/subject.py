@@ -12,7 +12,7 @@ def print_response(title, response):
 
 
 def get_access_token(email, password):
-    url = f"http://localhost:8000/auth/login/"
+    url = f"http://localhost:8000/login/auth/login/"
     data = {
         "email": email,
         "password": password
@@ -25,7 +25,7 @@ def get_access_token(email, password):
 
 
 def list_subjects(access_token):
-    url = 'http://localhost:8000/subjects/'
+    url = 'http://localhost:8000/home/subject/'
     headers = {
         'Authorization': f'Token {access_token}'
     }
@@ -34,7 +34,7 @@ def list_subjects(access_token):
 
 
 def create_subject(access_token, subject_name):
-    url = 'http://localhost:8000/subjects/'
+    url = 'http://localhost:8000/home/subject/'
     headers = {
         'Authorization': f'Token {access_token}',
         'Content-Type': 'application/json'
@@ -47,7 +47,7 @@ def create_subject(access_token, subject_name):
 
 
 def update_subject(access_token, subject_id, new_name):
-    url = f'http://localhost:8000/subjects/{subject_id}/'
+    url = f'http://localhost:8000/home/subject/{subject_id}/'
     headers = {
         'Authorization': f'Token {access_token}',
         'Content-Type': 'application/json'
@@ -60,7 +60,7 @@ def update_subject(access_token, subject_id, new_name):
 
 
 def delete_subject(access_token, subject_id):
-    url = f'http://localhost:8000/subjects/{subject_id}/'
+    url = f'http://localhost:8000/home/subject/{subject_id}/'
     headers = {
         'Authorization': f'Token {access_token}'
     }
@@ -69,14 +69,14 @@ def delete_subject(access_token, subject_id):
 
 
 if __name__ == "__main__":
-    os.system("cls")
+    os.system("cls" if os.name == "nt" else "clear")
     email = input("email: ")
     password = input("password: ")
     token = get_access_token(email, password)
     
     while True:
         time.sleep(3)
-        os.system("cls")
+        # os.system("cls" if os.name == "nt" else "clear")
         opcao = int(input("escolha a opção:\n\
             [1] - list subjects\n\
             [2] - create subject\n\
@@ -89,14 +89,14 @@ if __name__ == "__main__":
             case 1:
                 list_subjects(token)
             case 2:
-                subject_name = input("informe o nome do assunto: ")
+                subject_name = input("informe o nome do matéria: ")
                 create_subject(token, subject_name)
             case 3:
-                subject_id = int(input("id do assunto: "))
-                new_name = input("informe o novo nome do assunto: ")
+                subject_id = int(input("id do matéria: "))
+                new_name = input("informe o novo nome do matéria: ")
                 update_subject(token, subject_id, new_name)
             case 4:
-                subject_id = int(input("id do assunto: "))
+                subject_id = int(input("id do matéria: "))
                 delete_subject(token, subject_id)
             case 5:
                 exit()
