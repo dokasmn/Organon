@@ -22,6 +22,7 @@ import SideBar from "./components/layout/SideBar.tsx";
 
 //COMPONENTS
 import Header from './components/layout/Header.tsx';
+import Responsive from "./components/items/section/Responsive.tsx";
 
 const App = () => {
   return (
@@ -30,7 +31,7 @@ const App = () => {
         <Header/>
         <section className="md:flex" >
           <SideBar/>
-          <section className="w-full md:relative overflow-hidden md:pr-5 md:pl-6">
+          <Responsive style="w-full md:relative overflow-hidden md:mx-5 xl:flex xl:justify-center ">
             <Routes>
               <Route path="/" element={<Home/>}/>
               <Route path="/home" element={<Home/>}/>
@@ -46,7 +47,7 @@ const App = () => {
               <Route path="/materia/:materia/:conteudo" element={<Class/>}/>
               <Route path="/materia/:materia" element={<Subject/>}/>
             </Routes>
-          </section>
+          </Responsive>
         </section>
       </Router>
     </div>

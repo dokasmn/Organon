@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 
 interface ResponsiveProps {
-  children: string,
+  children: ReactNode,
   style: string,
 }
 
 const Responsive:React.FC<ResponsiveProps> = ({ children, style }) => {
+
+  const location = useLocation();
+
   return (
-    <section className={`${ style }`}>
+    location.pathname !== '/login' && location.pathname !== '/register' ? 
+      <section className={`${ style }`}>
+        {children}
+      </section>
+    :
+    <section className={``}>
       {children}
     </section>
   );

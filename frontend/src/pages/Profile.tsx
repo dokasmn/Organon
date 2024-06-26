@@ -45,8 +45,8 @@ const Profile:React.FC = () => {
     return (
         <>
             <TopNavigationBar/>            
-            <main className={'md:px-10 md:pt-36'} >
-                <div className='px-5 sm:px-14 md:px-0 flex flex-col '>
+            <main className={'px-5 sm:px-14 md:px-10 md:pt-36 max-w-7xl'} >
+                <div className=' flex flex-col '>
                     <SectionEditProfile username='Daniel Lima' useremail='daniel@gmail.com' userphoto={profilePicture}/>
                     <section className='py-10 flex items-center '>
                         <div className="w-20 h-2 bg-dotted-line bg-repeat-x"></div>
