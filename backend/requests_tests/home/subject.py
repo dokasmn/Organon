@@ -76,7 +76,7 @@ if __name__ == "__main__":
     
     while True:
         time.sleep(3)
-        # os.system("cls" if os.name == "nt" else "clear")
+        os.system("cls" if os.name == "nt" else "clear")
         opcao = int(input("escolha a opção:\n\
             [1] - list subjects\n\
             [2] - create subject\n\

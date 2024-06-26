@@ -179,7 +179,7 @@ DJOSER = {
         'user_create': 'login.api.serializers.UserCreateSerializer',
         'user': 'login.api.serializers.UserSerializer',
         'user_create_password_retype': 'login.api.serializers.UserCreatePasswordRetypeSerializer',
-        'user_delete': 'djoser.serializers.UserDeleteSerializer',
+        'current_user': 'login.api.serializers.UserSerializer',
     },
 }
 

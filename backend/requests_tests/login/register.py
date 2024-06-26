@@ -1,12 +1,9 @@
 import requests
-
-import requests
-
-BASE_URL = "http://127.0.0.1:8000/login/"
+import os
 
 # Teste de Registro de Usuário
 def test_register_user(email, username, password):
-    url = f"{BASE_URL}register/"
+    url = f"http://127.0.0.1:8000/login/register/"
     data = {
         "email": email,
         "username": username,
@@ -19,6 +16,7 @@ def test_register_user(email, username, password):
     print("User registered successfully!")
 
 if __name__ == "__main__":
+    os.system("cls" if os.name == "nt" else "clear")
     email = input("Enter email: ")
     username = input("Enter username: ")
     password = input("Enter password: ")

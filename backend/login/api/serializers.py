@@ -7,6 +7,8 @@ from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
 from djoser.serializers import TokenSerializer
 from django.contrib.auth import authenticate
+from djoser.serializers import UserCreatePasswordRetypeSerializer as BaseUserCreatePasswordRetypeSerializer
+
 
 class CustomLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
@@ -31,17 +33,38 @@ class CustomLoginSerializer(serializers.Serializer):
         token, created = Token.objects.get_or_create(user=user)
         is_professor = Professor_user.objects.filter(professor_auth_user=user).exists()
         return {'token': token.key, 'is_professor': is_professor, 'email': user.email}
+    
 
-class UserCreateSerializer(BaseUserCreateSerializer):
-    class Meta(BaseUserCreateSerializer.Meta):
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
         model = CustomUser
-        fields = ('id', 'email', 'username', 'password', 'confirmation_code')
+        fields = ['username', 'email', 'password']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+    def create(self, validated_data):
+        user = CustomUser(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+        
 
 class UserSerializer(BaseUserSerializer):
     class Meta(BaseUserSerializer.Meta):
         model = CustomUser
         fields = ('id', 'email', 'username')
+        
 
 class ConfirmationSerializer(serializers.Serializer):
     email = serializers.EmailField()
-    confirmation_code = serializers.CharField(max_length=5)
+    confirmation_code = serializers.CharField(max_length=6)
+    
+    
+class UserCreatePasswordRetypeSerializer(BaseUserCreatePasswordRetypeSerializer):
+    class Meta(BaseUserCreatePasswordRetypeSerializer.Meta):
+        model = CustomUser
+        fields = ('id', 'email', 'username', 'password', 're_password')

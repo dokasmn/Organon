@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.db import models
+from django.utils import timezone
+from django.utils.crypto import get_random_string
+
 import random
 import string
 
@@ -19,6 +23,7 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(email, username, password, **extra_fields)
 
+
 class CustomUser(AbstractBaseUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=30)
@@ -26,6 +31,7 @@ class CustomUser(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     confirmation_code = models.CharField(max_length=5, blank=True, null=True)
+    confirmation_code_created_at = models.DateTimeField(blank=True, null=True)
 
     objects = CustomUserManager()
 
@@ -33,7 +39,8 @@ class CustomUser(AbstractBaseUser):
     REQUIRED_FIELDS = ['password']
 
     def generate_confirmation_code(self):
-        self.confirmation_code = ''.join(random.choices('0123456789', k=5))
+        self.confirmation_code = get_random_string(length=6, allowed_chars='0123456789')
+        self.confirmation_code_created_at = timezone.now()
         self.save()
 
 class Professor_user(models.Model):
