@@ -9,4 +9,4 @@ class SubjectSerializer(serializers.ModelSerializer):
 class ContentSerializer(serializers.ModelSerializer):
     class Meta():
         model=Content
-        fields='__all__'
+        fields=('content_name', 'content_description', 'content_subject')
