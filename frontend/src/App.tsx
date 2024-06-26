@@ -22,34 +22,35 @@ import SideBar from "./components/layout/SideBar.tsx";
 
 //COMPONENTS
 import Header from './components/layout/Header.tsx';
+import Responsive from "./components/items/section/Responsive.tsx";
 
 const App = () => {
   return (
-    <Router>
-      
-      <Header/>
-      <section className="w-full md:flex" >
-        <SideBar/>
-        <section className=" w-24 mr-9 "></section>
-        <section className=" w-full md:relative " >
-          <Routes>
-            <Route path="/" element={<Home/>}/>
-            <Route path="/home" element={<Home/>}/>
-            <Route path="/conteudo" element={<Contents/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/notas" element={<Notes/>}/>
-            <Route path="/segurança-conta" element={<SecurityAccount/>}/>
-            <Route path="/criar-conteudo" element={<CreateContent/>}/>
-            <Route path="/registrar" element={<Register/>}/>
-            <Route path="/perfil" element={<Profile/>}/>
-            <Route path="/desativar-conta" element={<CloseAccount/>}/>
-            <Route path="/bem-vindo" element={<Welcome/>}/>
-            <Route path="/materia/:materia/:conteudo" element={<Class/>}/>
-            <Route path="/materia/:materia" element={<Subject/>}/>
-          </Routes>
+    <div className="text-sm sm:text-base">
+      <Router>
+        <Header/>
+        <section className="md:flex" >
+          <SideBar/>
+          <Responsive style="w-full md:relative overflow-hidden md:mx-5 xl:flex xl:justify-center ">
+            <Routes>
+              <Route path="/" element={<Home/>}/>
+              <Route path="/home" element={<Home/>}/>
+              <Route path="perfil/conteudo" element={<Contents/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/notas" element={<Notes/>}/>
+              <Route path="perfil/seguranca-conta" element={<SecurityAccount/>}/>
+              <Route path="perfil/conteudo/criar-conteudo" element={<CreateContent/>}/>
+              <Route path="/registrar" element={<Register/>}/>
+              <Route path="/perfil" element={<Profile/>}/>
+              <Route path="perfil/desativar-conta" element={<CloseAccount/>}/>
+              <Route path="/bem-vindo" element={<Welcome/>}/>
+              <Route path="/materia/:materia/:conteudo" element={<Class/>}/>
+              <Route path="/materia/:materia" element={<Subject/>}/>
+            </Routes>
+          </Responsive>
         </section>
-      </section>
-    </Router>
+      </Router>
+    </div>
   );
 }
 

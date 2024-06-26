@@ -8,7 +8,7 @@ interface InputSearchProps {
 const InputSearch:React.FC<InputSearchProps> = ({id, placeholder}) => {
     return (
         <div>
-            <input type="search" name={id} id={id} className='text-black bg-white text-sm px-2 outline-none border-2 w-full border-slate-200'placeholder={placeholder}/>
+            <input type="search" name={id} id={id} className='text-black bg-white text-sm px-2 outline-none border-2 w-full md:py-2 md:text-base md:px-5'placeholder={placeholder}/>
         </div>
     )
 }

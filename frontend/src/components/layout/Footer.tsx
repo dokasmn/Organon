@@ -12,7 +12,7 @@ import SectionFooter from '../items/section/SectionFooter';
 
 const Footer:React.FC = () => {
     return (
-        <footer className='bg-white h-16 p-7 sm:px-16'>
+        <footer className='bg-white p-7 pt-16 sm:px-16 md:mb-5 '>
             <div className='flex gap-5 w-full  ' >
                 <div className='w-2/12' >
                     <img src={logo} alt="Bandeira do Brasil" className='h-8 w-10' />
@@ -20,7 +20,7 @@ const Footer:React.FC = () => {
                 <h2 className='w-9/12 text-blue-3 font-semibold text-2xl '>
                     Organon
                 </h2>
-                <div className='w-3/12 flex justify-end '>
+                <div className='w-3/12 flex justify-end md:hidden '>
                     <img src={flagBrasil} alt="Bandeira do Brasil" className='h-8' />
                 </div>
             </div>

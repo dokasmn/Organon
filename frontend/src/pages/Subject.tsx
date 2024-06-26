@@ -42,8 +42,8 @@ const Subject:React.FC = () => {
     );
 
     return (
-        <>
-            <section className='pt-7 min-h-screen'  >
+        
+            <section className='pt-7 min-h-screen  '  >
                 <header className=' flex items-center px-5 sm:px-14'>
                     <section className=' w-2/5 ' >
                         <h1 className=' font-semibold ' >{ decodeSubject }</h1>
@@ -61,7 +61,7 @@ const Subject:React.FC = () => {
                     </section>
                 </header>   
                 <HorizontalLine style='w-full' />         
-                <main className='my-0 py-0 px-5 sm:px-14'>
+                <main className='my-0 py-0 px-5 sm:px-14 max-w-224 '>
                     <h2 className='font-semibold text-xl flex justify-center' >Módule {currentSlide+1}</h2>
                     <section className='py-5 sm:py-14 ' >
                         {contents.map((content) => (
@@ -82,12 +82,13 @@ const Subject:React.FC = () => {
                         </div>
                     </section>
                 </main>
+                <FooterSubject 
+                    emailTeacher={teacherEmail}
+                    backgroundColor={colorSubject}  
+                />
             </section>
-            <FooterSubject 
-                emailTeacher={teacherEmail}
-                backgroundColor={colorSubject}  
-            />
-        </>
+            
+        
     )
 }
 

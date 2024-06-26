@@ -10,6 +10,7 @@ import Title from '../components/items/texts/Title';
 import InputDark from '../components/items/inputs/Input';
 import ButtonBigMobile from '../components/items/buttons/ButtonBigMobile';
 import Link from '../components/items/buttons/Link';
+import Button from '../components/items/buttons/Button';
 
 // HOOKS
 import useForm from '../hooks/useForm';
@@ -118,7 +119,7 @@ const Login: React.FC = () => {
     useEffect(() => {
         document.body.classList.add('bg-blue-5');
         
-      }, []);
+    }, []);
     
     return (
         <div className="sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
@@ -128,10 +129,10 @@ const Login: React.FC = () => {
                     <img src={loginArt} alt="Your SVG" className="" />
                 </div>
                 <div className="text-white w-full 2xl:w-2/4 flex justify-center">
-                    <form className="text-white w-full max-w-96 " onSubmit={handleSubmit}>
-                        <Title color="white" text="Bem Vindo de Volta!" />
+                    <form className="text-white w-full max-w-96" onSubmit={handleSubmit}>
+                        <Title color="white" text="Bem Vindo de Volta!"/>
                         <section>
-                            <div className="pb-7">
+                            <div className="py-7">
                             <InputDark
                                 placeholder="E-mail"
                                 name="email"
@@ -142,7 +143,7 @@ const Login: React.FC = () => {
                                 onChange={handleEmailChange}
                                 maxLength={254}
                                 error={emailError}
-                                style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                style='text-white mb-5 bg-blue-5-opacity border-blue-1-opacity'
                             />
                             <InputDark
                                 placeholder="Senha"
@@ -158,7 +159,7 @@ const Login: React.FC = () => {
                                 style='text-white bg-blue-5-opacity border-blue-1-opacity'
                             />
                             </div>
-                            <div className="flex justify-between items-center pb-10 cursor-pointer">
+                            <div className="flex justify-between items-center pb-5 cursor-pointer">
                                 <label className="flex gap-2 items-center cursor-pointer" htmlFor="remember-me-checkbox">
                                     <input
                                         type="checkbox"
@@ -177,10 +178,10 @@ const Login: React.FC = () => {
                                 <Link style="text-sm hover:text-blue-1" to="#" text="Esqueceu a senha?" />
                             </div>
                         </section>
-                        <ButtonBigMobile type="submit" text="Logar" backgroundColor="bg-blue-3" textColor="white" hover="hover:bg-blue-2-dark"/>
-                        <p className="pt-7 ">
+                        <Button type="submit" text="Logar" style='bg-blue-3 hover:bg-blue-3-dark text-white rounded my-5' />
+                        <p>
                             Não possui uma conta? <Link 
-                                                    to="/registrar" 
+                                                    to="/registro" 
                                                     text="Registrar" 
                                                     style="text-blue-1 hover:text-blue-1-dark "
                                                 />

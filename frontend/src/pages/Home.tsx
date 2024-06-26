@@ -1,5 +1,5 @@
 // React
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // COMPONENTS
 import NavigationSubject from '../components/items/sliders/NavigationSubject';
@@ -9,6 +9,7 @@ import SliderContent from '../components/items/sliders/SliderContent';
 import GeoGraphySmall from "../assets/images/subjects_image/geography-small.png";
 import NoticeCard from '../components/items/cards/NoticeCard';
 import Footer from '../components/layout/Footer';
+import HeaderHome from '../components/layout/HeaderHome';
 
 // CSS
 import "./Home.css";
@@ -26,10 +27,15 @@ const Home:React.FC = () => {
         { subject: 'Matemática', content: 'Cálculo Diferencial', date: '06/06/2023', "image":GeoGraphySmall },
     ];
 
+    useEffect(() => {
+        document.body.classList.add('bg-white-2');
+    }, []);
+
     return (
         <>
+            <HeaderHome/>
             <NavigationSubject/>
-            <main className={' bg-white-2 pt-0 '}>
+            <main className={' pt-5 '}>
                 <section className={' relative w-full overflow-hidden h-128 '} >
                     <div className='bg-black-opacity-65 absolute h-full w-full text-white px-10 flex justify-center items-center '>
                         <div>
@@ -50,7 +56,7 @@ const Home:React.FC = () => {
                         <SliderContent slides={slides} />
                         <SliderContent slides={slides} />
                     </section>
-                    <section className='px-5 flex flex-col items-center sm:px-14'>
+                    <section className='px-5 flex flex-col items-center sm:px-14 md:px-0'>
                         <SubTitle text="Últimas Notícias?" />
 
                         <NoticeCard 
