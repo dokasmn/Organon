@@ -35,6 +35,7 @@ const Login: React.FC = () => {
 
             // A requisição vai aqui
             if(passwordIsValid && emailIsvalid){
+                console.log("AAAAAAAAAAAAAAAAAAAAAAAAAA")
                 fetchData(data);
             }
         }
@@ -42,23 +43,25 @@ const Login: React.FC = () => {
 
     const fetchData = async (data: { email: string, password: string }) => {
 
-        const hashedPassword = CryptoJS.SHA256(data.password).toString();
+        // const hashedPassword = CryptoJS.SHA256(data.password).toString();
         
-        axiosInstance.post('login/api/token/', 
+        axiosInstance.post('login/auth/login/', 
             { 
                 username: data.email, 
-                password: hashedPassword, 
+                password: data.password, 
             }
         )
         .then(response => {
-            console.log('Success:', response.data);
+            console.log(response.data);
+            console.log("BBBBBBBBBBBBBBBBBBBBBBB")
             navigate("/home")
 
-            localStorage.setItem('access_token', response.data.access);
-            localStorage.setItem('refresh_token', response.data.refresh);
+            // localStorage.setItem('access_token', response.data.access);
+            // localStorage.setItem('refresh_token', response.data.refresh);
         })
         .catch(error => {
             console.error('Error:', error);
+            console.log("CCCCCCCCCCCCCCCCCCCCCCCCCCCC")
         });
     };
 

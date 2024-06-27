@@ -57,11 +57,10 @@ class Professional_History(models.Model):
 class Professor_user(models.Model):
     professor_auth_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)    
     fk_academic_education = models.ForeignKey(Academic_Education, on_delete= models.CASCADE,verbose_name="Academic Formation",null=True,blank=True)
-    fk_Professional_History = models.ForeignKey(Professional_History, on_delete=models.CASCADE,verbose_name="Professional History",null=True,blank=True)
+    fk_professional_history = models.ForeignKey(Professional_History, on_delete=models.CASCADE,verbose_name="Professional History",null=True,blank=True)
     class Meta:
         ordering = ['professor_auth_user']
         verbose_name = 'Professor'
-        verbose_name_plural = 'Professores'
         
 class SchoolUser(models.Model):
     STATES = {
