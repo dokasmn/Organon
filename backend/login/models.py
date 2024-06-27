@@ -43,6 +43,13 @@ class CustomUser(AbstractBaseUser):
         self.confirmation_code_created_at = timezone.now()
         self.save()
 
+class SchoolUser(models.Model):
+    school_auth_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    
+    class Meta:
+        ordering = ['school_auth_user']
+
+
 class Professor_user(models.Model):
     professor_auth_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)    
     class Meta:

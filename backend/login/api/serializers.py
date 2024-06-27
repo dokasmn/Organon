@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 
-from ..models import CustomUser, Professor_user
+from ..models import *
 
 from djoser.serializers import UserCreateSerializer as BaseUserCreateSerializer
 from djoser.serializers import UserSerializer as BaseUserSerializer
@@ -68,3 +68,47 @@ class UserCreatePasswordRetypeSerializer(BaseUserCreatePasswordRetypeSerializer)
     class Meta(BaseUserCreatePasswordRetypeSerializer.Meta):
         model = CustomUser
         fields = ('id', 'email', 'username', 'password', 're_password')
+        
+        
+class ProfessorCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Professor_user
+        fields = ['User']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+        
+    
+    def create_professor(self, validated_data):
+        user = CustomUser(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        
+        academic_education=None
+        professional_history=None
+        if validated_data["academic_education"]:
+            academic_education=Academic_Education(
+                degree=validated_data["degree"],
+                trainee_name=validated_data['trainee_name']
+            )
+            academic_education.save()
+        elif validated_data["professional_history"]:
+            profession = Profession.objects.get(id=validated_data["profession_id"])
+            professional_history=Professional_History(
+                company=validated_data["company"],
+                profession=profession
+            )
+            professional_history.save()
+        else:
+            return {"erro":"é necessário informar algum campo de validação capacitação"}
+            
+        professor = Professor_user(
+            professor_auth_user = user,
+            fk_academic_education = academic_education,
+            fk_professional_history = professional_history
+        )
+        professor.save()
+        

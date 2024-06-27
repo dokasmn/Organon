@@ -1,6 +1,6 @@
 # projeto
-from ..models import CustomUser
-from .serializers import UserCreateSerializer, ConfirmationSerializer, CustomLoginSerializer
+from ..models import CustomUser, Professor_user
+from .serializers import *
 
 # django
 from django.core.mail import send_mail
@@ -92,6 +92,26 @@ class CustomObtainAuthToken(ObtainAuthToken):
             response = super(CustomObtainAuthToken, self).post(request, *args, **kwargs)
             token = Token.objects.get(key=response.data['token'])
             return Response({'token': token.key, 'user_id': token.user_id, 'email': token.user.email})
+        except:
+            Response({"erro":"não foi possível concluir a solicitação"})
+            
+            
+class ProfessorRegistrationView(generics.CreateAPIView):
+    queryset = Professor_user.objects.all()
+    serializer_class = ProfessorCreateSerializer
+    permission_classes = [AllowAny]
+
+    def perform_create(self, serializer):
+        try:
+            user = serializer.save()
+            user.generate_confirmation_code()
+            send_mail(
+                'Código de confirmação',
+                f'Seu código de confirmação é: {user.confirmation_code}',
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=False,
+            )
         except:
             Response({"erro":"não foi possível concluir a solicitação"})
             
