@@ -32,7 +32,9 @@ class CustomLoginSerializer(serializers.Serializer):
         user = validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
         is_professor = Professor_user.objects.filter(professor_auth_user=user).exists()
-        return {'token': token.key, 'is_professor': is_professor, 'email': user.email}
+        if not is_professor:
+            is_school_admin = SchoolUser.objects.filter(scholl_auth_user=user).exists()
+        return {'token': token.key, 'is_professor': is_professor, 'is_school_admin': is_school_admin, 'email': user.email}
     
 
 class UserCreateSerializer(serializers.ModelSerializer):
