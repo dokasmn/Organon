@@ -1,14 +1,13 @@
 // REACT
-import React from 'react';
+import React, {useState} from 'react';
 
 // COMPONENTS
 import ButtonBigMobile from '../components/items/buttons/ButtonBigMobile';
-import TitleSection from '../components/layout/TitleSection';
-import Input from '../components/items/inputs/Input';
-import BottomNavigationBar from '../components/layout/BottomNavigationBar.tsx';
 import HorizontalLine from '../components/items/texts/HorizontalLine.tsx';
 import ArrowSlider from '../components/items/cards/ArrowSlider.tsx';
 import Video from '../components/items/mediaComponents/Video.tsx';
+import CommentInput from '../components/items/inputs/CommentInput.tsx';
+import Button from '../components/items/buttons/Button.tsx';
 
 // IMAGES
 import { MdArrowRight, MdArrowLeft } from "react-icons/md";
@@ -18,6 +17,7 @@ import profilePicture from '../assets/images/profile-picture/profile-picture-2.p
 
 const Class:React.FC = () => {
 
+    const [commentData, setCommentData] = useState<{[key: string]:string}>({});
 
     const titleClass:string = "Aula Sobre Logarítmo";
     const teacher: string  = "Professor X"
@@ -39,6 +39,14 @@ const Class:React.FC = () => {
         }
     ]
 
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setCommentData({
+          ...commentData,
+          [name]: value,
+        });
+    };
+
     return (
         <>  
             <header className='h-14 flex items-center sm:px-3 ' >
@@ -47,7 +55,7 @@ const Class:React.FC = () => {
                 </section>
                 <p>Voltar para a matéria</p>
             </header>
-            <main className='pt-0' >
+            <main className='pt-0 pb-0' >
                 <section className='sm:px-5' >
                     <Video path="" />
                 </section>
@@ -82,11 +90,9 @@ const Class:React.FC = () => {
                     <p className='pb-5'>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima fuga, dicta voluptas deleniti officiis necessitatibus exercitationem saepe nam et nobis. Reiciendis doloribus et sint pariatur esse nostrum, veritatis aut animi. Accusamus et iure iste, voluptate omnis sapiente laborum modi ullam fugit. Iusto, nostrum nisi.
                     </p>
-                    <ButtonBigMobile 
-                        textColor='white' 
+                    <Button 
                         text='Book PDF' 
-                        backgroundColor='bg-orange-1' 
-                        hover="bg-orange-1-dark" 
+                        style='bg-orange-1 hover:bg-orange-1-dark' 
                     />
                 </section>
                 <HorizontalLine style='w-full ' />  
@@ -105,6 +111,16 @@ const Class:React.FC = () => {
                         }
                     </section>
                 </section>
+                <HorizontalLine style='w-full ' />
+                <section className='px-5 sm:px-7 pb-5' >
+                    <CommentInput 
+                        id={"commentImput"} 
+                        value={commentData.user_id || ""} 
+                        onChange={handleChange} 
+                        name={"user_id"}
+                    />
+                </section>
+                
             </main>
         </>
     )

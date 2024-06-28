@@ -27,6 +27,19 @@ main{
   padding-bottom: 7rem;
 }
 
+@keyframes loadAnimation {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.loading-animation {
+  animation: loadAnimation 1s linear;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

@@ -28,10 +28,10 @@ const Subject:React.FC = () => {
 
     const pages = [1,2,4,5,6,7,8,9]
     const contents = [
-        {teacher:'Nome do pr...', nameContent:"Logaritmo", finished:"checked", imagePerfil:''},
-        {teacher:'Nome do pr...', nameContent:"Logaritmo", finished:"checked", imagePerfil:''},
-        {teacher:'Nome do pr...', nameContent:"Logaritmo", finished:"checked", imagePerfil:''},
-        {teacher:'Nome do pr...', nameContent:"Logaritmo", finished:"checked", imagePerfil:''},
+        {id:'1', teacher:'Nome do pr...', nameContent:"Logaritmo", finished:"checked", imagePerfil:''},
+        {id:'2', teacher:'Nome do pr...', nameContent:"Logaritmo", finished:"checked", imagePerfil:''},
+        {id:'3', teacher:'Nome do pr...', nameContent:"Logaritmo", finished:"checked", imagePerfil:''},
+        {id:'4', teacher:'Nome do pr...', nameContent:"Logaritmo", finished:"checked", imagePerfil:''},
     ]
     const teacherEmail = "Cauan@gmail.com"  
     const colorSubject = `${setColorSubject(decodeSubject)}`;
@@ -72,6 +72,7 @@ const Subject:React.FC = () => {
                                 nameContent={content.nameContent}
                                 finished={content.finished} 
                                 imagePerfil={content.imagePerfil}
+                                to={content.id}
                             />
                         ))}
                     </section>
