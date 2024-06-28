@@ -1,63 +1,70 @@
 import React, { useState } from 'react';
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { FaRegEye, FaRegEyeSlash } from 'react-icons/fa';
 
 interface InputProps {
-    id: string,
-    placeholder?: string,
-    type: string,
-    value: string,
-    title?: string,
-    required?: boolean,
-    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void, 
-    name?: string,
-    maxLength?: number,
-    minLength?: number,
-    error?: string | null,
-    style?: string
+    id: string;
+    style?: string;
+    name?: string;
+    error?: string | null;
+    placeholder?: string;
+    type: 'text' | 'password';
+    value: string;
+    title?: string;
+    required?: boolean;
+    maxLength?: number;
+    minLength?: number;
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Input:React.FC<InputProps> = ({id, style, name, error, placeholder, type, value, title, required=false, maxLength, minLength, onChange}) => {
-    
-    const [useType, setUseType] = useState<string>(type)
+const Input: React.FC<InputProps> = ({
+    id,
+    style = '',
+    name,
+    error,
+    placeholder,
+    type,
+    value,
+    title,
+    required = false,
+    maxLength,
+    minLength,
+    onChange,
+}) => {
+    const [useType, setUseType] = useState<'text' | 'password'>('password');
 
-    function changeType(){
-        useType === "password" ? setUseType("text") : setUseType("password")
+    function changeType() {
+        setUseType(useType === 'password' ? 'text' : 'password');
     }
 
     return (
-        <div className='relative' >
-            <input 
-                value={value}
-                type={type == "password" ? useType : type} 
-                name={name} 
-                id={id} 
-                title={title}
-                className={`${style} outline-none border-2 transition-colors duration-400 focus:border-blue-1-dark rounded py-2 px-4 w-full`}
-                placeholder={placeholder}
-                required={required}
-                onChange={onChange}
-                maxLength={maxLength}
-                minLength={minLength}
-            />
-
-            {
-                type === "password" ? 
-                    useType === "password" ? 
-                        <FaRegEye 
-                            className='text-2xl cursor-pointer opacity-50 absolute right-5 top-1/4' 
-                            onClick={changeType} 
-                        /> 
-                    : 
-                        <FaRegEyeSlash 
-                            className='text-2xl cursor-pointer opacity-40 absolute right-5 top-1/4' 
-                            onClick={changeType}
-                        /> 
-                : false
-            }
-
-            {error && <div className="error-message">{error}</div>}
+        <div>
+            <div className={`${style} relative border border-black border-opacity-50 transition-all duration-400 rounded ${error ? 'mb-1' : 'mb-5'} focus-within:border-blue-1`}>
+                <input
+                    value={value}
+                    type={type === 'password' ? useType : type}
+                    name={name}
+                    id={id}
+                    title={title}
+                    className="outline-none bg-transparent py-2 px-4 w-full"
+                    placeholder={placeholder}
+                    required={required}
+                    onChange={onChange}
+                    maxLength={maxLength}
+                    minLength={minLength}
+                />
+                {type === 'password' && (
+                    <span
+                        className="text-2xl cursor-pointer opacity-50 absolute right-5 top-1/2 transform -translate-y-1/2"
+                        onClick={changeType}
+                        aria-label={useType === 'password' ? 'Mostrar senha' : 'Ocultar senha'}
+                    >
+                        {useType === 'password' ? <FaRegEye /> : <FaRegEyeSlash />}
+                    </span>
+                )}
+            </div>
+            {error && <div className="text-red-500 mt-1 mb-2">{error}</div>}
         </div>
-    )
-}
+    );
+};
 
 export default Input;

@@ -4,6 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 //REACT
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
 import React from 'react';
+import Responsive from "./components/items/section/Responsive.tsx";
 
 //PAGES
 import Contents from './pages/Contents.tsx';
@@ -22,16 +23,15 @@ import SideBar from "./components/layout/SideBar.tsx";
 
 //COMPONENTS
 import Header from './components/layout/Header.tsx';
-import Responsive from "./components/items/section/Responsive.tsx";
 
 const App = () => {
   return (
-    <div className="text-sm sm:text-base">
-      <Router>
+    <Router>
+      <Responsive style="text-sm sm:text-base">
         <Header/>
         <section className="md:flex" >
           <SideBar/>
-          <Responsive style="w-full md:relative overflow-hidden md:mx-5 xl:flex xl:justify-center ">
+          <Responsive style="w-full md:relative overflow-hidden md:mx-5 md:block">
             <Routes>
               <Route path="/" element={<Home/>}/>
               <Route path="/home" element={<Home/>}/>
@@ -48,9 +48,10 @@ const App = () => {
               <Route path="/materia/:materia" element={<Subject/>}/>
             </Routes>
           </Responsive>
+
         </section>
-      </Router>
-    </div>
+      </Responsive>
+    </Router>
   );
 }
 

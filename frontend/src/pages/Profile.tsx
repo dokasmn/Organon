@@ -43,21 +43,21 @@ const Profile:React.FC = () => {
     ]
 
     return (
-        <>
-            <TopNavigationBar/>            
-            <main className={'px-5 sm:px-14 md:px-10 md:pt-36 max-w-7xl'} >
+        <section className='xl:flex xl:justify-center'>
+            <TopNavigationBar/>             
+            <main className={'px-5 xs:px-14 md:px-10 md:pt-32 md:max-w-6xl min-w-5 max-w-160 sm:min-w-160'} >
                 <div className=' flex flex-col '>
-                    <SectionEditProfile username='Daniel Lima' useremail='daniel@gmail.com' userphoto={profilePicture}/>
+                    <SectionEditProfile userCode='1234' username='Daniel Lima' useremail='daniel@gmail.com' userphoto={profilePicture}/>
                     <section className='py-10 flex items-center '>
                         <div className="w-20 h-2 bg-dotted-line bg-repeat-x"></div>
-                        <img src={markerStudent} alt="" className='w-12' />
+                        <img src={markerStudent} alt="" className='w-12 lg:w-14' />
                     </section>
                     <AnswersStudent answers={24} correctAnswers={16} incorrectAnswers={8}/>
                 </div>
                 <SliderSubjectsBar slides={slidesSubject} />    
             </main>
             <BottomNavigationBar/>
-        </>
+        </section>
     )
 }
 

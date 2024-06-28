@@ -16,7 +16,6 @@ export default {
       'blue-subject',
       'purple-subject',
       "orange-1",
-
     ],
   },
   content: [ 
@@ -121,6 +120,22 @@ export default {
         '224': '56rem',
         '240': '60rem',
       },
+      minWidth: {
+        '104': '26rem',
+        '112': '28rem',
+        '120': '30rem',
+        '128': '32rem',
+        '144': '36rem',
+        '160': '40rem',
+        '176': '44rem',
+        '192': '48rem',
+        '208': '52rem',
+        '224': '56rem',
+        '240': '60rem',
+        '13/12': '110%',
+        '14/12': '125%',
+        '15/12': '150%',
+      },
       backgroundImage: {
         'gradient-blue-bottom': 'linear-gradient(180deg, hsla(208, 23%, 24%, 1) 0%, hsla(207, 23%, 26%, 1) 16%, hsla(208, 23%, 27%, 1) 34%, hsla(207, 24%, 29%, 1) 51%, hsla(207, 23%, 32%, 1) 63%, hsla(207, 23%, 37%, 1) 74%, hsla(208, 23%, 42%, 1) 89%, hsla(208, 23%, 44%, 1) 100%);',
         'gradient-blue-top':'linear-gradient(0deg, hsla(208, 23%, 24%, 1) 0%, hsla(207, 23%, 26%, 1) 16%, hsla(208, 23%, 27%, 1) 34%, hsla(207, 24%, 29%, 1) 51%, hsla(207, 23%, 32%, 1) 63%, hsla(207, 23%, 37%, 1) 74%, hsla(208, 23%, 42%, 1) 89%, hsla(208, 23%, 44%, 1) 100%);',
@@ -133,8 +148,15 @@ export default {
         'dotted-line': '16px 2px',
       },
       screens: {
+        '05xl': '1100px',
         'bs': '840px',
+        'xs': '480px'
       },
+      boxShadow: {
+        'xl-right': '4px 0px 10px rgba(0, 0, 0, 0.4)',
+        'xl-full': '0px 0px 30px rgba(0, 0, 0, .1)',
+      },
+      
     },
   },
 

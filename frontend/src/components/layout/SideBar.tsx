@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 // COMPONENTS
 import HorizontalLine from '../items/texts/HorizontalLine';
+import Link from '../items/buttons/Link';
 
 // IMAGES
 import { FiMoreHorizontal } from "react-icons/fi";
@@ -21,10 +22,10 @@ const Sidebar = () => {
 
   return (
     
-    location.pathname !== '/login' && location.pathname !== '/register' ? 
+    location.pathname !== '/login' && location.pathname !== '/registrar' ? 
     
-    <div className={`hidden md:flex relative w-28`}>
-      <div className={`fixed px-5 z-50 flex flex-col pt-10 h-full bg-gradient-blue-top transition-all duration-500 transform ${isOpen ? 'w-64' : 'w-24 items-center'}`}>
+    <div className={`hidden md:flex relative min-w-24`}>
+      <div className={`fixed shadow-xl-right px-5 z-50 flex flex-col pt-5 h-full bg-gradient-blue-top transition-all duration-500 transform ${isOpen ? 'w-64' : 'w-24 items-center'}`}>
         <section className="flex items-center">
           <button
             onClick={toggleSidebar}
@@ -36,12 +37,27 @@ const Sidebar = () => {
         <div className={`mt-5 text-white ${isOpen ? 'w-full' : 'flex flex-col items-center'}`}>
           <ul className='w-full'>
             <li className={`flex items-center mb-2 p-3 hover:bg-blue-1-opacity rounded-md cursor-pointer`}>
-              <IoHomeOutline className='text-xl' />
-              <span className={`ml-4 ${!isOpen && 'hidden'} transition-opacity duration-500`}>Home</span>
+              <Link 
+                style='flex items-center'
+                text={  
+                <>
+                  <IoHomeOutline className='text-xl' />
+                  <span className={`ml-4 ${!isOpen && 'hidden'} transition-opacity duration-500`}>Home</span>
+                </>
+              } to="/home" />
             </li>
-            <li className={`flex items-center p-3 hover:bg-blue-1-opacity rounded-md cursor-pointer`}>
-              <IoPersonOutline className='text-xl'/>
-              <span className={`ml-4 ${!isOpen && 'hidden'} transition-opacity duration-500`}>Perfil</span>
+            <li className={` p-3 hover:bg-blue-1-opacity rounded-md cursor-pointer`}>
+              <Link 
+                style='flex items-center'
+                text={
+                <>
+                  <IoPersonOutline className='text-xl'/>
+                  <span className={`ml-4 ${!isOpen && 'hidden'} transition-opacity duration-500`}>Perfil</span>
+                </>
+                }
+                to="/perfil"
+              />
+              
             </li>
           </ul>
         </div>
@@ -53,7 +69,6 @@ const Sidebar = () => {
         </div>
       </div>
     </div>
-    
     : 
     false
   );

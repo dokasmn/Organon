@@ -6,12 +6,14 @@ interface ButtonProps {
     style?: string,
 }
 
-const Button:React.FC<ButtonProps> = ({text, type="button", style="bg-blue-5 hover:bg-blue-5-dark text-white"}) => {
+const defaultStyle = "bg-blue-5 hover:bg-blue-5-dark"
+
+const Button:React.FC<ButtonProps> = ({text, type="button", style=defaultStyle}) => {
     return (
         <input 
             type={type} 
             value={text} 
-            className={`w-full cursor-pointer shadow font-semibold px-5 py-2 ${style}`}
+            className={`text-white w-full rounded md:shadow-md md:rounded-none cursor-pointer font-semibold px-5 py-2 ${style}`}
         />
     )
 }

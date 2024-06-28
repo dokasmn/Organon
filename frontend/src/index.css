@@ -15,9 +15,8 @@ a {
 
 body {
   margin: 0;
-  width: 100vw;
   min-width: 360px !important;
-  background-color: white;
+  background-color: #F2F2F2;
   color: black;
   font-size: 16px;
   min-height: 100vh;

@@ -1,25 +1,20 @@
 import React from 'react';
 import Slider from 'react-slick';
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { v4 as uuidv4 } from 'uuid';
-
-// COMPONENTS
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import SubjectProgressCard from '../cards/SubjectProgressCard';
+import NextArrow from '../buttons/NextArrow';
+import PrevArrow from '../buttons/PrevArrow';
 
-interface SliderSubjectsProgressProps {
-  slides: { subject: string, lastContent: string, progress: string, image: string }[],
-}
-
-const SliderSubjectsProgress: React.FC<SliderSubjectsProgressProps> = ({ slides }) => {
-
+const SliderSubjectsProgress = ({ slides }) => {
   const settings = {
-    className: "center",
-    centerMode: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 2,
-    centerPadding: "0px", // Adjust this value to your desired spacing
+    slidesToShow: 2.8,
+    slidesToScroll: 3,
+    initialSlide: 0,
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     responsive: [
       {
         breakpoint: 400,
@@ -77,14 +72,45 @@ const SliderSubjectsProgress: React.FC<SliderSubjectsProgressProps> = ({ slides 
           centerPadding: "5px",
         },
       },
+      {
+        breakpoint: 1023,
+        settings: {
+          slidesToShow: 4.3,
+          centerPadding: "0px",
+        },
+      },
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 2.5,
+          slidesToScroll: 2,
+          centerPadding: "0px",
+        },
+      },
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 2.85,
+          slidesToScroll: 2,
+          centerPadding: "0px",
+        },
+      },
+      {
+        breakpoint: 1536,
+        settings: {
+          slidesToShow: 2.8,
+          slidesToScroll: 3,
+          centerPadding: "0px",
+        },
+      },
     ],
   };
 
   return (
-    <div className="slider-container mx-auto max-w-full overflow-hidden">
-      <Slider {...settings}>
+    <div className="slider-container mx-auto max-w-full ">
+      <Slider {...settings} className=" lg:px-20" >
         {slides.map((slide) => (
-          <div key={uuidv4()}> 
+          <div key={uuidv4()}>
             <SubjectProgressCard
               subject={slide.subject}
               lastContent={slide.lastContent}

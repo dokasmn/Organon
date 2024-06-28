@@ -49,11 +49,11 @@ const Welcome:React.FC = () => {
 
     return (
         <div className='bg-gradient-blue-bottom min-h-screen'>  
-            <header className='h-16 flex items-end px-5'>
+            <header className='h-8 flex px-5 pt-10 mb-5'>
                 <div className='w-2/6' >
                     <img src={logo} alt="" className={'w-10'} />
                 </div>
-                <div className='w-4/6 flex  justify-end gap-3 '>
+                <div className='w-4/6 flex justify-end gap-3 '>
                     <Link to="/login" text={
                         <ButtonSmallMobile text='Login' textColor='white' backgroundColor='bg-blue-3' hover='bg-blue-3-dark'/>
                     }/>
@@ -66,7 +66,7 @@ const Welcome:React.FC = () => {
             <main className='text-white'>
                 <div className='px-5' >
                     <h1 className='pt-3 font-semibold text-3xl'>Organon</h1>
-                    <p className='py-7' >Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda molestias, debitis pariatur.</p>
+                    <p className='py-5' >Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda molestias, debitis pariatur.</p>
                 </div>
                 
                 <SliderGeneric card="percentDatasCard" slides={percentdatasList}  />

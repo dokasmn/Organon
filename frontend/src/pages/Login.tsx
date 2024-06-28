@@ -124,7 +124,7 @@ const Login: React.FC = () => {
     return (
         <div className="sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
             <main className="min-h-screen px-7 relative flex justify-center items-center py-0 2xl:px-32" style={{ maxWidth: `2000px` }}>
-                <img src={logo} alt="" className={'absolute w-10 top-8 right-7 '}/>
+            
                 <div className='hidden w-2/4 2xl:flex justify-center ' >
                     <img src={loginArt} alt="Your SVG" className="" />
                 </div>
@@ -133,31 +133,31 @@ const Login: React.FC = () => {
                         <Title color="white" text="Bem Vindo de Volta!"/>
                         <section>
                             <div className="py-7">
-                            <InputDark
-                                placeholder="E-mail"
-                                name="email"
-                                type="text"
-                                id="email-input"
-                                value={formData.email}
-                                required
-                                onChange={handleEmailChange}
-                                maxLength={254}
-                                error={emailError}
-                                style='text-white mb-5 bg-blue-5-opacity border-blue-1-opacity'
-                            />
-                            <InputDark
-                                placeholder="Senha"
-                                name="password"
-                                type="password"
-                                id="password-input"
-                                value={formData.password}
-                                required
-                                onChange={handlePasswordChange}
-                                maxLength={64}
-                                minLength={8}
-                                error={passwordError}
-                                style='text-white bg-blue-5-opacity border-blue-1-opacity'
-                            />
+                                <InputDark
+                                    placeholder="E-mail"
+                                    name="email"
+                                    type="text"
+                                    id="email-input"
+                                    value={formData.email}
+                                    required
+                                    onChange={handleEmailChange}
+                                    maxLength={254}
+                                    error={emailError}
+                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                />
+                                <InputDark
+                                    placeholder="Senha"
+                                    name="password"
+                                    type="password"
+                                    id="password-input"
+                                    value={formData.password}
+                                    required
+                                    onChange={handlePasswordChange}
+                                    maxLength={64}
+                                    minLength={8}
+                                    error={passwordError}
+                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                />
                             </div>
                             <div className="flex justify-between items-center pb-5 cursor-pointer">
                                 <label className="flex gap-2 items-center cursor-pointer" htmlFor="remember-me-checkbox">
@@ -178,10 +178,13 @@ const Login: React.FC = () => {
                                 <Link style="text-sm hover:text-blue-1" to="#" text="Esqueceu a senha?" />
                             </div>
                         </section>
-                        <Button type="submit" text="Logar" style='bg-blue-3 hover:bg-blue-3-dark text-white rounded my-5' />
+                        <Button 
+                            type="submit" 
+                            text="Logar" 
+                            style='bg-blue-3 hover:bg-blue-3-dark text-white rounded my-5' />
                         <p>
                             Não possui uma conta? <Link 
-                                                    to="/registro" 
+                                                    to="/registrar" 
                                                     text="Registrar" 
                                                     style="text-blue-1 hover:text-blue-1-dark "
                                                 />

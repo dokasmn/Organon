@@ -27,10 +27,10 @@ const SliderContent: React.FC<SliderContentProps> = ({slides}) => {
   );
 
   return (
-    <div className="relative w-full rounded overflow-hidden py-10 px-14 sm:px-36 bs:px-44">  
+    <div className="relative w-full rounded overflow-hidden py-10 px-14 sm:px-36 bs:px-44 05xl:px-56 xl:px-72">  
       <div className="flex duration-700 transition-transform" style={{ transform: `translateX(-${currentSlide * 100}%)`}}>
           {slides.map((item, __) => (
-            <div key={uuidv4()} className='w-full flex-shrink-0 flex justify-center items-center' >
+            <div key={uuidv4()} className='w-full  flex-shrink-0 flex justify-center items-center' >
               <CardNewContent
                 subject={item.subject}
                 content={item.content}
@@ -44,13 +44,13 @@ const SliderContent: React.FC<SliderContentProps> = ({slides}) => {
       <ArrowSlider 
         icon={<MdArrowLeft className='text-3xl' />} 
         handleEvent={handlePrev} 
-        style="ml-10 sm:ml-32 bs:ml-40 p-1 rounded-full flex items-center sm:bg-gray-300 left-0" 
+        style="ml-10 sm:ml-32 bs:ml-40 05xl:ml-52 xl:ml-64 p-1 05xl:p-2.5 rounded-full flex items-center sm:bg-gray-300 left-0 hover:bg-gray-400" 
       />
 
       <ArrowSlider 
         icon={<MdArrowRight className='text-3xl'/>} 
         handleEvent={handleNext} 
-        style="mr-10 sm:mr-32 bs:mr-40 p-1 rounded-full flex items-center sm:bg-gray-300 right-0"
+        style="mr-10 sm:mr-32 bs:mr-40 05xl:mr-52 xl:mr-64 p-1 05xl:p-2.5 rounded-full flex items-center sm:bg-gray-300 right-0 hover:bg-gray-400"
       />
 
     </div>

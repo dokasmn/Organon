@@ -42,11 +42,10 @@ const Subject:React.FC = () => {
     );
 
     return (
-        
-            <section className='pt-7 min-h-screen  '  >
-                <header className=' flex items-center px-5 sm:px-14'>
+            <section className='pt-5 min-h-screen md:pt-5 flex flex-col items-center '  >
+                <header className=' flex items-center px-5 sm:px-14 md:px-10 w-full sm:min-w-160 md:max-w-6xl'>
                     <section className=' w-2/5 ' >
-                        <h1 className=' font-semibold ' >{ decodeSubject }</h1>
+                        <h1 className=' font-semibold sm:text-xl md:text-2xl lg:text-3xl ' >{ decodeSubject }</h1>
                         <p className=' rounded-full ' >Bons estudos!</p>
                     </section>
                     <section className='w-3/5 flex justify-end' >
@@ -58,11 +57,13 @@ const Subject:React.FC = () => {
                             :
                             false
                         }
+                        
                     </section>
+                    
                 </header>   
-                <HorizontalLine style='w-full' />         
-                <main className='my-0 py-0 px-5 sm:px-14 max-w-224 '>
-                    <h2 className='font-semibold text-xl flex justify-center' >Módule {currentSlide+1}</h2>
+                <HorizontalLine style='w-full' />  
+                <main className='my-0 py-0 px-5 xs:px-14 md:px-10 max-w-160 sm:min-w-160 w-full'>
+                    <h2 className='font-semibold text-lg md:text-xl lg:text-2xl flex justify-center' >Módule {currentSlide+1}</h2>
                     <section className='py-5 sm:py-14 ' >
                         {contents.map((content) => (
                             <CardContentAccess
@@ -76,9 +77,9 @@ const Subject:React.FC = () => {
                     </section>
                     <section className='px-12'>
                         <div className='flex justify-center items-center relative' >
-                            <ArrowSlider icon={<MdArrowLeft className='text-3xl sm:bg-gray-300 rounded-full'/>} handleEvent={handlePrev} style="left-0" />
+                            <ArrowSlider icon={<MdArrowLeft className='text-3xl sm:bg-gray-300 hover:bg-gray-400 rounded-full'/>} handleEvent={handlePrev} style="left-0" />
                             <p className='p-0 m-0'> {currentSlide+1} </p>
-                            <ArrowSlider icon={<MdArrowRight className='text-3xl sm:bg-gray-300 rounded-full'/>} handleEvent={handleNext} style="right-0"/>
+                            <ArrowSlider icon={<MdArrowRight className='text-3xl sm:bg-gray-300 hover:bg-gray-400 rounded-full'/>} handleEvent={handleNext} style="right-0"/>
                         </div>
                     </section>
                 </main>
