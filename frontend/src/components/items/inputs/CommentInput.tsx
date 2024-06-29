@@ -17,7 +17,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
 }) => {
     return (
         <div>
-            <div className={`relative border border-black border-opacity-50 transition-all duration-400 rounded focus-within:border-blue-1`}>
+            <div className={`relative border border-black border-opacity-50 transition-all duration-400 rounded focus-within:border-blue-1 md:min-w-160 max-w-160`}>
                 <input
                     value={value}
                     type="text"

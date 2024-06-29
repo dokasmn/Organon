@@ -6,7 +6,6 @@ import "slick-carousel/slick/slick-theme.css";
 import { v4 as uuidv4 } from 'uuid';
 
 // COMPONENTS
-import CardSubjectNote from '../cards/CardSubjectNotes';
 import CardPercentData from '../cards/CardPercentDatas';
 
 interface SliderGenericProps {
@@ -20,12 +19,40 @@ const SliderGeneric:React.FC<SliderGenericProps> = ({ slides, card }) => {
     centerMode: true,
     infinite: true,
     centerPadding: "78px",
-    slidesToShow: 0.98,
-    speed: 500
+    slidesToShow: 2,
+    speed: 500,
+    responsive: [
+      {
+        breakpoint: 400,
+        settings: {
+          slidesToShow: 1,
+
+        },
+      },
+      {
+        breakpoint: 450,
+        settings: {
+          slidesToShow: 1.2,
+        },
+      },
+      {
+        breakpoint: 500,
+        settings: {
+          slidesToShow: 1.4,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1.7,
+        },
+      },
+
+    ]
   };
 
   return (
-    <div className="slider-container overflow-hidden pb-10">
+    <div className="slider-container overflow-hidden pb-10 sm:hidden">
       <Slider {...settings} >
         {slides.map((slide, __) => (
           card === "percentDatasCard" ? 

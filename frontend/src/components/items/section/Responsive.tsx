@@ -9,9 +9,8 @@ interface ResponsiveProps {
 const Responsive:React.FC<ResponsiveProps> = ({ children, style }) => {
 
   const location = useLocation();
-  // ${location.pathname == '/home' && ('bg-white-2') }
   return (
-    location.pathname !== '/login' && location.pathname !== '/registrar' ? 
+    location.pathname !== '/login' && location.pathname !== '/registrar' && location.pathname !== '/bem-vindo' ? 
       <section className={`${ style }  `}>
         {children}
       </section>

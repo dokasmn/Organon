@@ -17,7 +17,6 @@ interface ContentCrudProps {
 
 const ContentCrud:React.FC<ContentCrudProps> = ({content, subject, image}) => {
     return (
-        
         <div className=' bg-white-2 py-3 px-2 flex items-center rounded mb-5 md:shadow-md ' >
             <div className={'w-2/4 flex items-center'} >
                 <div className={' w-2/6 flex justify-center items-center h-full'} >
@@ -40,7 +39,7 @@ const ContentCrud:React.FC<ContentCrudProps> = ({content, subject, image}) => {
                     </p>
                 </div>
             </div>
-            <div className={'w-2/4 flex '} >
+            <div className={'w-2/4 flex '}>
                 <div className={' w-5/6 flex justify-center sm:justify-end items-center '} >
                     <Button text='View' style=' max-w-28 bg-blue-5 hover:bg-blue-5-dark ' />
                 </div>

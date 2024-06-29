@@ -6,11 +6,15 @@ import SubjectProgressCard from '../cards/SubjectProgressCard';
 import NextArrow from '../buttons/NextArrow';
 import PrevArrow from '../buttons/PrevArrow';
 
-const SliderSubjectsProgress = ({ slides }) => {
+interface SliderSubjectsProgressProps {
+  slides: {subject:string, lastContent:string, progress:string, image:string}[],
+} 
+
+const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({ slides }) => {
   const settings = {
     infinite: false,
     speed: 500,
-    slidesToShow: 2.8,
+    slidesToShow: 2.7,
     slidesToScroll: 3,
     initialSlide: 0,
     nextArrow: <NextArrow />,
@@ -98,7 +102,7 @@ const SliderSubjectsProgress = ({ slides }) => {
       {
         breakpoint: 1536,
         settings: {
-          slidesToShow: 2.8,
+          slidesToShow: 2.7,
           slidesToScroll: 3,
           centerPadding: "0px",
         },

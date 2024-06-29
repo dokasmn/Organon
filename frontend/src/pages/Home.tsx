@@ -1,5 +1,5 @@
 // React
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 
 // COMPONENTS
 import NavigationSubject from '../components/items/sliders/NavigationSubject';
@@ -10,6 +10,7 @@ import GeoGraphySmall from "../assets/images/subjects_image/geography-small.png"
 import NoticeCard from '../components/items/cards/NoticeCard';
 import Footer from '../components/layout/Footer';
 import HeaderHome from '../components/layout/HeaderHome';
+import PopupLog from '../components/popups/PopUpLog';
 
 // CSS
 import "./Home.css";

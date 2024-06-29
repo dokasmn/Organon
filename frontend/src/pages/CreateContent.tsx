@@ -41,7 +41,8 @@ const CreateContent:React.FC = () => {
     return (
         <div className="sm:flex justify-center">
             <TopNavigationBar/>
-            <div className='sm:flex w-full max-w-7xl'>
+            {/* sm:flex w-full max-w-7xl */}
+            <div className=''  >
                 <main className="xs:px-14 md:pt-32 md:px-10 max-w-160 sm:min-w-160" >
                     <section className='px-5 xs:px-0 pb-5 md:px-0'>
                         <TitleSection title="CONTENTS" />
@@ -54,7 +55,7 @@ const CreateContent:React.FC = () => {
                         <div className='flex justify-between items-center' >
                             <div className='w-7/12' >
                                 <label htmlFor="select-subject" className='block font-semibold mb-5'>Subject</label>
-                                <label htmlFor="" className='border border-black rounded flex h-7'>
+                                <label htmlFor="" className='border border-black rounded flex h-10'>
                                     <div className='bg-white-2 h-full w-10 rounded flex justify-center items-center' >
                                         <FiBookOpen/>
                                     </div>
@@ -67,9 +68,9 @@ const CreateContent:React.FC = () => {
                                     </select>
                                 </label>
                             </div>
-                            <div className='w-4/12'>
+                            <div className='w-4/12 '>
                                 <label htmlFor="select-subject" className='block font-semibold mb-5' >Position</label>
-                                <label htmlFor="position-content" className='border border-black rounded flex h-7' >
+                                <label htmlFor="position-content" className='border border-black rounded flex h-10' >
                                     <div className='bg-white-2 h-full w-10 rounded flex justify-center items-center ' >
                                         <BsNodePlus/>    
                                     </div>

@@ -6,7 +6,7 @@ interface HorizontalLineProps {
 
 const HorizontalLine:React.FC<HorizontalLineProps> = ({style}) => {
     return (
-        <div className={`bg-black my-5 ${style} h-0.1 opacity-30`}></div>
+        <div className={`bg-black mb-5 ${style} h-0.1 opacity-30`}></div>
     )
 }
 

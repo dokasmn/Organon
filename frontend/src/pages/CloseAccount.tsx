@@ -25,17 +25,18 @@ const CloseAccount:React.FC = () => {
     return (
         <div className='sm:flex justify-center'>
             <TopNavigationBar/>
-            <div className='sm:flex w-full max-w-7xl '>
+            {/* sm:flex w-full max-w-7xl */}
+            <div className=''>
                 <main className='px-5 xs:px-14 md:pt-32 md:px-10 max-w-160 sm:min-w-160' >
                     <section className='pb-5 md:pb-0 ' >
                         <TitleSection title="FECHAR CONTA" />
-                        <div className='hidden md:block'>
+                        <div className='hidden md:block mb-5'>
                             <Title text="Conteúdos"/>
                         </div>
                         <HorizontalLine style='w-full hidden md:block'/>
                     </section>
                     <section>
-                        <div className='p-5 bg-red-100 md:shadow-md' >
+                        <div className='p-5 bg-red-100 md:shadow-md mb-5' >
                             <p className='text-red-2 font-semibold pb-2' >ALERT</p>
                             <p className=' text-gray-1 ' >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor sit.</p>
                         </div>

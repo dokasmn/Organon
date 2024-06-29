@@ -27,13 +27,14 @@ const SecurityAccount:React.FC = () => {
     return (
         <div className='sm:flex justify-center' >    
             <TopNavigationBar/>
-            <div className='sm:flex w-full max-w-7xl'>
+            {/* sm:flex w-full max-w-7xl */}
+            <div className=''>
                 <main className='px-5 xs:px-14 md:pt-32 md:px-10 max-w-160 sm:min-w-160'>
-                    <section className='md:pb-0' >
+                    <section className='mb-5' >
                         <TitleSection title="SEGURANÇA DA CONTA"/>
                         <div className='hidden md:block'>
                             <Title text="Account"/>
-                            <p className=' text-gray-1 mt-1 '>A alteração de qualquer dado pessoal exige uma verificação de dois fatores.</p>
+                            <p className='text-gray-1 mt-2'>A alteração de qualquer dado pessoal exige uma verificação de dois fatores.</p>
                         </div>
                     </section>
                     <section>

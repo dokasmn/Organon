@@ -43,7 +43,7 @@ const Subject:React.FC = () => {
 
     return (
             <section className='pt-5 min-h-screen md:pt-5 flex flex-col items-center '  >
-                <header className=' flex items-center px-5 sm:px-14 md:px-10 w-full sm:min-w-160 md:max-w-6xl'>
+                <header className=' flex items-center px-5 sm:px-14 md:px-10 w-full pb-5 sm:min-w-160 md:max-w-6xl'>
                     <section className=' w-2/5 ' >
                         <h1 className=' font-semibold sm:text-xl md:text-2xl lg:text-3xl ' >{ decodeSubject }</h1>
                         <p className=' rounded-full ' >Bons estudos!</p>

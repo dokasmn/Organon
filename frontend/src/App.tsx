@@ -3,7 +3,7 @@ import "slick-carousel/slick/slick-theme.css";
 
 //REACT
 import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
-import React from 'react';
+import React, { useState } from 'react';
 import Responsive from "./components/items/section/Responsive.tsx";
 
 //PAGES
@@ -23,13 +23,28 @@ import SideBar from "./components/layout/SideBar.tsx";
 
 //COMPONENTS
 import Header from './components/layout/Header.tsx';
+import PopupLog from "./components/popups/PopUpLog.tsx";
+
+//HOOKS
+import usePopUpLog from "./hooks/usePopUpLog.tsx";
 
 const App = () => {
+
+  const { showPopup, setShowPopup, popupType, popupTitle, popupMessage } = usePopUpLog()
+
   return (
     <Router>
       <Responsive style="text-sm sm:text-base">
         <Header/>
-        <section className="md:flex" >
+        <section className="md:flex" >  
+          {showPopup && (
+            <PopupLog
+              type={popupType}
+              title={popupTitle}
+              message={popupMessage}
+              onClose={() => setShowPopup(false)}
+            />
+          )}
           <SideBar/>
           <Responsive style="w-full md:relative overflow-hidden md:mx-5 md:block">
             <Routes>

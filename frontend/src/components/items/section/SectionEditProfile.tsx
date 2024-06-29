@@ -1,11 +1,12 @@
 // REACT
-import React from "react"
+import React, {useState} from "react"
 
 // IMAGES
 import { BsPen } from "react-icons/bs";
 
 // COMPONENTS
 import Button from "../buttons/Button";
+import PopUpEditProfile from "../../popups/PopUpEditProfile";
 
 interface SectionEditProfileProps {
     username: string,
@@ -15,8 +16,27 @@ interface SectionEditProfileProps {
 }
 
 const SectionEditProfile:React.FC<SectionEditProfileProps> = ({username, useremail, userphoto, userCode}) => {
+    const [showEditPopup, setShowEditPopup] = useState<boolean>(false);
+    const [usernameEdit, setUsernameEdit] = useState<string>('John Doe');
+    const [profilePic, setProfilePic] = useState<string>('https://via.placeholder.com/150');
+
+    const handleEditUser = (newUsername: string, newProfilePic: string) => {
+        setUsernameEdit(newUsername);
+        setProfilePic(newProfilePic);
+    };
+    
+ 
+    
     return (
         <section className="flex gap-3 w-full ">
+                {showEditPopup && (
+                    <PopUpEditProfile
+                        initialUsername={usernameEdit}
+                        initialProfilePic={profilePic}
+                        onSave={handleEditUser}
+                        onClose={() => setShowEditPopup(false)}
+                    />
+                )}
             <div className="w-7/12 flex lg:border bg-white md:shadow-md border-black border-opacity-30 lg:py-3 lg:px-5">            
                 <div className="flex items-center pr-3 md:pr-7" >
                     <img src={userphoto} alt="Photo of user" className="rounded-full border border-black border-opacity-50 max-w-16 min-w-16 lg:rounded-lg "  />
@@ -30,7 +50,7 @@ const SectionEditProfile:React.FC<SectionEditProfileProps> = ({username, userema
             </div>
             <div className="w-5/12 flex justify-end">
                 <div className="hidden lg:block w-36 " >
-                    <Button text="Editar perfil"/>
+                    <Button text="Editar perfil" handleClick={() => setShowEditPopup(true)}  />
                 </div>
                 
                 <div className="p-4 rounded border border-black hover:bg-blue-1-opacity lg:hidden h-12" >

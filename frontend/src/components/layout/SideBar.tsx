@@ -22,7 +22,7 @@ const Sidebar = () => {
 
   return (
     
-    location.pathname !== '/login' && location.pathname !== '/registrar' ? 
+    location.pathname !== '/login' && location.pathname !== '/registrar' && location.pathname !== '/bem-vindo' ? 
     
     <div className={`hidden md:flex relative min-w-24`}>
       <div className={`fixed shadow-xl-right px-5 z-50 flex flex-col pt-5 h-full bg-gradient-blue-top transition-all duration-500 transform ${isOpen ? 'w-64' : 'w-24 items-center'}`}>

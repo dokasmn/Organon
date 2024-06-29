@@ -1,12 +1,13 @@
-// React
+// REACT
 import React, {useState, useMemo} from 'react';
 
-// Components
+// COMPONENTS
 import AnswersStudent from '../components/items/cards/AnswersStudent.tsx';
 import SectionEditProfile from '../components/items/section/SectionEditProfile.tsx';
 import BottomNavigationBar from '../components/layout/BottomNavigationBar.tsx';
 import SliderSubjectsBar from '../components/items/sliders/SliderSubjectsProgress.tsx';
 import TopNavigationBar from '../components/layout/TopNavigationBar.tsx';
+
 
 // IMAGES
 import profilePicture from '../assets/images/profile-picture/profile-picture-2.png'
@@ -44,6 +45,7 @@ const Profile:React.FC = () => {
 
     return (
         <section className='xl:flex xl:justify-center'>
+        
             <TopNavigationBar/>             
             <main className={'px-5 xs:px-14 md:px-10 md:pt-32 md:max-w-6xl min-w-5 max-w-160 sm:min-w-160'} >
                 <div className=' flex flex-col '>
