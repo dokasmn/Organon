@@ -9,7 +9,6 @@ from djoser.serializers import TokenSerializer
 from django.contrib.auth import authenticate
 from djoser.serializers import UserCreatePasswordRetypeSerializer as BaseUserCreatePasswordRetypeSerializer
 
-
 class CustomLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
@@ -30,29 +29,10 @@ class CustomLoginSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         user = validated_data['user']
-        token, created = Token.objects.get_or_create(user=user)
+        token, created = TokenSerializer.objects.get_or_create(user=user)
         is_professor = Professor_user.objects.filter(professor_auth_user=user).exists()
-        if not is_professor:
-            is_school_admin = SchoolUser.objects.filter(scholl_auth_user=user).exists()
+        is_school_admin = SchoolUser.objects.filter(scholl_auth_user=user).exists()
         return {'token': token.key, 'is_professor': is_professor, 'is_school_admin': is_school_admin, 'email': user.email}
-    
-
-class UserCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ['username', 'email', 'password']
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
-
-    def create(self, validated_data):
-        user = CustomUser(
-            email=validated_data['email'],
-            username=validated_data['username']
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
         
 
 class UserSerializer(BaseUserSerializer):
@@ -70,8 +50,24 @@ class UserCreatePasswordRetypeSerializer(BaseUserCreatePasswordRetypeSerializer)
     class Meta(BaseUserCreatePasswordRetypeSerializer.Meta):
         model = CustomUser
         fields = ('id', 'email', 'username', 'password', 're_password')
-        
-        
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'password']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+    def create(self, validated_data):
+        user = CustomUser(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user
+
 class ProfessorCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Professor_user
@@ -79,38 +75,28 @@ class ProfessorCreateSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'password': {'write_only': True}
         }
-        
     
-    def create_professor(self, validated_data):
-        user = CustomUser(
-            email=validated_data['email'],
-            username=validated_data['username']
-        )
-        user.set_password(validated_data['password'])
-        user.save()
+    def create(self, validated_data):
+        user_data = validated_data.pop('User')
+        user = CustomUser.objects.create_user(**user_data)
         
-        academic_education=None
-        professional_history=None
-        if validated_data["academic_education"]:
-            academic_education=Academic_Education(
-                degree=validated_data["degree"],
-                trainee_name=validated_data['trainee_name']
-            )
-            academic_education.save()
-        elif validated_data["professional_history"]:
-            profession = Profession.objects.get(id=validated_data["profession_id"])
-            professional_history=Professional_History(
-                company=validated_data["company"],
-                profession=profession
-            )
-            professional_history.save()
-        else:
-            return {"erro":"é necessário informar algum campo de validação capacitação"}
-            
-        professor = Professor_user(
-            professor_auth_user = user,
-            fk_academic_education = academic_education,
-            fk_professional_history = professional_history
-        )
-        professor.save()
+        academic_education = None
+        professional_history = None
         
+        if 'academic_education' in validated_data:
+            academic_education_data = validated_data.pop('academic_education')
+            academic_education = Academic_Education.objects.create(**academic_education_data)
+        
+        if 'professional_history' in validated_data:
+            professional_history_data = validated_data.pop('professional_history')
+            profession = Profession.objects.get(id=professional_history_data.pop('profession_id'))
+            professional_history = Professional_History.objects.create(profession=profession, **professional_history_data)
+        
+        professor = Professor_user.objects.create(
+            professor_auth_user=user,
+            fk_academic_education=academic_education,
+            fk_professional_history=professional_history,
+            **validated_data
+        )
+        
+        return professor

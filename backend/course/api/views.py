@@ -49,26 +49,20 @@ class ContentViewSet(viewsets.ModelViewSet):
 
 
     def update(self, request, *args, **kwargs):
-        try:
-            instance = self.get_object()
-            if instance.content_professor_user != request.user:
-                raise PermissionDenied("Você não tem permissão para alterar este conteúdo.")
-            data = request.data.copy()
-            data['content_professor_user'] = instance.content_professor_user.id
-            serializer = self.get_serializer(instance, data=data, partial=False)
-            serializer.is_valid(raise_exception=True)
-            self.perform_update(serializer)
-            return Response(serializer.data)
-        except:
-            Response({"erro":"não foi possível concluir a operação"})
+        instance = self.get_object()
+        if instance.content_professor_user != request.user:
+            raise PermissionDenied("Você não tem permissão para alterar este conteúdo.")
+        data = request.data.copy()
+        data['content_professor_user'] = instance.content_professor_user.id
+        serializer = self.get_serializer(instance, data=data, partial=False)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
 
 
     def destroy(self, request, *args, **kwargs):
-        try:
-            instance = self.get_object()
-            if instance.content_professor_user != request.user:
-                raise PermissionDenied("Você não tem permissão para deletar este conteúdo.")
-            self.perform_destroy(instance)
-            return Response(status=status.HTTP_204_NO_CONTENT)
-        except:
-            Response({"erro":"não foi possível concluir a solicitação"})
+        instance = self.get_object()
+        if instance.content_professor_user != request.user:
+            raise PermissionDenied("Você não tem permissão para deletar este conteúdo.")
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)

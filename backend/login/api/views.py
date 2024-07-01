@@ -1,6 +1,7 @@
 # projeto
 from ..models import CustomUser, Professor_user
 from .serializers import *
+from ..permissions import IsSchoolAdmin, IsProfessorOwner
 
 # django
 from django.core.mail import send_mail
@@ -16,6 +17,8 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
 
 
 class CustomLoginView(APIView):
@@ -96,22 +99,47 @@ class CustomObtainAuthToken(ObtainAuthToken):
             Response({"erro":"não foi possível concluir a solicitação"})
             
             
-class ProfessorRegistrationView(generics.CreateAPIView):
+# class ProfessorRegistrationView(generics.CreateAPIView):
+#     queryset = Professor_user.objects.all()
+#     serializer_class = ProfessorCreateSerializer
+#     permission_classes = [AllowAny]
+
+#     def perform_create(self, serializer):
+#         try:
+#             user = serializer.save()
+#             user.generate_confirmation_code()
+#             send_mail(
+#                 'Código de confirmação',
+#                 f'Seu código de confirmação é: {user.confirmation_code}',
+#                 settings.DEFAULT_FROM_EMAIL,
+#                 [user.email],
+#                 fail_silently=False,
+#             )
+#         except:
+#             Response({"erro":"não foi possível concluir a solicitação"})
+            
+class ProfessorViewSet(viewsets.ModelViewSet):
     queryset = Professor_user.objects.all()
     serializer_class = ProfessorCreateSerializer
-    permission_classes = [AllowAny]
 
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [IsAuthenticated]
+        else:
+            permission_classes = [IsSchoolAdmin]
+        return [permission() for permission in permission_classes]
+    
     def perform_create(self, serializer):
-        try:
-            user = serializer.save()
-            user.generate_confirmation_code()
-            send_mail(
-                'Código de confirmação',
-                f'Seu código de confirmação é: {user.confirmation_code}',
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                fail_silently=False,
-            )
-        except:
-            Response({"erro":"não foi possível concluir a solicitação"})
+        serializer.save()
+    
+    def create(self, request, *args, **kwargs):
+        if not self.get_permissions()[0].has_permission(request, self):
+            return Response({"error": "Permission denied"}, status=status.HTTP_403_FORBIDDEN)
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        if not self.get_permissions()[0].has_permission(request, self):
+            return Response({"error": "Permission denied"}, status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, *args, **kwargs)
+    
             
