@@ -31,25 +31,29 @@ class CustomLoginView(APIView):
             return Response({"erro":"não foi possível concluir a solicitação"})
 
 
-class UserRegistrationView(generics.CreateAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserCreateSerializer
+class UserRegistrationView(APIView):
     permission_classes = [AllowAny]
 
-    def perform_create(self, serializer):
-        try:
-            user = serializer.save()
-            user.generate_confirmation_code()
-            send_mail(
-                'Código de confirmação',
-                f'Seu código de confirmação é: {user.confirmation_code}',
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                fail_silently=False,
-            )
-        except:
-            Response({"erro":"não foi possível concluir a solicitação"})
+    def post(self, request, *args, **kwargs):
+        serializer = UserCreateSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                user = serializer.save()
+                user.generate_confirmation_code()
 
+                send_mail(
+                    'Código de confirmação',
+                    f'Seu código de confirmação é: {user.confirmation_code}',
+                    settings.DEFAULT_FROM_EMAIL,
+                    [user.email],
+                    fail_silently=False,
+                )
+                return Response({"detail": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                return Response({"detail": "Erro ao enviar e-mail de confirmação"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 
 class ConfirmEmailView(generics.GenericAPIView):
     serializer_class = ConfirmationSerializer
@@ -77,10 +81,13 @@ class ConfirmEmailView(generics.GenericAPIView):
                 user.confirmation_code = ''
                 user.save()
                 token, created = Token.objects.get_or_create(user=user)
+                print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 return Response({'token': token.key, 'user_id': user.id, 'email': user.email}, status=status.HTTP_200_OK)
             except CustomUser.DoesNotExist:
+                print("LLLLLLLLL")
                 return Response({'detail': 'Código inválido ou e-mail não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
         except:
+            print("JJJJJJJJJJJJ")
             Response({"erro":"não foi possível concluir a solicitação"})
 
 

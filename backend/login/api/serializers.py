@@ -16,23 +16,15 @@ class CustomLoginSerializer(serializers.Serializer):
 
     def validate(self, data):
         email = data.get('email')
-        print(email)
         password = data.get('password')
         if email and password:
-            print("TTTTTTTTTTTTT")
-            print("password")
             user = authenticate(request=self.context.get('request'), email=email, password=password)
-            print(f"USER: {user}")
             if not user:
-                print("BBBBBBBBBBB")
                 raise serializers.ValidationError('Invalid credentials')
-            print("YYYYY")
             if not user.is_active:
-                print("3333333333")
                 raise serializers.ValidationError('User is inactive')
             data['user'] = user
         else:
-            print("HHHHHHHHHHHHHH")
             raise serializers.ValidationError('Must include "email" and "password".')
         return data
 
@@ -47,17 +39,21 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password']
+
         extra_kwargs = {
             'password': {'write_only': True}
         }
+        
 
     def create(self, validated_data):
         user = CustomUser(
             email=validated_data['email'],
             username=validated_data['username']
         )
+
         user.set_password(validated_data['password'])
         user.save()
+        
         return user
         
 
