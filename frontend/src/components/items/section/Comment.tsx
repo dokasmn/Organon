@@ -17,15 +17,15 @@ interface CommentProps {
 
 const Comment:React.FC<CommentProps> = ({photoPerfil, userName, comment}) => {
     return ( 
-        <div className=' flex pb-5' >
-            <div className='w-2/12' >
+        <div className='flex pb-5 max-w-160' >
+            <div className='w-16 md:w-20' >
                 <img 
                     src={photoPerfil} 
                     alt="Foto do usuário" 
                     className="rounded-full border border-black h-10 w-10 "
                 />
             </div>
-            <div className='w-10/12'>
+            <div className='w-full'>
                 <h3 className=' font-bold pb-2 ' >
                     { userName }
                 </h3>

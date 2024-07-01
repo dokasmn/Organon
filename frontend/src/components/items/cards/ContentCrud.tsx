@@ -2,6 +2,7 @@ import React, {useState, useMemo} from 'react';
 
 // COMPONENTS
 import ButtonSmallMobile from '../buttons/ButtonSmallMobile';
+import Button from '../buttons/Button';
 
 
 // IMAGES
@@ -16,8 +17,7 @@ interface ContentCrudProps {
 
 const ContentCrud:React.FC<ContentCrudProps> = ({content, subject, image}) => {
     return (
-        
-        <div className=' bg-white-2 py-3 px-2 flex items-center rounded mb-5 ' >
+        <div className=' bg-white-2 py-3 px-2 flex items-center rounded mb-5 md:shadow-md ' >
             <div className={'w-2/4 flex items-center'} >
                 <div className={' w-2/6 flex justify-center items-center h-full'} >
                     {
@@ -39,9 +39,9 @@ const ContentCrud:React.FC<ContentCrudProps> = ({content, subject, image}) => {
                     </p>
                 </div>
             </div>
-            <div className={'w-2/4 flex '} >
+            <div className={'w-2/4 flex '}>
                 <div className={' w-5/6 flex justify-center sm:justify-end items-center '} >
-                    <ButtonSmallMobile text='View' textColor="white" backgroundColor='bg-blue-5' hover="blue-5-dark" />
+                    <Button text='View' style=' max-w-28 bg-blue-5 hover:bg-blue-5-dark ' />
                 </div>
                 <div className={' w-1/6 flex items-center sm:ml-5 justify-center cursor-pointer hover:bg-gray-300 rounded px-1 py-2'} >
                     <SlOptionsVertical  className=' text-xl ' />

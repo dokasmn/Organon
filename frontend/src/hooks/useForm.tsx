@@ -13,7 +13,8 @@ const useForm = <T extends Record<string,any>>(initialState: T, onSubmit: (data:
   };
 
   const handleChangeTextArea = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const { name, value} = event.target;
+    const { name, value } = event.target;
+    
     setFormData({
       ...formData,  
       [name] : value,

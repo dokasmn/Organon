@@ -9,8 +9,10 @@ interface LinkProps{
     to: string,
 }
 
-const Link: React.FC<LinkProps> = ({text, style, to}) => {    
+const Link: React.FC<LinkProps> = ({text, style="", to}) => {    
 
-    return <ReactLink className={`${style}`} to={to} >{text}</ReactLink>
+    return <ReactLink className={`${style}`} to={to} replace>
+        {text}
+    </ReactLink>
 }
 export default Link

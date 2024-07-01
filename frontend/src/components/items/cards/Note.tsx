@@ -28,7 +28,7 @@ const Note:React.FC<NoteProps> = ({title, text}) => {
 
     return (
         <div
-            className={` rounded-lg flex-col items-center font-semibold bg-white-2 px-3 mb-4`}
+            className={` rounded md:shadow-lg transition-all transform duration-500 hover:border-2 hover:border-blue-1 hover:shadow md:rounded-none cursor-pointer flex-col w-40 05xl:w-52 xs:w-48 items-center font-semibold bg-white-2 px-3 py-4 mb-4`}
         >   
             <HorizontalLine style={` w-full ${color} rounded py-0.5`} />
             <section className='px-1' >

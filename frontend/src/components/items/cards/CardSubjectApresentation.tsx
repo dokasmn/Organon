@@ -11,7 +11,7 @@ interface CardSubjectApresentationProps {
 
 const CardSubjectApresentation:React.FC<CardSubjectApresentationProps> = ({title, image, numberContent}) => {
     return (
-        <div className='w-full overflow-hidden mb-10 bg-white-opacity-15 h-56 rounded transition-all transform duration-500 hover:scale-105 hover:border-2 hover:border-blue-1 hover:shadow '>
+        <div className='w-72 sm:w-72 xs:w-80 h-56 bs:h-60 overflow-hidden mb-10 bg-white-opacity-15 rounded md:rounded-none md:shadow-lg transition-all transform duration-500 hover:scale-105 hover:border-2 hover:border-blue-1 hover:shadow '>
             
             <div className=' overflow-hidden h-20 relative' >
                 <div className=' bg-black absolute h-full w-full opacity-15 '></div>

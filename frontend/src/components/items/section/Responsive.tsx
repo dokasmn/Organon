@@ -9,16 +9,15 @@ interface ResponsiveProps {
 const Responsive:React.FC<ResponsiveProps> = ({ children, style }) => {
 
   const location = useLocation();
-
   return (
-    location.pathname !== '/login' && location.pathname !== '/register' ? 
-      <section className={`${ style }`}>
+    location.pathname !== '/login' && location.pathname !== '/registrar' && location.pathname !== '/bem-vindo' ? 
+      <section className={`${ style }  `}>
         {children}
       </section>
     :
-    <section className={``}>
-      {children}
-    </section>
+      <section className={`w-full`}>
+        {children}
+      </section>
   );
 };
 

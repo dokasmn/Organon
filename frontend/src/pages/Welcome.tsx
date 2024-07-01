@@ -3,10 +3,11 @@ import React, {useState, useMemo} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 // COMPONENT
-import ButtonSmallMobile from '../components/items/buttons/ButtonSmallMobile';
+import Button from '../components/items/buttons/Button';
 import SliderGeneric from '../components/items/sliders/SliderGeneric';
 import CardSubjectApresentation from '../components/items/cards/CardSubjectApresentation';
 import Link from '../components/items/buttons/Link';
+import CardPercentData from '../components/items/cards/CardPercentDatas';
 
 // IMAGES
 import logo from '../assets/images/logo.png'
@@ -29,7 +30,6 @@ const Welcome:React.FC = () => {
         {title:"Lorem", data:"50 lorem"},
         {title:"Lorem", data:"50 lorem"},
         {title:"Lorem", data:"50 lorem"},
-        {title:"Lorem", data:"50 lorem"},
     ]
 
     const subjects:{title:string, numberContents:string, image:string}[] = [
@@ -48,36 +48,47 @@ const Welcome:React.FC = () => {
     ];
 
     return (
-        <div className='bg-gradient-blue-bottom min-h-screen'>  
-            <header className='h-16 flex items-end px-5'>
+        <div className=' bg-gradient-blue-bottom min-h-screen sm:flex flex-col items-center'>  
+            <header className='h-8 flex px-5 pt-10 mb-5 w-full max-w-5xl'>
                 <div className='w-2/6' >
                     <img src={logo} alt="" className={'w-10'} />
                 </div>
-                <div className='w-4/6 flex  justify-end gap-3 '>
+                <div className='w-4/6 flex justify-end gap-3 '>
                     <Link to="/login" text={
-                        <ButtonSmallMobile text='Login' textColor='white' backgroundColor='bg-blue-3' hover='bg-blue-3-dark'/>
+                        <Button text='Login' style='bg-blue-3 hover:bg-blue-3-dark' />
                     }/>
                     <Link to="/registrar" text={
-                        <ButtonSmallMobile text='Cadastro' textColor='white' backgroundColor='bg-white-opacity-15' hover='bg-gray-1'/>
+                        <Button text='Cadastro' style='bg-white-opacity-15 hover:bg-gray-1'/>
                     }/>
                     
                 </div>
             </header>      
-            <main className='text-white'>
+            <main className='text-white max-w-5xl'>
                 <div className='px-5' >
                     <h1 className='pt-3 font-semibold text-3xl'>Organon</h1>
-                    <p className='py-7' >Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda molestias, debitis pariatur.</p>
+                    <p className='pt-5 max-w-120 ' >Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda molestias, debitis pariatur.</p>
+                </div>
+                <div>
+                    <SliderGeneric card="percentDatasCard" slides={percentdatasList}  />
+                    <div className='hidden sm:flex justify-between px-5 py-10 ' >
+                        {
+                            percentdatasList.map((slide) => (
+                                <CardPercentData key={uuidv4()} title={slide.title} data={slide.data} />
+                            ))
+                        }                    
+                    </div>
                 </div>
                 
-                <SliderGeneric card="percentDatasCard" slides={percentdatasList}  />
-                <section className='px-5' >
-                    {
-                        subjects.map((subject, index) => (
-                            <CardSubjectApresentation key={index} title={subject.title} image={subject.image} numberContent={subject.numberContents} />
-                        ))
-                    }
-                    
-                </section>
+                <div className='flex justify-center' >                
+                    <section className='px-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-14 ' >
+                        {
+                            subjects.map((subject, index) => (
+                                <CardSubjectApresentation key={index} title={subject.title} image={subject.image} numberContent={subject.numberContents} />
+                            ))
+                        }
+                        
+                    </section>
+                </div>
             </main>
             
         </div>

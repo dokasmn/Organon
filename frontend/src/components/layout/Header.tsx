@@ -33,8 +33,8 @@ const Header:React.FC = () => {
             {
                 location.pathname !== "/login" && location.pathname !== "/registrar" && location.pathname !== "/bem-vindo" ?
                 <>
-                    <header className='bg-blue-5 h-16 flex items-center text-white border-white px-5 sm:px-14 md:hidden '>
-                        
+                    <header className='bg-blue-5 py-3 text-white sm:px-14 md:hidden xs:px-14 md:pt-32 md:px-10 '>
+                        <div className='flex items-center px-5' >
                             {
                                 location.pathname === "/home" || location.pathname === "/" ? 
                                     <div className={' w-24 cursor-pointer '}>
@@ -48,18 +48,19 @@ const Header:React.FC = () => {
                                         />
                                     </div>
                             }
-                        
-                        <div className={'w-8/12 font-semibold'} >
-                            {
-                                location.pathname === "/home" || location.pathname === "/" ? 
-                                    <InputSearch id="search-content" placeholder="Pesquisar" />
-                                :
-                                    <p>{ titleHeader }</p>
-                            }
-                        </div>
-                        <div className={' w-4/12 flex justify-end cursor-pointer h-full items-center'} >
-                            <div className={' p-3 rounded hover:bg-dark-primary-op-1 '} onClick={handleClick} >
-                                <RiMenu2Fill className={' text-2xl '}/>
+
+                            <div className={'w-full font-semibold'} >
+                                {
+                                    location.pathname === "/home" || location.pathname === "/" ? 
+                                        <InputSearch id="search-content" placeholder="Pesquisar" />
+                                    :
+                                        <p>{ titleHeader }</p>
+                                }
+                            </div>
+                            <div className={' w-24 flex justify-end cursor-pointer h-full items-center'} >
+                                <div className={' p-3 rounded hover:bg-dark-primary-op-1 '} onClick={handleClick} >
+                                    <RiMenu2Fill className={' text-2xl '}/>
+                                </div>
                             </div>
                         </div>
                     </header>
