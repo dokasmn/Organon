@@ -21,7 +21,7 @@ import registerArt from '../assets/images/svg/register-art.svg'
 const Register: React.FC = () => {
     const navigate = useNavigate();
 
-    const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(true);
+    const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
     const {passwordIsValid, setPasswordIsValid, emailIsvalid, setEmailIsValid, validateEmail, validatePassword,} = useValidateFields();
     const [emailError, setEmailError] = useState<string>('');
