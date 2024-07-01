@@ -25,8 +25,6 @@ const SectionEditProfile:React.FC<SectionEditProfileProps> = ({username, userema
         setProfilePic(newProfilePic);
     };
     
- 
-    
     return (
         <section className="flex gap-3 w-full ">
                 {showEditPopup && (
