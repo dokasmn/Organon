@@ -60,7 +60,7 @@ const PopUpEditProfile: React.FC<PopUpEditProfileProps> = ({ initialUsername, in
           />
         </div>
         <div className="flex justify-end">
-          <button onClick={handleSave} className="bg-blue-2 text-white py-2 px-4 rounded hover:bg-blue-2-dark">Save</button>
+          <button onClick={handleSave} className="bg-blue-2 text-white py-2 px-4 rounded hover:bg-blue-5-dark">Save</button>
         </div>
       </div>
     </div>

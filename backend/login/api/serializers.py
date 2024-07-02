@@ -31,8 +31,29 @@ class CustomLoginSerializer(serializers.Serializer):
         user = validated_data['user']
         token, created = TokenSerializer.objects.get_or_create(user=user)
         is_professor = Professor_user.objects.filter(professor_auth_user=user).exists()
-        is_school_admin = SchoolUser.objects.filter(scholl_auth_user=user).exists()
-        return {'token': token.key, 'is_professor': is_professor, 'is_school_admin': is_school_admin, 'email': user.email}
+        return {'token': token.key, 'is_professor': is_professor, 'email': user.email}
+    
+
+class UserCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['username', 'email', 'password']
+
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+        
+
+    def create(self, validated_data):
+        user = CustomUser(
+            email=validated_data['email'],
+            username=validated_data['username']
+        )
+
+        user.set_password(validated_data['password'])
+        user.save()
+        
+        return user
         
 
 class UserSerializer(BaseUserSerializer):
