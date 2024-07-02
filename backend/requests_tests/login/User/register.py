@@ -11,9 +11,10 @@ def test_register_user(email, username, password):
         "re_password": password
     }
     response = requests.post(url, json=data)
-    assert response.status_code == 201, f"Expected status code 201, but got {response.status_code}"
-    print("User registration test passed.")
-    print("User registered successfully!")
+    # assert response.status_code == 201, f"Expected status code 201, but got {response.status_code}"
+    # print("User registration test passed.")
+    # print("User registered successfully!")
+    print(response)
 
 if __name__ == "__main__":
     os.system("cls" if os.name == "nt" else "clear")

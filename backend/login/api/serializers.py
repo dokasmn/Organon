@@ -9,6 +9,7 @@ from djoser.serializers import TokenSerializer
 from django.contrib.auth import authenticate
 from djoser.serializers import UserCreatePasswordRetypeSerializer as BaseUserCreatePasswordRetypeSerializer
 
+
 class CustomLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
@@ -29,7 +30,7 @@ class CustomLoginSerializer(serializers.Serializer):
 
     def create(self, validated_data):
         user = validated_data['user']
-        token, created = TokenSerializer.objects.get_or_create(user=user)
+        token, created = Token.objects.get_or_create(user=user)
         is_professor = Professor_user.objects.filter(professor_auth_user=user).exists()
         return {'token': token.key, 'is_professor': is_professor, 'email': user.email}
     
@@ -71,24 +72,8 @@ class UserCreatePasswordRetypeSerializer(BaseUserCreatePasswordRetypeSerializer)
     class Meta(BaseUserCreatePasswordRetypeSerializer.Meta):
         model = CustomUser
         fields = ('id', 'email', 'username', 'password', 're_password')
-
-class UserCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CustomUser
-        fields = ['username', 'email', 'password']
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
-
-    def create(self, validated_data):
-        user = CustomUser(
-            email=validated_data['email'],
-            username=validated_data['username']
-        )
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
-
+        
+        
 class ProfessorCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Professor_user
@@ -121,3 +106,4 @@ class ProfessorCreateSerializer(serializers.ModelSerializer):
         )
         
         return professor
+
