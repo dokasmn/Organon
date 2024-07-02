@@ -6,26 +6,27 @@ const usePopUpLog = () => {
     const [popupTitle, setPopupTitle] = useState<string>('Success');
     const [popupMessage, setPopupMessage] = useState<string>('This is a success message.');
 
-    const handleShowSuccess = () => {
+    const handleShowSuccess = (message: string) => {
         setPopupType('success');
         setPopupTitle('Success');
-        setPopupMessage('This is a success message.');
+        setPopupMessage(message);
         setShowPopup(true);
     };
     
-    const handleShowError = () => {
+    const handleShowError = (message: string) => {
         setPopupType('error');
         setPopupTitle('Error');
-        setPopupMessage('This is an error message.');
+        setPopupMessage(message);
         setShowPopup(true);
     };
 
     return {
         showPopup, 
-        setShowPopup,
         popupType,
         popupTitle,
         popupMessage,
+        handleShowSuccess,
+        handleShowError,
     };
 };
 

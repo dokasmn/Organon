@@ -84,14 +84,11 @@ class ConfirmEmailView(generics.GenericAPIView):
                 user.confirmation_code = ''
                 user.save()
                 token, created = Token.objects.get_or_create(user=user)
-                print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 return Response({'token': token.key, 'user_id': user.id, 'email': user.email}, status=status.HTTP_200_OK)
             except CustomUser.DoesNotExist:
-                print("LLLLLLLLL")
                 return Response({'detail': 'Código inválido ou e-mail não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
         except:
-            print("JJJJJJJJJJJJ")
-            Response({"erro":"não foi possível concluir a solicitação"})
+            return Response({"erro":"não foi possível concluir a solicitação"})
 
 
 class CustomObtainAuthToken(ObtainAuthToken):

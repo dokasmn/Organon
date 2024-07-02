@@ -9,18 +9,21 @@ import InputDark from '../components/items/inputs/Input';
 import Link from '../components/items/buttons/Link';
 import Button from '../components/items/buttons/Button';
 import PopUpConfirmCode from '../components/popups/PopUpConfirmCode';
+import Loading from '../components/items/utils/Loading';
 
 // HOOKS
 import useForm from '../hooks/useForm';
 import useValidateFields from '../hooks/useValidateFields';
+import { usePopupLog } from '../components/popups/PopUpLogContext';
 
 // IMAGES
-import logo from '../assets/images/logo.png'
 import registerArt from '../assets/images/svg/register-art.svg'
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
 
+    const { showPopup, handleShowSuccess, handleShowError } = usePopupLog();
+    const [showLoading, setShowLoading] = useState<boolean>(false);
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
     const {passwordIsValid, setPasswordIsValid, emailIsvalid, setEmailIsValid, validateEmail, validatePassword,} = useValidateFields();
@@ -37,32 +40,33 @@ const Register: React.FC = () => {
         }
     );
 
-    const fetchData = async (data: {name: string, email: string, password: string, confirmPassword: string }) => {
-        axiosInstance.post('login/register/', 
-            { 
-                username: data.name, 
-                email:data.email,
+    const fetchData = async (data: { name: string, email: string, password: string, confirmPassword: string }) => {
+        setShowLoading(true);
+        try {
+            const response = await axiosInstance.post('login/register/', {
+                username: data.name,
+                email: data.email,
                 password: data.password,
                 re_password: data.password,
-            }
-        ).then(response => {
-            // Armazena o token de acesso da auth no cache do navegador
-            // localStorage.setItem('access_token', response.data.access); 
-
-            // Armazena o token de atualização, para quando o primeiro expirar
-            // localStorage.setItem('refresh_token', response.data.refresh); 
-            
-            if(response.status == 201){
+            });
+    
+            setShowLoading(false);
+    
+            if (response.status === 201) {
                 setShowConfirmCodePopup(true);
-                let email = response.data["email"]
+                const email = response.data["email"];
                 setConfirmEmail(email);
-
-            }else{
-                return
             }
-        }).catch(error => {
-            console.error('Error:', error);
-        });
+
+        } catch (error: any) {
+            setShowLoading(false);
+            if(error.response && error.response.data){
+                handleShowError(error.response.data.detail)
+                console.error('Error:', error.response.data.detail);
+            }
+            handleShowError(error.message)
+            console.error('Error:', error.message);
+        }
     };
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,26 +95,26 @@ const Register: React.FC = () => {
         }
     };
 
-    const confirmData = async (data: { email: string, confirmationCode: string }) => {
-        axiosInstance.post('login/confirm-email/', 
-            { 
-                email: data.email, 
-                confirmation_code: data.confirmationCode, 
+    const confirmData = async (data: { email: string, confirmationCode: string }): Promise<void> => {
+        try {
+            const response = await axiosInstance.post('login/confirm-email/', {
+                email: data.email,
+                confirmation_code: data.confirmationCode,
+            });
+    
+            if (response.status === 200) {                
+                navigate('/home');
+            } else {
+                handleShowError("Houve um erro de verificação.")
+                console.error('Unexpected response status:', response.status);
             }
-        )
-        .then(response => {
-            if(response.status == 200){
-                navigate('/login')
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+        } catch (error: any) {
+            handleShowError("Houve um erro de verificação.")
+            console.error('Error:', error.response ? error.response.data : error.message);
+        }
     };
 
     const handleSaveConfirmCode = (code: string): void => {
-        console.log(confirmEmail)
-        console.log(code)
         confirmData({email: confirmEmail, confirmationCode:code})
     }
     
@@ -124,7 +128,9 @@ const Register: React.FC = () => {
                     />
                 )
             }
-            
+            <Loading
+                visibility={showLoading}
+            />
             <main className="min-h-screen px-7 relative flex justify-center items-center py-0 2xl:px-32" style={{ maxWidth: `2000px` }}>
                 <div className='hidden w-2/4 2xl:flex justify-center ' >
                     <img src={registerArt} alt="Arte da página de registro"/>

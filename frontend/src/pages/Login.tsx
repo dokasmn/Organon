@@ -23,8 +23,6 @@
     const Login: React.FC = () => {
         const navigate = useNavigate();
         const [colorCheckRememberMe, setColorCheckRememberMe] = useState<string>("gray-500");
-        const [emailError, setEmailError] = useState<string>('');
-        const [passwordError, setPasswordError] = useState<string>('');
         const { formData, handleChange, handleSubmit } = useForm(
 
             { email: '', password: '', rememberMe: false },
@@ -88,7 +86,6 @@
                                         required
                                         onChange={handleChange}
                                         maxLength={254}
-                                        error={emailError}
                                         style='text-white bg-blue-5-opacity border-blue-1-opacity'
                                     />
                                     <InputDark
@@ -101,7 +98,6 @@
                                         onChange={handleChange}
                                         maxLength={64}
                                         minLength={8}
-                                        error={passwordError}
                                         style='text-white bg-blue-5-opacity border-blue-1-opacity'
                                     />
                                 </div>
