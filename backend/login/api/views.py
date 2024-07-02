@@ -89,7 +89,11 @@ class ConfirmEmailView(generics.GenericAPIView):
             except CustomUser.DoesNotExist:
                 return Response({'detail': 'Código inválido ou e-mail não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
         except:
+<<<<<<< HEAD
             Response({"erro":"não foi possível concluir a solicitação"})
+=======
+            return Response({"erro":"não foi possível concluir a solicitação"})
+>>>>>>> 83f66861445d58c01a9f611e9019215cbeb68509
 
 
 class CustomObtainAuthToken(ObtainAuthToken):
