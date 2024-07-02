@@ -29,6 +29,7 @@ const Register: React.FC = () => {
     const {passwordIsValid, setPasswordIsValid, emailIsvalid, setEmailIsValid, validateEmail, validatePassword,} = useValidateFields();
     const [emailError, setEmailError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
+
     const { formData, handleChange, handleSubmit } = useForm(
         { name: '', email: '', password: '', confirmPassword: '' },
         (data) => {
@@ -62,9 +63,9 @@ const Register: React.FC = () => {
             if(error.response && error.response.data){
                 handleShowError(error.response.data.detail)
                 console.error('Error:', error.response.data.detail);
+            }else{
+                handleShowError(error.message)
             }
-            handleShowError(error.message)
-            console.error('Error:', error.message);
         }
     };
 
