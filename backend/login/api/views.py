@@ -27,8 +27,9 @@ class CustomLoginView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             serializer = CustomLoginSerializer(data=request.data, context={'request': request})
-            serializer.is_valid(raise_exception=True)
-            data = serializer.save()
+            serializer.is_valid(raise_exception=True) # método validate é chamado
+            data = serializer.save() # método create é chamado
+            print(data)
             return Response(data)
         except:
             return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_401_UNAUTHORIZED)
@@ -100,27 +101,8 @@ class CustomObtainAuthToken(ObtainAuthToken):
             token = Token.objects.get(key=response.data['token'])
             return Response({'token': token.key, 'user_id': token.user_id, 'email': token.user.email})
         except:
-            Response({"erro":"não foi possível concluir a solicitação"})
+            return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_400_BAD_REQUEST)
             
-            
-# class ProfessorRegistrationView(generics.CreateAPIView):
-#     queryset = Professor_user.objects.all()
-#     serializer_class = ProfessorCreateSerializer
-#     permission_classes = [AllowAny]
-
-#     def perform_create(self, serializer):
-#         try:
-#             user = serializer.save()
-#             user.generate_confirmation_code()
-#             send_mail(
-#                 'Código de confirmação',
-#                 f'Seu código de confirmação é: {user.confirmation_code}',
-#                 settings.DEFAULT_FROM_EMAIL,
-#                 [user.email],
-#                 fail_silently=False,
-#             )
-#         except:
-#             Response({"erro":"não foi possível concluir a solicitação"})
             
 class ProfessorViewSet(viewsets.ModelViewSet):
     queryset = Professor_user.objects.all()
