@@ -10,6 +10,7 @@ def test_confirm_email(email, code):
         "confirmation_code": code
     }
     response = requests.post(url, json=data)
+    print(code)
     if response.status_code == 200:
         print("Email confirmation test passed.")
     else:
