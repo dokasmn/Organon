@@ -31,7 +31,7 @@ class CustomLoginView(APIView):
             data = serializer.save()
             return Response(data)
         except:
-            return Response({"erro":"não foi possível concluir a solicitação"})
+            return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_401_UNAUTHORIZED)
 
 
 class UserRegistrationView(APIView):
@@ -88,7 +88,7 @@ class ConfirmEmailView(generics.GenericAPIView):
             except CustomUser.DoesNotExist:
                 return Response({'detail': 'Código inválido ou e-mail não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
         except:
-            return Response({"erro":"não foi possível concluir a solicitação"})
+            return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_500_BAD_REQUEST)
 
 
 class CustomObtainAuthToken(ObtainAuthToken):
