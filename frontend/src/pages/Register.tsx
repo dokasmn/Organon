@@ -22,7 +22,7 @@ import registerArt from '../assets/images/svg/register-art.svg'
 const Register: React.FC = () => {
     const navigate = useNavigate();
 
-    const { showPopup, handleShowSuccess, handleShowError } = usePopupLog();
+    const { handleShowError } = usePopupLog();
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
@@ -57,7 +57,6 @@ const Register: React.FC = () => {
                 const email = response.data["email"];
                 setConfirmEmail(email);
             }
-
         } catch (error: any) {
             setShowLoading(false);
             if(error.response && error.response.data){
@@ -105,12 +104,15 @@ const Register: React.FC = () => {
             if (response.status === 200) {                
                 navigate('/home');
             } else {
-                handleShowError("Houve um erro de verificação.")
+                handleShowError("Resposta inesperada.")
                 console.error('Unexpected response status:', response.status);
             }
         } catch (error: any) {
-            handleShowError("Houve um erro de verificação.")
-            console.error('Error:', error.response ? error.response.data : error.message);
+            if(error.response.data){
+                handleShowError(error.response.data)
+            }
+            handleShowError(error.message)
+            console.error('Error:', error.message);
         }
     };
 

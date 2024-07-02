@@ -64,6 +64,7 @@ export default {
         "red-pink-subject":"rgba(246, 49, 108, .7)",
         "orange-1":"#F66C31",
         "orange-1-dark":"#DA4100",
+        "dark-op-2":"rgba(0,0,0, .35)",
       },
       height: {
         '0.3':'0.0875rem',
