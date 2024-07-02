@@ -27,8 +27,9 @@ class CustomLoginView(APIView):
     def post(self, request, *args, **kwargs):
         try:
             serializer = CustomLoginSerializer(data=request.data, context={'request': request})
-            serializer.is_valid(raise_exception=True)
-            data = serializer.save()
+            serializer.is_valid(raise_exception=True) # método validate é chamado
+            data = serializer.save() # método create é chamado
+            print(data)
             return Response(data)
         except:
             return Response({"erro":"não foi possível concluir a solicitação"})
@@ -84,13 +85,10 @@ class ConfirmEmailView(generics.GenericAPIView):
                 user.confirmation_code = ''
                 user.save()
                 token, created = Token.objects.get_or_create(user=user)
-                print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
                 return Response({'token': token.key, 'user_id': user.id, 'email': user.email}, status=status.HTTP_200_OK)
             except CustomUser.DoesNotExist:
-                print("LLLLLLLLL")
                 return Response({'detail': 'Código inválido ou e-mail não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
         except:
-            print("JJJJJJJJJJJJ")
             Response({"erro":"não foi possível concluir a solicitação"})
 
 
@@ -105,25 +103,6 @@ class CustomObtainAuthToken(ObtainAuthToken):
         except:
             Response({"erro":"não foi possível concluir a solicitação"})
             
-            
-# class ProfessorRegistrationView(generics.CreateAPIView):
-#     queryset = Professor_user.objects.all()
-#     serializer_class = ProfessorCreateSerializer
-#     permission_classes = [AllowAny]
-
-#     def perform_create(self, serializer):
-#         try:
-#             user = serializer.save()
-#             user.generate_confirmation_code()
-#             send_mail(
-#                 'Código de confirmação',
-#                 f'Seu código de confirmação é: {user.confirmation_code}',
-#                 settings.DEFAULT_FROM_EMAIL,
-#                 [user.email],
-#                 fail_silently=False,
-#             )
-#         except:
-#             Response({"erro":"não foi possível concluir a solicitação"})
             
 class ProfessorViewSet(viewsets.ModelViewSet):
     queryset = Professor_user.objects.all()

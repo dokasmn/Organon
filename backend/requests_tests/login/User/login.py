@@ -1,5 +1,6 @@
 # test_requests.py
 import requests
+import os
 
 BASE_URL = "http://127.0.0.1:8000/login/"
 
@@ -17,6 +18,7 @@ def test_login_user(email, password):
     # return response_data['token'], response_data['is_professor']
 
 if __name__ == "__main__":
+    os.system("cls" if os.name == "nt" else "clear")
     email = input("email: ")
     password = input("password: ")
     test_login_user(email, password)

@@ -20,8 +20,10 @@ class CustomLoginSerializer(serializers.Serializer):
         if email and password:
             user = authenticate(request=self.context.get('request'), email=email, password=password)
             if not user:
+                print('RETORNO ERRADO 123')
                 raise serializers.ValidationError('Invalid credentials')
             if not user.is_active:
+                print('RETORNO ERRADO 2')
                 raise serializers.ValidationError('User is inactive')
             data['user'] = user
         else:
@@ -32,7 +34,10 @@ class CustomLoginSerializer(serializers.Serializer):
         user = validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
         is_professor = Professor_user.objects.filter(professor_auth_user=user).exists()
-        return {'token': token.key, 'is_professor': is_professor, 'email': user.email}
+        is_school_user = SchoolUser.objects.filter(school_auth_user=user).exists()
+        response =  {'token': token.key, 'is_professor': is_professor, 'is_school_user':is_school_user, 'email': user.email}
+        print(response)
+        return response
     
 
 class UserCreateSerializer(serializers.ModelSerializer):
@@ -77,32 +82,27 @@ class UserCreatePasswordRetypeSerializer(BaseUserCreatePasswordRetypeSerializer)
 class ProfessorCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Professor_user
-        fields = ['User']
+        fields = ['professor_auth_user','fk_academic_education','fk_professional_history']
         extra_kwargs = {
             'password': {'write_only': True}
         }
     
     def create(self, validated_data):
-        user_data = validated_data.pop('User')
-        user = CustomUser.objects.create_user(**user_data)
+        academic_education=None
+        professional_history=None
         
-        academic_education = None
-        professional_history = None
+        if 'fk_academic_education' in validated_data:
+            academic_education = Academic_Education.objects.get(id=validated_data['fk_academic_education'])
         
-        if 'academic_education' in validated_data:
-            academic_education_data = validated_data.pop('academic_education')
-            academic_education = Academic_Education.objects.create(**academic_education_data)
-        
-        if 'professional_history' in validated_data:
-            professional_history_data = validated_data.pop('professional_history')
-            profession = Profession.objects.get(id=professional_history_data.pop('profession_id'))
-            professional_history = Professional_History.objects.create(profession=profession, **professional_history_data)
+        if 'fk_professional_history' in validated_data:
+            professional_history = Professional_History.objects.get(id=validated_data['fk_professional_history'])
+            
+        user = CustomUser.objects.get(id=validated_data['professor_auth_user'])
         
         professor = Professor_user.objects.create(
             professor_auth_user=user,
             fk_academic_education=academic_education,
             fk_professional_history=professional_history,
-            **validated_data
         )
         
         return professor

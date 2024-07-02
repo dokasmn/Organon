@@ -10,12 +10,12 @@ def test_confirm_email(email, code):
         "confirmation_code": code
     }
     response = requests.post(url, json=data)
-    print(code)
-    if response.status_code == 200:
-        print("Email confirmation test passed.")
-    else:
-        print(f"Error: {response.status_code}")
-        print(response.json())
+    print(response)
+    # if response.status_code == 200:
+    #     print("Email confirmation test passed.")
+    # else:
+    #     print(f"Error: {response.status_code}")
+    #     print(response.json())
 
 if __name__ == "__main__":
     os.system("cls" if os.name == "nt" else "clear")
