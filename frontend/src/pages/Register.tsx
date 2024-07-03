@@ -26,15 +26,11 @@ const Register: React.FC = () => {
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
-    const {passwordIsValid, setPasswordIsValid, emailIsvalid, setEmailIsValid, validateEmail, validatePassword,} = useValidateFields();
-    const [emailError, setEmailError] = useState<string>('');
-    const [passwordError, setPasswordError] = useState<string>('');
+    const {passwordIsValid, passwordError, emailError, emailIsvalid, validateEmail, validatePassword, confirmPasswordIsValid, confirmPasswordError, validateConfirmPassword} = useValidateFields();
 
     const { formData, handleChange, handleSubmit } = useForm(
         { name: '', email: '', password: '', confirmPassword: '' },
         (data) => {
-            console.log(data);
-
             if(passwordIsValid && emailIsvalid){
                 fetchData(data);
             }
@@ -71,28 +67,20 @@ const Register: React.FC = () => {
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
+        validateEmail(value)
         handleChange(event);
-
-        if (!validateEmail(value)) {
-            setEmailError('Por favor, insira um e-mail válido.');
-            setEmailIsValid(false);
-        } else {
-            setEmailIsValid(true);
-            setEmailError('');
-        }
     };
 
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
+        validatePassword(value)
         handleChange(event);
+    };
 
-        if (!validatePassword(value)) {
-            setPasswordError('A senha deve conter no mínimo 8 caracteres, incluindo pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial.');
-            setPasswordIsValid(false);
-        } else {
-            setPasswordError('');
-            setPasswordIsValid(true);
-        }
+    const handleConfirmPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        validateConfirmPassword(value, formData.password);
+        handleChange(event);
     };
 
     const confirmData = async (data: { email: string, confirmationCode: string }): Promise<void> => {
@@ -122,7 +110,7 @@ const Register: React.FC = () => {
     }
     
     return (
-        <div className="sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
+        <div className="bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
             {
                 showConfirmCodePopup && (
                     <PopUpConfirmCode
