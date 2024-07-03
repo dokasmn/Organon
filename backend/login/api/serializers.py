@@ -82,25 +82,24 @@ class UserCreatePasswordRetypeSerializer(BaseUserCreatePasswordRetypeSerializer)
 class ProfessorCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Professor_user
-        fields = ['professor_auth_user','fk_academic_education','fk_professional_history']
+        fields = ['professor_auth_user']
         extra_kwargs = {
             'password': {'write_only': True}
         }
     
     def create(self, validated_data):
+        
         academic_education=None
         professional_history=None
         
-        if 'fk_academic_education' in validated_data:
+        if validated_data['fk_academic_education']:
             academic_education = Academic_Education.objects.get(id=validated_data['fk_academic_education'])
         
-        if 'fk_professional_history' in validated_data:
+        if validated_data['fk_professional_history']:
             professional_history = Professional_History.objects.get(id=validated_data['fk_professional_history'])
-            
-        user = CustomUser.objects.get(id=validated_data['professor_auth_user'])
         
         professor = Professor_user.objects.create(
-            professor_auth_user=user,
+            professor_auth_user=validated_data['professor_auth_user'],
             fk_academic_education=academic_education,
             fk_professional_history=professional_history,
         )

@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'perfil',
     'course',
     'login',
-    
+    'admin_portal'
 ]
 
 

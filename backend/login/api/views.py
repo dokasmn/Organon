@@ -111,6 +111,8 @@ class ProfessorViewSet(viewsets.ModelViewSet):
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             permission_classes = [IsAuthenticated]
+        elif self.action in ['update', 'partial update']:
+            permission_classes = [IsProfessorOwner]
         else:
             permission_classes = [IsSchoolAdmin]
         return [permission() for permission in permission_classes]
@@ -120,12 +122,12 @@ class ProfessorViewSet(viewsets.ModelViewSet):
     
     def create(self, request, *args, **kwargs):
         if not self.get_permissions()[0].has_permission(request, self):
-            return Response({"error": "Permission denied"}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"detail": "Permissão negada"}, status=status.HTTP_403_FORBIDDEN)
         return super().create(request, *args, **kwargs)
 
     def destroy(self, request, *args, **kwargs):
         if not self.get_permissions()[0].has_permission(request, self):
-            return Response({"error": "Permission denied"}, status=status.HTTP_403_FORBIDDEN)
+            return Response({"detail": "Permissão negada"}, status=status.HTTP_403_FORBIDDEN)
         return super().destroy(request, *args, **kwargs)
     
             
