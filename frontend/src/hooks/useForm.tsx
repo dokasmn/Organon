@@ -29,7 +29,7 @@ const useForm = <T extends Record<string,any>>(initialState: T, onSubmit: (data:
     });
   };
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     onSubmit(formData);
     setFormData(initialState); // Limpar os campos após o envio do formulário

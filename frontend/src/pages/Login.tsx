@@ -14,6 +14,7 @@ import Loading from '../components/items/utils/Loading';
 import useForm from '../hooks/useForm';
 import { usePopupLog } from '../components/popups/PopUpLogContext';
 import useValidateFields from '../hooks/useValidateFields';
+import { useAuth } from '../contexts/AuthContext';
 
 // IMAGES
 import loginArt from '../assets/images/svg/login-art.svg';
@@ -21,6 +22,7 @@ import loginArt from '../assets/images/svg/login-art.svg';
 //CSS
 
 const Login: React.FC = () => {
+    const { login } = useAuth();
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const { validateEmail, emailError } = useValidateFields();
     const navigate = useNavigate();
@@ -41,6 +43,7 @@ const Login: React.FC = () => {
             });
             setShowLoading(false);
             if (response.status === 200) {
+                login();
                 navigate("/home");
             }else{
                 handleShowError("Resposta inesperada.")

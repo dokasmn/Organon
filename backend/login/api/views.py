@@ -64,10 +64,13 @@ class ConfirmEmailView(generics.GenericAPIView):
     permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
+        print(request.data)
         try:
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             email = serializer.validated_data['email']
+            print("=================================")
+            print(email)
             confirmation_code = serializer.validated_data['confirmation_code']
             try:
                 user = CustomUser.objects.get(email=email, confirmation_code=confirmation_code)
@@ -88,8 +91,9 @@ class ConfirmEmailView(generics.GenericAPIView):
                 return Response({'token': token.key, 'user_id': user.id, 'email': user.email}, status=status.HTTP_200_OK)
             except CustomUser.DoesNotExist:
                 return Response({'detail': 'Código inválido ou e-mail não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
-        except:
-            return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_500_BAD_REQUEST)
+        except Exception as e:
+            print(f"ERROR: {e}")
+            return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class CustomObtainAuthToken(ObtainAuthToken):
