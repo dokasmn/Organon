@@ -20,10 +20,8 @@ class CustomLoginSerializer(serializers.Serializer):
         if email and password:
             user = authenticate(request=self.context.get('request'), email=email, password=password)
             if not user:
-                print('RETORNO ERRADO 123')
                 raise serializers.ValidationError('Invalid credentials')
             if not user.is_active:
-                print('RETORNO ERRADO 2')
                 raise serializers.ValidationError('User is inactive')
             data['user'] = user
         else:
@@ -83,20 +81,17 @@ class ProfessorCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Professor_user
         fields = ['professor_auth_user']
-        extra_kwargs = {
-            'password': {'write_only': True}
-        }
     
     def create(self, validated_data):
         
         academic_education=None
         professional_history=None
         
-        if validated_data['fk_academic_education']:
-            academic_education = Academic_Education.objects.get(id=validated_data['fk_academic_education'])
-        
         if validated_data['fk_professional_history']:
             professional_history = Professional_History.objects.get(id=validated_data['fk_professional_history'])
+            
+        if validated_data['fk_academic_education']:
+            academic_education = Academic_Education.objects.get(id=validated_data['fk_academic_education'])
         
         professor = Professor_user.objects.create(
             professor_auth_user=validated_data['professor_auth_user'],
