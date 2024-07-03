@@ -29,8 +29,7 @@ class CustomLoginView(APIView):
             serializer = CustomLoginSerializer(data=request.data, context={'request': request})
             serializer.is_valid(raise_exception=True) # método validate é chamado
             data = serializer.save() # método create é chamado
-            print(data)
-            return Response(data)
+            return Response(data, status=status.HTTP_200_OK)
         except:
             return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -111,6 +110,7 @@ class CustomObtainAuthToken(ObtainAuthToken):
 class ProfessorViewSet(viewsets.ModelViewSet):
     queryset = Professor_user.objects.all()
     serializer_class = ProfessorCreateSerializer
+    permission_classes = [IsAuthenticated, IsProfessorOwner, IsSchoolAdmin]
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
