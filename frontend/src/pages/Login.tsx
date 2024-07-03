@@ -1,28 +1,28 @@
-    // REACT
-    import React, { useState } from 'react';
-    import { useNavigate } from 'react-router-dom';
-    import axiosInstance from '../axiosConfig';
+// REACT
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../axiosConfig';
 
-    // COMPONENTS
-    import Title from '../components/items/texts/Title';
-    import InputDark from '../components/items/inputs/Input';
-    import Link from '../components/items/buttons/Link';
-    import Button from '../components/items/buttons/Button';
-    import Loading from '../components/items/utils/Loading';
+// COMPONENTS
+import Title from '../components/items/texts/Title';
+import InputDark from '../components/items/inputs/Input';
+import Link from '../components/items/buttons/Link';
+import Button from '../components/items/buttons/Button';
+import Loading from '../components/items/utils/Loading';
 
-    // HOOKS
-    import useForm from '../hooks/useForm';
-    import { usePopupLog } from '../components/popups/PopUpLogContext';
+// HOOKS
+import useForm from '../hooks/useForm';
+import { usePopupLog } from '../components/popups/PopUpLogContext';
+import useValidateFields from '../hooks/useValidateFields';
 
-    // IMAGES
-    import loginArt from '../assets/images/svg/login-art.svg';
+// IMAGES
+import loginArt from '../assets/images/svg/login-art.svg';
 
-    //CSS
-    import "./Authentication.module.css";
+//CSS
 
 const Login: React.FC = () => {
-
     const [showLoading, setShowLoading] = useState<boolean>(false);
+    const { validateEmail, emailError } = useValidateFields();
     const navigate = useNavigate();
     const { handleShowError } = usePopupLog();
     const { formData, handleChange, handleSubmit } = useForm(
@@ -56,9 +56,15 @@ const Login: React.FC = () => {
             console.error('Error:', error.message);
         }
     };
+
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { value } = event.target;
+        validateEmail(value)
+        handleChange(event);
+    };
     
     return (
-        <div className="sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
+        <div className=" bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
             <Loading
                 visibility={showLoading}
             />
@@ -79,7 +85,8 @@ const Login: React.FC = () => {
                                     id="email-input"
                                     value={formData.email}
                                     required
-                                    onChange={handleChange}
+                                    onChange={handleEmailChange}
+                                    error={emailError}
                                     maxLength={254}
                                     style='text-white bg-blue-5-opacity border-blue-1-opacity'
                                 />
