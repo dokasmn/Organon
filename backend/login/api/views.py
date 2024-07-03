@@ -56,7 +56,7 @@ class UserRegistrationView(APIView):
                 return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+        
 
 class ConfirmEmailView(generics.GenericAPIView):
     serializer_class = ConfirmationSerializer
@@ -88,8 +88,27 @@ class ConfirmEmailView(generics.GenericAPIView):
             except CustomUser.DoesNotExist:
                 return Response({'detail': 'Código inválido ou e-mail não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
         except:
-            return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_500_BAD_REQUEST)
-
+            return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+class ResendCodeView(generics.GenericAPIView):
+    def post(self, request, *args, **kwargs):
+        try:
+            request_user = request.user
+            user = CustomUser.objects.get(id=request_user.id)
+            user.generate_confirmation_code()
+            send_mail(
+                'Novo Código de Confirmação',
+                f'Seu novo código de confirmação é: {user.confirmation_code}',
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=False,
+            )
+            return Response({'detail': 'Um novo código foi enviado para seu e-mail.'}, status=status.HTTP_200_OK)
+        except CustomUser.DoesNotExist:
+            return Response({'detail': 'Usuário não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_400_BAD_REQUEST)
 
 class CustomObtainAuthToken(ObtainAuthToken):
     permission_classes = [AllowAny]

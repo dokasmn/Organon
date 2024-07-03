@@ -78,9 +78,11 @@ class UserCreatePasswordRetypeSerializer(BaseUserCreatePasswordRetypeSerializer)
         
         
 class ProfessorCreateSerializer(serializers.ModelSerializer):
+    fk_academic_education = serializers.PrimaryKeyRelatedField(queryset=Academic_Education.objects.all(), required=False, allow_null=True)
+    fk_professional_history = serializers.PrimaryKeyRelatedField(queryset=Professional_History.objects.all(), required=False, allow_null=True)
     class Meta:
         model = Professor_user
-        fields = ['professor_auth_user']
+        fields = ['professor_auth_user', 'fk_academic_education', 'fk_professional_history']
     
     def create(self, validated_data):
         
@@ -88,10 +90,10 @@ class ProfessorCreateSerializer(serializers.ModelSerializer):
         professional_history=None
         
         if validated_data['fk_professional_history']:
-            professional_history = Professional_History.objects.get(id=validated_data['fk_professional_history'])
+            professional_history = validated_data['fk_professional_history']
             
         if validated_data['fk_academic_education']:
-            academic_education = Academic_Education.objects.get(id=validated_data['fk_academic_education'])
+            academic_education = validated_data['fk_academic_education']
         
         professor = Professor_user.objects.create(
             professor_auth_user=validated_data['professor_auth_user'],

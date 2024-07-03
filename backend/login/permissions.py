@@ -3,7 +3,7 @@ from login.models import SchoolUser
 
 class IsProfessorOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
-        return obj.content_professor_user == request.user
+        return obj.professor_auth_user == request.user
     
 class IsSchoolAdmin(permissions.BasePermission):
     def has_obj_permission(self, request, view, obj):
