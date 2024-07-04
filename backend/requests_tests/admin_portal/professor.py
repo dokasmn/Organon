@@ -50,6 +50,37 @@ def list_professors(access_token):
     print_response("List Professors", response)
     
     
+def get_professor_by_id(access_token, professor_id):
+    url = f'http://localhost:8000/admin_portal/professor/{professor_id}/'
+    headers = {
+        'Authorization': f'Token {access_token}'
+    }
+    response = requests.get(url, headers=headers)
+    print_response("Get professor by id", response)
+    
+    
+def update_professor(access_token, professor_id, fk_professional_history=None, fk_academic_education=None):
+    url = f'http://localhost:8000/admin_portal/professor/{professor_id}/'
+    headers = {
+        'Authorization': f'Token {access_token}',
+        'Content-Type': 'application/json'
+    }
+    payload = {
+        'fk_professional_history': fk_professional_history,
+        'fk_academic_education': fk_academic_education
+    }
+    response = requests.put(url, headers=headers, json=payload)
+    print_response("Update Professor", response)
+    
+    
+def delete_professor(access_token, professor_id):
+    url = f'http://localhost:8000/admin_portal/professor/{professor_id}/'
+    headers = {
+        'Authorization': f'Token {access_token}'
+    }
+    response = requests.delete(url, headers=headers)
+    print_response("Delete Professor", response)
+    
 if __name__ == "__main__":
     os.system("cls" if os.name == "nt" else "clear")
     email = input("email: ")
@@ -86,11 +117,24 @@ if __name__ == "__main__":
                 print(token)
                 list_professors(token)
             case 3:
-                pass
+                professor_id = int(input("informe o id do professor: "))
+                get_professor_by_id(token, professor_id)
             case 4:
-                pass
+                professor_id = int(input("informe o id do professor: "))
+                validacao_capacitacao = int(input("escolha a opção:\n\
+                    [1] - informar histórico profissional\n\
+                    [2] - informar formação academica\n\
+                "))
+                match validacao_capacitacao:
+                    case 1:
+                        fk_professional_history = int(input("Informe o id da profisssão: "))
+                        update_professor(token, professor_id, fk_professional_history=fk_professional_history)
+                    case 2:
+                        fk_academic_education =  int(input("informe o id do histórico academico: "))
+                        update_professor(token, professor_id, fk_academic_education=fk_academic_education)
             case 5:
-                pass
+                professor_id = int(input("informe o id do professor: "))
+                delete_professor(token, professor_id)
             case 6:
                 exit()
 
