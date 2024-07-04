@@ -14,7 +14,7 @@ const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({ slides }
   const settings = {
     infinite: false,
     speed: 500,
-    slidesToShow: 2.7,
+    slidesToShow: 2.8,
     slidesToScroll: 3,
     initialSlide: 0,
     nextArrow: <NextArrow />,
@@ -102,7 +102,7 @@ const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({ slides }
       {
         breakpoint: 1536,
         settings: {
-          slidesToShow: 2.7,
+          slidesToShow: 2.8,
           slidesToScroll: 3,
           centerPadding: "0px",
         },

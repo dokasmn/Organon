@@ -45,7 +45,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         try:
             serializer.save(content_professor_user=Professor_user.objects.get(professor_auth_user=self.request.user))
         except:
-            Response({"erro":"não foi possível concluir a operação"})
+            Response({"detail":"não foi possível concluir a operação"}, status.HTTP_400_BAD_REQUEST)
 
 
     def update(self, request, *args, **kwargs):

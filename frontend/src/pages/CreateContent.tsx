@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 
 // COMPONENTS
 import TitleSection from '../components/layout/TitleSection';
-import UploadFileMobile from '../components/items/inputs/UploadFileMobile';
+import UploadFileMobile from '../components/items/inputs/UploadFile';
 import TextArea from '../components/items/inputs/TextArea';
 import HorizontalLine from '../components/items/texts/HorizontalLine';
 import BottomNavigationBar from '../components/layout/BottomNavigationBar';

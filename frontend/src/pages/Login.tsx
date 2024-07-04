@@ -43,8 +43,8 @@ const Login: React.FC = () => {
             });
             setShowLoading(false);
             if (response.status === 200) {
-                login();
-                navigate("/home");
+                login(response.data);
+                // navigate("/home");
             }else{
                 handleShowError("Resposta inesperada.")
                 console.error('Unexpected response status:', response.status);

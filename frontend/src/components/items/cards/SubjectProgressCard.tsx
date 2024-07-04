@@ -13,7 +13,7 @@ interface SubjectProgressCardProps {
 
 const SubjectProgressCard:React.FC<SubjectProgressCardProps> = ({subject, lastContent, progress, image}) => {
     return (
-        <div className='w-40 sm:w-48 md:w-40 lg:w-56 xl:w-64 h-44 my-10 transition-all duration-300 hover:transform hover:shadow-xl hover:shadow-blue-1-opacity overflow-hidden' >
+        <div className='w-40 sm:w-48 md:w-40 lg:w-56 xl:w-64 h-48 my-10 p-1.5 hover:border border-gray-300 hover:bg-white transition-all duration-300 hover:transform hover:shadow-xl hover:shadow-blue-1-opacity overflow-hidden' >
             <div className='' >
                 <img src={image} alt="" height={"h-full w-full"} />
             </div>

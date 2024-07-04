@@ -39,7 +39,7 @@
                     <Route path="/home" element={<PrivateRoute component={Home}/>}/>
                     <Route path="/perfil/conteudo" element={<PrivateRoute component={Contents}/>}/>
                     <Route path="/login" element={<Login />} />
-                    <Route path="/notas" element={<PrivateRoute component={Notes}/>}/>
+                    <Route path="perfil/notas" element={<PrivateRoute component={Notes}/>}/>
                     <Route path="/perfil/seguranca-conta" element={<PrivateRoute component={SecurityAccount}/>}/>
                     <Route path="/perfil/conteudo/criar-conteudo" element={<PrivateRoute component={CreateContent}/>} />
                     <Route path="/registrar" element={<Register />} />

@@ -1,9 +1,7 @@
 import React, {useState, useMemo} from 'react';
 
 // COMPONENTS
-import ButtonSmallMobile from '../buttons/ButtonSmallMobile';
 import Button from '../buttons/Button';
-
 
 // IMAGES
 import { FaQuestion } from "react-icons/fa6";
@@ -17,7 +15,7 @@ interface ContentCrudProps {
 
 const ContentCrud:React.FC<ContentCrudProps> = ({content, subject, image}) => {
     return (
-        <div className=' bg-white-2 py-3 px-2 flex items-center rounded mb-5 md:shadow-md ' >
+        <div className=' bg-white-2 md:bg-white md:border border-gray-300 py-3 px-2 flex items-center rounded mb-5 md:shadow-md ' >
             <div className={'w-2/4 flex items-center'} >
                 <div className={' w-2/6 flex justify-center items-center h-full'} >
                     {
