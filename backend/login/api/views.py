@@ -68,8 +68,6 @@ class ConfirmEmailView(generics.GenericAPIView):
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
             email = serializer.validated_data['email']
-            print("=================================")
-            print(email)
             confirmation_code = serializer.validated_data['confirmation_code']
             try:
                 user = CustomUser.objects.get(email=email, confirmation_code=confirmation_code)

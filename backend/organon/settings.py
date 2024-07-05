@@ -15,10 +15,12 @@ from datetime import timedelta
 import os
 from decouple import config
 from django.conf import settings
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -48,6 +50,10 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework.authtoken',
     'djoser',
+    
+    # Cloudinary
+    'cloudinary_storage',
+    'cloudinary',
 
     # started APPs
     'home',
@@ -56,7 +62,6 @@ INSTALLED_APPS = [
     'login',
     'admin_portal'
 ]
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -68,7 +73,6 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ),
 }
-
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
@@ -109,6 +113,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+print("LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL")
+print(config('CLOUDINARY_CLOUD_NAME'))
+print(config('CLOUDINARY_API_KEY'))
+print(config('CLOUDINARY_API_SECRET'))
+
 ROOT_URLCONF = 'organon.urls'
 
 TEMPLATES = [
@@ -127,8 +136,17 @@ TEMPLATES = [
     },
 ]
 
+print("KKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKK")
+print(config('CLOUDINARY_CLOUD_NAME'))
+print(config('CLOUDINARY_API_KEY'))
+print(config('CLOUDINARY_API_SECRET'))
+
 WSGI_APPLICATION = 'organon.wsgi.application'
 
+print("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG")
+print(config('CLOUDINARY_CLOUD_NAME'))
+print(config('CLOUDINARY_API_KEY'))
+print(config('CLOUDINARY_API_SECRET'))
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
@@ -152,6 +170,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH")
+print(config('CLOUDINARY_CLOUD_NAME'))
+print(config('CLOUDINARY_API_KEY'))
+print(config('CLOUDINARY_API_SECRET'))
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
@@ -170,6 +193,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+print("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ")
+print(config('CLOUDINARY_CLOUD_NAME'))
+print(config('CLOUDINARY_API_KEY'))
+print(config('CLOUDINARY_API_SECRET'))
 
 DJOSER = {
     'LOGIN_FIELD': 'email',
@@ -193,3 +221,24 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'noreply@yourdomain.com'
+
+print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+print(config('CLOUDINARY_CLOUD_NAME'))
+print(config('CLOUDINARY_API_KEY'))
+print(config('CLOUDINARY_API_SECRET'))
+
+# Cloudinary Configs
+CLOUDINARY_CONFIG = {
+    'cloud_name': config('CLOUDINARY_CLOUD_NAME'),
+    'api_key': config('CLOUDINARY_API_KEY'),
+    'api_secret': config('CLOUDINARY_API_SECRET'),
+}
+
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+    api_key=config('CLOUDINARY_API_KEY'),
+    api_secret=config('CLOUDINARY_API_SECRET'),
+)
+
+# Configuração de armazenamento
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
