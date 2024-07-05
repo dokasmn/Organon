@@ -200,7 +200,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        if self.action in ['create', 'login', 'confirm_email', 'resend_code']:
+        if self.action in ['register', 'login', 'confirm_email', 'resend_code']:
             self.permission_classes = [AllowAny]
         else:
             self.permission_classes = [IsAuthenticated]
@@ -305,3 +305,31 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'Código de confirmação expirado.'}, status=status.HTTP_400_BAD_REQUEST)
         except ConfirmationCode.DoesNotExist:
             return Response({'detail': 'Código de confirmação inválido.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        
+class ProfessorViewSet(viewsets.ModelViewSet):
+    queryset = Professor_user.objects.all()
+    serializer_class = ProfessorCreateSerializer
+    permission_classes = [IsAuthenticated, IsProfessorOwner, IsSchoolAdmin]
+
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+            permission_classes = [IsAuthenticated]
+        elif self.action in ['update', 'partial update']:
+            permission_classes = [IsProfessorOwner]
+        else:
+            permission_classes = [IsSchoolAdmin]
+        return [permission() for permission in permission_classes]
+    
+    def perform_create(self, serializer):
+        serializer.save()
+    
+    def create(self, request, *args, **kwargs):
+        if not self.get_permissions()[0].has_permission(request, self):
+            return Response({"detail": "Permissão negada"}, status=status.HTTP_403_FORBIDDEN)
+        return super().create(request, *args, **kwargs)
+
+    def destroy(self, request, *args, **kwargs):
+        if not self.get_permissions()[0].has_permission(request, self):
+            return Response({"detail": "Permissão negada"}, status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, *args, **kwargs)

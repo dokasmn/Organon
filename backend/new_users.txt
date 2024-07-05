@@ -1,8 +1,8 @@
-users/ - Lista todos os usuários ou cria um novo usuário.
-users/{id}/ - Recupera, atualiza ou exclui um usuário específico.
-users/register/ - Rota personalizada para registro de usuário.
-users/login/ - Rota personalizada para login de usuário.
-users/confirm_email/ - Rota personalizada para confirmação de e-mail.
-users/resend_code/ - Rota personalizada para reenvio de código.
-users/{id}/invite_update_password_auth/ - Rota personalizada para enviar código de confirmação para atualização de senha.
-users/{id}/set_password/ - Rota personalizada para atualizar a senha usando o código de confirmação.
+user/ - Lista todos os usuários ou cria um novo usuário.
+user/{id}/ - Recupera, atualiza ou exclui um usuário específico.
+user/register/ - Rota personalizada para registro de usuário.
+user/login/ - Rota personalizada para login de usuário.
+user/confirm_email/ - Rota personalizada para confirmação de e-mail.
+user/resend_code/ - Rota personalizada para reenvio de código.
+user/{id}/invite_update_password_auth/ - Rota personalizada para enviar código de confirmação para atualização de senha.
+user/{id}/set_password/ - Rota personalizada para atualizar a senha usando o código de confirmação.
