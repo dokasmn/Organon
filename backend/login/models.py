@@ -56,13 +56,16 @@ class ConfirmationCode(models.Model):
 class Profession(models.Model):
     profession_name = models.CharField(max_length=45)
 
+
 class Academic_Education(models.Model):
     degree = models.CharField(max_length=30)
     training_name = models.CharField(max_length=30)
 
+
 class Professional_History(models.Model):
     company = models.CharField(max_length=40,verbose_name="Compania/Empresa")
     fk_profession = models.ForeignKey(Profession, on_delete=models.CASCADE,verbose_name="Professor",null=True,blank=True)
+
 
 class Professor_user(models.Model):
     professor_auth_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)    
@@ -71,6 +74,7 @@ class Professor_user(models.Model):
     class Meta:
         ordering = ['professor_auth_user']
         verbose_name = 'Professor'
+        
         
 class SchoolUser(models.Model):
     STATES = {

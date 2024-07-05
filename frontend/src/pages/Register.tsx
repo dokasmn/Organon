@@ -42,7 +42,7 @@ const Register: React.FC = () => {
     const fetchData = async (data: { name: string, email: string, password: string, confirmPassword: string }) => {
         setShowLoading(true);
         try {
-            const response = await axiosInstance.post('login/register/', {
+            const response = await axiosInstance.post('login/user/register/', {
                 username: data.name,
                 email: data.email,
                 password: data.password,
