@@ -14,6 +14,7 @@ class Subject(models.Model):
         verbose_name = 'Matéria'
         verbose_name_plural = 'Matérias'
 
+
 class Content(models.Model):
     content_name = models.CharField(max_length=70, verbose_name="Nome do conteúdo")
     content_description = models.TextField(null=True, blank=True)
@@ -21,7 +22,7 @@ class Content(models.Model):
     content_video = CloudinaryField('video') # URL do arquivo hospedado no cloudinary
     content_subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name="Matéria do conteúdo")
     content_professor_user = models.ForeignKey('login.Professor_user', on_delete=models.CASCADE, verbose_name="Professor do conteúdo")
-    notes = models.ManyToManyField(CustomUser, through='perfil.Note')
+    content_user = models.ManyToManyField(CustomUser, through='perfil.Note')
     
     def __str__(self):
         return self.content_name
