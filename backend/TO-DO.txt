@@ -14,3 +14,15 @@ no Update de conteúdo não pode ser possível alterar o professor do conteúdo
 # onde armazenar a foto de perfil do usuário #
 # como armazenar os recursos de cada conteudo e o video de cada conteudo #
 
+
+SCRIPTS:
+
+from course.models import Subject
+>>> list_subjects = [                     
+...     "Matemática", "Gramática", "Filosofia", "Inglês",
+...     "Sociologia", "História", "Física", "Química",
+...     "Biologia", "Artes", "Literatura", "Geografia"
+... ]
+>>> for subj in list_subjects:
+...     Subject.objects.create(subject_name=subj)
+

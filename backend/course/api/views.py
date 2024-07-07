@@ -4,6 +4,7 @@ from ..permissions import IsSuperUser
 from .serializers import *
 from login.models import Professor_user
 from cloudinary.uploader import upload
+from django.shortcuts import get_object_or_404
 
 from rest_framework import status, viewsets
 from rest_framework.response import Response
@@ -49,23 +50,26 @@ class ContentViewSet(viewsets.ModelViewSet):
             pdf_file = self.request.FILES.get('content_pdf')
             video_file = self.request.FILES.get('content_video')
             try:
-                pdf_url = upload(pdf_file)
+                pdf_url = upload(pdf_file, folder="content_organon/pdfs")
             except Exception as e:
-                print("ERRO NO PDF")
-                raise e
+                raise serializers.ValidationError("Imagem iválida")
 
             try:
-                video_url = upload(video_file, resource_type='video')
+                video_url = upload(video_file, resource_type='video', folder="content_organon/videos")
             except Exception as e:
-                print("ERRO NO VIDEO")
-                raise e
+                raise "Envie um vídeo válido"
 
+            try:
+                content_subject = get_object_or_404(Subject, subject_name=self.request.data['content_subject'])
+            except Subject.DoesNotExist:
+                raise serializers.ValidationError("Vídeo inválido")
+            
             try:
                 content = serializer.save(
-                    content_professor_user=Professor_user.objects.get(professor_auth_user=self.request.user),
+                    content_professor_user=get_object_or_404(Professor_user, professor_auth_user=self.request.user),
                     content_pdf=pdf_url['url'],
                     content_video=video_url['url'],
-                    content_subject=Subject.objects.get(id=1),
+                    content_subject=content_subject,
                     content_description=self.request.data['content_description'],
                     content_name=self.request.data['content_name']
                 )
@@ -74,8 +78,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             
             return content
         except Exception as e:
-            print(f"ERROR: {e}")
-            raise e
+            raise "Houve algo errado com a requisição"
 
    
     def create(self, request, *args, **kwargs):
