@@ -1,9 +1,16 @@
+// REACT
 import React from 'react';
+
+// HOOKS
+import { useAuth } from '../../contexts/AuthContext';
 
 // COMPONENT
 import Link from '../items/buttons/Link';
 
 const TopNavigationBar:React.FC = () => {
+
+    const { isProfessor, isSchool } = useAuth()
+
     return (
         <section className={' hidden z-40 absolute top-0 w-full py-5 md:flex justify-center '} >
             <nav className={'bg-blue-3 text-white border flex justify-center rounded h-20 w-full drop-shadow-xl'} >
@@ -20,10 +27,10 @@ const TopNavigationBar:React.FC = () => {
                         <li className='font-semibold border-b-2 border-transparent hover:border-blue-5 hover:text-blue-5 cursor-pointer' >
                             <Link text={
                                 <>
-                                    <span className='lg:hidden'>Notas</span>
-                                    <span className='hidden lg:block'>Suas Notas</span>
+                                    <span className='lg:hidden'>{isProfessor || isSchool ? 'Conteúdo' : 'notas'}</span>
+                                    <span className='hidden lg:block'>{isProfessor || isSchool ? 'Seu conteúdo' : 'Suas notas'}</span>
                                 </>
-                            } to="/perfil/conteudo"/>
+                            } to={`${isProfessor || isSchool ? '/perfil/conteudo' : '/perfil/notas'}`}/>
                         </li>
                         <li className='font-semibold border-b-2 border-transparent hover:border-blue-5 hover:text-blue-5 cursor-pointer'>
                             <>

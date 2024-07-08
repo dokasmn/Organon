@@ -1,6 +1,11 @@
 // REACT
 import React, { useEffect, useState } from 'react';
 
+// COMPONENTS
+import Input from '../items/inputs/Input';
+import UploadFile from '../items/inputs/UploadFile';
+import Button from '../items/buttons/Button';
+
 // IMAGES
 import { IoClose } from "react-icons/io5";
 
@@ -42,25 +47,29 @@ const PopUpEditProfile: React.FC<PopUpEditProfileProps> = ({ initialUsername, in
           <button onClick={handleClose} className="text-lg font-semibold"><IoClose/></button>
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Nome</label>
-          <input
+          <label className="block text-gray-700 mb-1">Nome</label>
+          <Input
+            id="edit-name"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+            placeholder='Editar nome'
           />
         </div>
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Foto de Perfil</label>
-          <input
-            type="text"
-            value={profilePic}
-            onChange={(e) => setProfilePic(e.target.value)}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
+          <label className="block text-gray-700 mb-1">Foto de Perfil</label>
+          <UploadFile
+            text='Imagem de Perfil'
+            id="profile_image"
+            onChange={() => {}}
           />
         </div>
         <div className="flex justify-end">
-          <button onClick={handleSave} className="bg-blue-2 text-white py-2 px-4 rounded hover:bg-blue-5-dark">Save</button>
+          <Button
+            text='Save'
+            onClick={handleSave} 
+            style="bg-blue-2 hover:bg-blue-2-dark text-white font-semibold py-2"
+          />
         </div>
       </div>
     </div>

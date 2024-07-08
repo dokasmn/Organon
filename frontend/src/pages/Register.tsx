@@ -15,6 +15,7 @@ import Loading from '../components/items/utils/Loading';
 import useForm from '../hooks/useForm';
 import useValidateFields from '../hooks/useValidateFields';
 import { usePopupLog } from '../components/popups/PopUpLogContext';
+import { useAuth } from '../contexts/AuthContext';
 
 // IMAGES
 import registerArt from '../assets/images/svg/register-art.svg'
@@ -22,6 +23,7 @@ import registerArt from '../assets/images/svg/register-art.svg'
 const Register: React.FC = () => {
     const navigate = useNavigate();
 
+    const { login } = useAuth();
     const { handleShowError } = usePopupLog();
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
@@ -46,13 +48,13 @@ const Register: React.FC = () => {
                 password: data.password,
                 re_password: data.password,
             });
-    
+            
             setShowLoading(false);
-    
+            setConfirmEmail(data.email);
+            
             if (response.status === 201) {
                 setShowConfirmCodePopup(true);
-                const email = response.data["email"];
-                setConfirmEmail(email);
+                setConfirmEmail(data.email);
             }
         } catch (error: any) {
             setShowLoading(false);
@@ -90,7 +92,8 @@ const Register: React.FC = () => {
                 confirmation_code: data.confirmationCode,
             });
     
-            if (response.status === 200) {                
+            if (response.status === 200) {
+                login();                
                 navigate('/home');
             } else {
                 handleShowError("Resposta inesperada.")
@@ -139,14 +142,14 @@ const Register: React.FC = () => {
                                     onChange={handleChange}
                                     value={formData.name}
                                     required
-                                    maxLength={254}
+                                    maxLength={40}
                                     style='text-white bg-blue-5-opacity border-blue-1-opacity'
                                 />
                                 <InputDark
                                     placeholder="E-mail"
                                     name="email"
                                     type="text"
-                                    id="email-input"
+                                    id="email"
                                     value={formData.email}
                                     required
                                     onChange={handleEmailChange}
@@ -174,9 +177,10 @@ const Register: React.FC = () => {
                                     id="confirmPassword-input"
                                     value={formData.confirmPassword}
                                     required
-                                    onChange={handleChange}
+                                    onChange={handleConfirmPassword}
                                     maxLength={64}
                                     minLength={8}
+                                    error={confirmPasswordError}
                                     style='text-white bg-blue-5-opacity border-blue-1-opacity'
                                 />
                             </div>                            

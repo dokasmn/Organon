@@ -14,6 +14,7 @@ import Loading from '../components/items/utils/Loading';
 import useForm from '../hooks/useForm';
 import { usePopupLog } from '../components/popups/PopUpLogContext';
 import useValidateFields from '../hooks/useValidateFields';
+import { useAuth } from '../contexts/AuthContext';
 
 // IMAGES
 import loginArt from '../assets/images/svg/login-art.svg';
@@ -21,6 +22,7 @@ import loginArt from '../assets/images/svg/login-art.svg';
 //CSS
 
 const Login: React.FC = () => {
+    const { login } = useAuth();
     const [showLoading, setShowLoading] = useState<boolean>(false);
     const { validateEmail, emailError } = useValidateFields();
     const navigate = useNavigate();
@@ -45,7 +47,8 @@ const Login: React.FC = () => {
             localStorage.setItem('authToken', token);
 
             if (response.status === 200) {
-                navigate("/home");
+                login(response.data);
+                // navigate("/home");
             }else{
                 handleShowError("Resposta inesperada.")
                 console.error('Unexpected response status:', response.status);

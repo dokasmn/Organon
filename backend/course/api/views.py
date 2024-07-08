@@ -1,19 +1,22 @@
-from ..models import Content
+from ..models import Content, Subject
 from login.permissions import IsProfessorOwner
 from ..permissions import IsSuperUser
 from .serializers import *
 from login.models import Professor_user
+from cloudinary.uploader import upload
+from django.shortcuts import get_object_or_404
 
 from rest_framework import status, viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
 
+
 class SubjectViewSet(viewsets.ModelViewSet):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
     
-    
+
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
             self.permission_classes = [IsSuperUser]
@@ -40,14 +43,56 @@ class ContentViewSet(viewsets.ModelViewSet):
     serializer_class = ContentSerializer
     permission_classes = [IsAuthenticated, IsProfessorOwner]
 
-
+  
     def perform_create(self, serializer):
+        print(self.request)
         try:
-            serializer.save(content_professor_user=Professor_user.objects.get(professor_auth_user=self.request.user))
-        except:
-            Response({"erro":"não foi possível concluir a operação"})
+            pdf_file = self.request.FILES.get('content_pdf')
+            video_file = self.request.FILES.get('content_video')
+            try:
+                pdf_url = upload(pdf_file, folder="content_organon/pdfs")
+            except Exception as e:
+                raise serializers.ValidationError("Imagem iválida")
 
+            try:
+                video_url = upload(video_file, resource_type='video', folder="content_organon/videos")
+            except Exception as e:
+                raise "Envie um vídeo válido"
 
+            try:
+                content_subject = get_object_or_404(Subject, subject_name=self.request.data['content_subject'])
+            except Subject.DoesNotExist:
+                raise serializers.ValidationError("Vídeo inválido")
+            
+            try:
+                content = serializer.save(
+                    content_professor_user=get_object_or_404(Professor_user, professor_auth_user=self.request.user),
+                    content_pdf=pdf_url['url'],
+                    content_video=video_url['url'],
+                    content_subject=content_subject,
+                    content_description=self.request.data['content_description'],
+                    content_name=self.request.data['content_name']
+                )
+            except Exception as e:
+                raise e
+            
+            return content
+        except Exception as e:
+            raise "Houve algo errado com a requisição"
+
+   
+    def create(self, request, *args, **kwargs):
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            content = self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(self.get_serializer(content).data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+    
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
         if instance.content_professor_user != request.user:
@@ -59,7 +104,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         self.perform_update(serializer)
         return Response(serializer.data)
 
-
+    
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if instance.content_professor_user != request.user:

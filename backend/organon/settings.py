@@ -49,6 +49,10 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'djoser',
 
+    # Cloudinary
+    'cloudinary_storage',
+    'cloudinary',
+
     # started APPs
     'home',
     'perfil',
@@ -140,6 +144,9 @@ DATABASES = {
     }
 }
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -193,3 +200,19 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'noreply@yourdomain.com'
+
+# Cloudinary Configs
+CLOUDINARY_CONFIG = {
+    'cloud_name': config('CLOUDINARY_CLOUD_NAME'),
+    'api_key': config('CLOUDINARY_API_KEY'),
+    'api_secret': config('CLOUDINARY_API_SECRET'),
+}
+
+cloudinary.config(
+    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
+    api_key=config('CLOUDINARY_API_KEY'),
+    api_secret=config('CLOUDINARY_API_SECRET'),
+)
+
+# Configuração de armazenamento
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
