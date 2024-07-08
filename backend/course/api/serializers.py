@@ -14,7 +14,7 @@ class ContentSerializer(serializers.ModelSerializer):
     class Meta():
         try:
             model=Content
-            fields=('content_name', 'content_description', 'content_subject', 'content_pdf', 'content_video', 'content_professor_user')
+            fields=('content_name', 'content_description', 'content_subject', 'content_pdf', 'content_video', 'content_professor_user', 'content_position')
         except Exception as e:
             ...
 
