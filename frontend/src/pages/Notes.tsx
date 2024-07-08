@@ -1,6 +1,10 @@
 // React
-import React from 'react';
+import React, { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../axiosConfig';
+
 
 // COMPONENTS
 import TitleSection from '../components/layout/TitleSection';
@@ -18,6 +22,30 @@ interface NotesProps {
 }
 
 const Notes:React.FC<NotesProps> = () => {
+    const navigate = useNavigate();
+
+
+    useEffect(()=>{
+        const fetchDataNotes = async ()=>
+            {
+                const token = localStorage.getItem('authToken');
+                console.log(token)
+                try {
+                    const response = await axiosInstance.get('http://localhost:8000/perfil/note/',{
+                        headers:{
+                            Authorization: 'Bearer '+token
+                        }});
+
+                    console.log(response);
+                    console.log(response.data);
+                } catch (error) {
+                    console.log("Erro ao realizar a requisição!!")
+                }    
+            }
+        fetchDataNotes();
+    },[])
+    
+
 
     const notesUser = [
         {title:"Matemática", text:"loremlorem"},
