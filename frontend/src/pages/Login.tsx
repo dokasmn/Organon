@@ -12,18 +12,17 @@ import Loading from '../components/items/utils/Loading';
 
 // HOOKS
 import useForm from '../hooks/useForm';
-import { usePopupLog } from '../components/popups/PopUpLogContext';
+import { usePopupLog } from '../contexts/PopUpLogContext';
 import useValidateFields from '../hooks/useValidateFields';
 import { useAuth } from '../contexts/AuthContext';
+import { useLoading } from '../contexts/LoadingContext';
 
 // IMAGES
 import loginArt from '../assets/images/svg/login-art.svg';
 
-//CSS
-
 const Login: React.FC = () => {
     const { login } = useAuth();
-    const [showLoading, setShowLoading] = useState<boolean>(false);
+    const {showLoading, setShowLoading} = useLoading();
     const { validateEmail, emailError } = useValidateFields();
     const navigate = useNavigate();
     const { handleShowError } = usePopupLog();
@@ -44,7 +43,7 @@ const Login: React.FC = () => {
             setShowLoading(false);
             if (response.status === 200) {
                 login(response.data);
-                // navigate("/home");
+                navigate("/home");
             }else{
                 handleShowError("Resposta inesperada.")
                 console.error('Unexpected response status:', response.status);
@@ -68,9 +67,6 @@ const Login: React.FC = () => {
     
     return (
         <div className=" bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
-            <Loading
-                visibility={showLoading}
-            />
             <main className="min-h-screen px-7 relative flex justify-center items-center py-0 2xl:px-32" style={{ maxWidth: `2000px` }}>
             
                 <div className='hidden w-2/4 2xl:flex justify-center ' >

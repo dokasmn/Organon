@@ -42,9 +42,8 @@ const SectionEditProfile:React.FC<SectionEditProfileProps> = ({username, userema
                 <div className="">
                     <h3 className="text-lg font-semibold ">{username}</h3>
                     <p className="">{useremail}</p>
-                    
                 </div>
-                <p className="pt-0.5 lg:flex lg:w-full justify-end">Cod: {userCode}</p>
+                {/* <p className="pt-0.5 lg:flex lg:w-full justify-end">Cod: {userCode}</p> */}
             </div>
             <div className="w-5/12 flex justify-end">
                 <div className="hidden lg:block w-36 " >

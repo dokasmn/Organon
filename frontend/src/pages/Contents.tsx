@@ -1,8 +1,9 @@
-// React
-import React from 'react';
+// REACT
+import React, { useState, useEffect } from 'react';
 import HorizontalLine from '../components/items/texts/HorizontalLine.tsx';
+import { v4 as uuidv4 } from 'uuid';
 
-// Components
+// COMPONENTS
 import TitleSection from '../components/layout/TitleSection.tsx';
 import ContentCrud from '../components/items/cards/ContentCrud.tsx';
 import BottomNavigationBar from '../components/layout/BottomNavigationBar.tsx';
@@ -10,10 +11,67 @@ import Link from '../components/items/buttons/Link.tsx';
 import Title from '../components/items/texts/Title.tsx';
 import TopNavigationBar from '../components/layout/TopNavigationBar.tsx';
 
-// IMAGES
-import MathSmallImage from '../assets/images/math-small.png'
+// HOOKS
+import { usePopupLog } from '../contexts/PopUpLogContext.tsx';
+import { useLoading } from '../contexts/LoadingContext.tsx';
+import { useAuth } from '../contexts/AuthContext.tsx';
+
+// AXIOS
+import axiosInstance from '../axiosConfig.ts';
+
+// UTILS
+import { getImageSubject } from '../utils.ts';
+
+interface contentInterface {
+    content_name: string,
+    content_subject: string,
+    image: string,
+}
 
 const Contents:React.FC = () => {
+    const { setShowLoading } = useLoading();
+    const { handleShowError } = usePopupLog();
+    const { user } = useAuth();
+
+    const [contents, setContents] = useState<contentInterface[]>([
+        {
+            content_name:"", 
+            content_subject:"",
+            image:"",
+        }
+    ]);
+    
+    useEffect(() => {
+        if(user.token){
+            fetchData();
+        }
+    }, [user])
+
+    const fetchData = async () => {
+        try {
+            const response = await axiosInstance.get(`home/content/?content_professor_user=1`, {
+                headers: {
+                    'Authorization': `Token ${user.token}`,
+                },
+            })
+            setShowLoading(false);
+            if (response.status === 200) {
+                setContents(response.data.results)
+            }else{
+                handleShowError("Resposta inesperada.")
+                console.error('Unexpected response status:', response.status);
+            }
+        } catch (error: any) {
+            setShowLoading(false);
+            if(error.response.data){    
+                handleShowError(error.response.data.detail)
+            }else{
+                handleShowError(error.message)
+            }
+            console.error('Error:', error.message);
+        }
+    }
+
     return (
         <div className='sm:flex justify-center'>  
             <TopNavigationBar/>
@@ -27,14 +85,21 @@ const Contents:React.FC = () => {
                         <HorizontalLine style='w-full hidden md:block mt-5'/>
                     </section>
                     <section>
-                        <ContentCrud content='Matrizes' subject='Matemática' image={MathSmallImage} />
-                        <ContentCrud content='Matrizes' subject='Matemática' image={MathSmallImage} />
-                        <ContentCrud content='Matrizes' subject='Matemática' image={MathSmallImage} />
+                        {contents.map((content) => (
+                            <ContentCrud
+                                key={uuidv4()}
+                                content={content.content_name}
+                                subject={content.content_subject}
+                                image={getImageSubject(content.content_subject, "square")}
+                            />
+                        ))}
+                        
+                        
                     </section>
                     <HorizontalLine style='w-full'/>
                     <Link
                         text="Add Content"
-                        style='flex justify-center md:bg-blue-5 md:text-white md:hover:bg-blue-5-dark md:shadow-md w-full text-black bg-white-2 hover:bg-white-2-dark rounded font-bold py-3'
+                        style='flex justify-center md:bg-blue-5 md:text-white md:hover:bg-blue-5-dark md:shadow-md w-full text-black bg-white-2 hover:bg-white-2-dark rounded md:rounded-none font-bold py-3'
                         to='/perfil/conteudo/criar-conteudo'
                     />
                 </main>

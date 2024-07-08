@@ -14,8 +14,9 @@ import Loading from '../components/items/utils/Loading';
 // HOOKS
 import useForm from '../hooks/useForm';
 import useValidateFields from '../hooks/useValidateFields';
-import { usePopupLog } from '../components/popups/PopUpLogContext';
+import { usePopupLog } from '../contexts/PopUpLogContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useLoading } from '../contexts/LoadingContext';
 
 // IMAGES
 import registerArt from '../assets/images/svg/register-art.svg'
@@ -25,7 +26,7 @@ const Register: React.FC = () => {
 
     const { login } = useAuth();
     const { handleShowError } = usePopupLog();
-    const [showLoading, setShowLoading] = useState<boolean>(false);
+    const {showLoading, setShowLoading} = useLoading();
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
     const {passwordIsValid, passwordError, emailError, emailIsvalid, validateEmail, validatePassword, confirmPasswordIsValid, confirmPasswordError, validateConfirmPassword} = useValidateFields();
@@ -93,7 +94,7 @@ const Register: React.FC = () => {
             });
     
             if (response.status === 200) {
-                login();                
+                login(response.data);                
                 navigate('/home');
             } else {
                 handleShowError("Resposta inesperada.")
@@ -122,9 +123,6 @@ const Register: React.FC = () => {
                     />
                 )
             }
-            <Loading
-                visibility={showLoading}
-            />
             <main className="min-h-screen px-7 relative flex justify-center items-center py-0 2xl:px-32" style={{ maxWidth: `2000px` }}>
                 <div className='hidden w-2/4 2xl:flex justify-center ' >
                     <img src={registerArt} alt="Arte da página de registro"/>

@@ -51,21 +51,21 @@ const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({ slides }
       {
         breakpoint: 550,
         settings: {
-          slidesToShow: 2.6,
+          slidesToShow: 2.4,
           centerPadding: "10px",
         },
       },
       {
         breakpoint: 600,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 2.7,
           centerPadding: "10px",
         },
       },
       {
         breakpoint: 850,
         settings: {
-          slidesToShow: 2.7,
+          slidesToShow: 2.6,
           centerPadding: "0px",
         },
       },
