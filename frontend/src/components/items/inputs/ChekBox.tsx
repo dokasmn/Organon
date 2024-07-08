@@ -8,7 +8,6 @@ interface CheckBoxProps {
 }
 
 const CheckBox:React.FC<CheckBoxProps> = ({ checked, onChange, name }) => {
-    console.log(checked)
     return (
         <label className="inline-flex items-center cursor-pointer">
         <input

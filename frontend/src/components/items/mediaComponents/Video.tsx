@@ -5,10 +5,18 @@ interface VideoProps {
 }
 
 const Video:React.FC<VideoProps> = ({path}) => {
+  
+  const linkVideo = path.split("/videos/")
+  console.log(linkVideo[1])
+  console.log("cdlidao8eifv1atjs1am.mp4")
   return (
     <div>
       <video width="600" controls className='w-full' >
-        <source src="path_to_your_video.mp4" type="video/mp4" />
+        {linkVideo[1] ? 
+          <source src={`http://res.cloudinary.com/du7qknrlm/video/upload/v1720356893/content_organon/videos/${linkVideo[1]}`} type="video/mp4" />
+          :
+          false  
+        }
         Your browser does not support the video tag.
       </video>
     </div>
