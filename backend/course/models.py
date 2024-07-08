@@ -23,7 +23,8 @@ class Content(models.Model):
     content_subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name="Matéria do conteúdo")
     content_professor_user = models.ForeignKey('login.Professor_user', on_delete=models.CASCADE, verbose_name="Professor do conteúdo")
     content_user = models.ManyToManyField(CustomUser, through='perfil.Note')
-    
+    content_position = models.IntegerField()
+
     def __str__(self):
         return self.content_name
     
