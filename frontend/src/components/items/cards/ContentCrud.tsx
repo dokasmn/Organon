@@ -10,7 +10,7 @@ import { SlOptionsVertical } from "react-icons/sl";
 interface ContentCrudProps {
     content: string,
     subject: string,
-    image?: string,
+    image: string,
 }
 
 const ContentCrud:React.FC<ContentCrudProps> = ({content, subject, image}) => {

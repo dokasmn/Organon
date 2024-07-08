@@ -30,7 +30,8 @@ const Input: React.FC<InputProps> = ({
     minLength,
     onChange,
 }) => {
-    const [useType, setUseType] = useState<'text' | 'password'>('password');
+
+    const [useType, setUseType] = useState<String>('password');
 
     function changeType() {
         setUseType(useType === 'password' ? 'text' : 'password');

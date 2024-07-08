@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 // HOOKS
-import { usePopupLog } from './PopUpLogContext';
+import { usePopupLog } from '../../contexts/PopUpLogContext';
 
 // IMAGES
 import { IoClose } from "react-icons/io5";

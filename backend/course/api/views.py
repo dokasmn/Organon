@@ -53,8 +53,10 @@ class ContentViewSet(viewsets.ModelViewSet):
   
     def perform_create(self, serializer):
         try:
+
             pdf_file = self.request.FILES.get('content_pdf')
             video_file = self.request.FILES.get('content_video')
+            
             try:
                 pdf_url = upload(pdf_file, folder="content_organon/pdfs")
             except Exception as e:
@@ -63,7 +65,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             try:
                 video_url = upload(video_file, resource_type='video', folder="content_organon/videos")
             except Exception as e:
-                raise "Envie um vídeo válido"
+                raise serializers.ValidationError("Envie um vídeo válido")
 
             try:
                 content_subject = get_object_or_404(Subject, subject_name=self.request.data['content_subject'])
@@ -81,11 +83,11 @@ class ContentViewSet(viewsets.ModelViewSet):
                     content_position=int(self.request.data['content_position'])
                 )
             except Exception as e:
-                raise "Dados inválidos"
-                
+                raise serializers.ValidationError("Dados inválidos")
             return content
         except Exception as e:
-            raise "Houve algo errado com a requisição"
+            print(e)
+            raise serializers.ValidationError("Houve algo errado com a requisição")
 
    
     def create(self, request, *args, **kwargs):

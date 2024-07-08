@@ -11,7 +11,6 @@ import TopNavigationBar from '../components/layout/TopNavigationBar.tsx';
 // IMAGES
 import profilePicture from '../assets/images/profile-picture/profile-picture-2.png'
 import markerStudent from '../assets/images/marker-student.png'
-
 import philosophyRedSmall from '../assets/images/subjects_image/philosophy-red-small.png'
 import mathBlueSmall from '../assets/images/subjects_image/math-blue-small.png'
 import historyYellowOrangeSmall from '../assets/images/subjects_image/history-yellow-orange-small.png'
@@ -25,7 +24,13 @@ import physicsPurplePinkSmall from '../assets/images/subjects_image/physics-purp
 import sociologyRedPinkSmall from '../assets/images/subjects_image/sociology-red-pink-small.png'
 import biologyGreenBlueSmall from '../assets/images/subjects_image/biology-green-blue-small.png'
 
+// CONTEXT
+import { useAuth } from '../contexts/AuthContext.tsx';
+
 const Profile:React.FC = () => {
+
+    const { user } = useAuth();
+
     const slidesSubject = [
         {subject:"Matemática", lastContent:"Conteúdo Atual", progress:'75', image:mathBlueSmall},
         {subject:"Gramática", lastContent:"Conteúdo Atual", progress:'75', image:grammarMarineBlueSmall},
@@ -42,11 +47,11 @@ const Profile:React.FC = () => {
     ]
 
     return (
-        <section className='xl:flex xl:justify-center'>
+        <section className='flex justify-center'>
             <TopNavigationBar/>             
             <main className={'px-5 xs:px-14 md:px-10 md:pt-32 md:max-w-6xl min-w-5 max-w-160 sm:min-w-160'} >
                 <div className=' flex flex-col '>
-                    <SectionEditProfile userCode='1234' username='Daniel Lima' useremail='daniel@gmail.com' userphoto={profilePicture}/>
+                    <SectionEditProfile userCode='1234' username='Daniel Lima' useremail={user.email} userphoto={profilePicture}/>
                     <section className='py-10 flex items-center '>
                         <div className="w-20 h-2 bg-dotted-line bg-repeat-x"></div>
                         <img src={markerStudent} alt="" className='w-12 lg:w-14' />
