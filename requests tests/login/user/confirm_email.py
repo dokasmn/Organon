@@ -3,7 +3,6 @@ import os
 
 BASE_URL = "http://localhost:8000/login/user"
 
-# Teste de Confirmação de E-mail
 def test_confirm_email(email, confirmation_code):
     url = f"{BASE_URL}/confirm_email/"
     headers = {

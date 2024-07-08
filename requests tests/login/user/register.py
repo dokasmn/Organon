@@ -1,11 +1,10 @@
 import requests
 import os
 
-BASE_URL = "http://localhost:8000/login/user"  # Substitua pela URL correta do seu servidor
+BASE_URL = "http://localhost:8000/login/user"
 
-# Teste de Registro de Usuário utilizando o método 'register' do CustomUserViewSet
 def test_register_user(email, username, password):
-    url = f"{BASE_URL}/register/"  # Substitua pela URL correta da sua API de usuários
+    url = f"{BASE_URL}/register/"
     payload = {
         "email": email,
         "username": username,

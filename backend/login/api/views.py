@@ -47,7 +47,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                     [user.email],
                     fail_silently=False,
                 )
-                return Response({"detail": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
+                return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
             except Exception as e:
                 return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -57,7 +57,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         serializer = CustomLoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         data = serializer.save()
-        return Response(data, status=status.HTTP_200_OK)
+        return Response({"success":data}, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['post'])
     def confirm_email(self, request):
@@ -83,7 +83,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             user.save()
             code_obj.save()
             token, created = Token.objects.get_or_create(user=user)
-            return Response({'token': token.key, 'user_id': user.id, 'email': user.email}, status=status.HTTP_200_OK)
+            return Response({"success":{'token': token.key, 'user_id': user.id, 'email': user.email}}, status=status.HTTP_200_OK)
         except CustomUser.DoesNotExist:
             return Response({'detail': 'Código inválido ou e-mail não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -98,7 +98,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             [user.email],
             fail_silently=False,
         )
-        return Response({'detail': 'Um novo código foi enviado para seu e-mail.'}, status=status.HTTP_200_OK)
+        return Response({'success': 'Um novo código foi enviado para seu e-mail.'}, status=status.HTTP_200_OK)
 
     @action(detail=True, methods=['post'])
     def invite_update_password_auth(self, request, pk=None):
@@ -113,7 +113,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                 [user.email],
                 fail_silently=False,
             )
-            return Response({"detail": "Um código de confirmação foi enviado para o seu e-mail"}, status=status.HTTP_200_OK)
+            return Response({"success": "Um código de confirmação foi enviado para o seu e-mail"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -127,9 +127,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                 serializer = UserSerializer(data=request.data)
                 if serializer.is_valid():
                     user.set_password(serializer.validated_data['password'])
-                    confirmation_code.delete()  # Remove the used code
+                    confirmation_code.delete() 
                     user.save()
-                    return Response({'status': 'senha alterada'})
+                    return Response({'success': 'senha alterada'}, status=status.HTTP_200_OK)
                 return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             return Response({'detail': 'Código de confirmação expirado.'}, status=status.HTTP_400_BAD_REQUEST)
         except ConfirmationCode.DoesNotExist:

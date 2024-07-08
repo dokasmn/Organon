@@ -3,7 +3,6 @@ import os
 
 BASE_URL = "http://localhost:8000/login/user"
 
-# Teste de Rota personalizada para login de usuário
 def test_login_user_custom_route(email, password):
     url = f'{BASE_URL}/login/'
     data = {
@@ -14,7 +13,7 @@ def test_login_user_custom_route(email, password):
     
     if response.status_code == 200:
         print("Login realizado com sucesso!")
-        print(f"Token: {response.json().get('token')}")
+        print(f"Token: {response.json().get('success')}")
     else:
         print(f"Falha ao realizar login. Detalhes: {response.json()}")
 
