@@ -29,7 +29,7 @@ const SecurityAccount:React.FC = () => {
             <TopNavigationBar/>
             {/* sm:flex w-full max-w-7xl */}
             <div className=''>
-                <main className='px-5 xs:px-14 md:pt-32 md:px-10 max-w-160 sm:min-w-160'>
+                <main className='px-5 xs:px-14 md:pt-40 md:px-10 max-w-160 sm:min-w-160'>
                     <section className='mb-5' >
                         <TitleSection title="SEGURANÇA DA CONTA"/>
                         <div className='hidden md:block'>

@@ -17,16 +17,16 @@ class Note(models.Model):
         verbose_name = 'Anotação'
         verbose_name_plural = 'Anotações'
 
-class Coment(models.Model):
-    coment_text = models.CharField(max_lenght=500, verbose_name="texto do comentário")
-    coment_date = models.DateField(auto_now_add=True)
-    coment_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Usuario do comentário")
-    coment_content = models.ForeignKey(Content, on_delete=models.CASCADE, verbose_name="Conteudo do comentário")
+class Comment(models.Model):
+    comment_text = models.CharField(max_length=160, verbose_name="texto do comentário")
+    comment_date = models.DateTimeField(auto_now_add=True)
+    comment_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Usuario do comentário")
+    comment_content = models.ForeignKey(Content, on_delete=models.CASCADE, verbose_name="Conteudo do comentário")
 
     def __str__(self):
-        return self.coment_text
+        return self.comment_text
 
     class Meta:
-        ordering = ["coment_date"]
+        ordering = ["comment_date"]
         verbose_name = "Comentário"
-        verbose_plural_name = "Comentários"
+        verbose_name_plural = "Comentários"

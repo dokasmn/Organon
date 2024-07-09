@@ -10,7 +10,7 @@ const Loading: React.FC = () => {
   const { showLoading } = useLoading();
 
   return (
-      <Box className={`${showLoading ? 'flex' : 'hidden'} justify-center items-center fixed z-50 h-full w-full bg-dark-op-2`} >
+      <Box className={`${showLoading ? 'flex' : 'hidden'} justify-center items-center fixed z-100 h-full w-full bg-dark-op-2`} >
         <CircularProgress className='' />
       </Box>
   );

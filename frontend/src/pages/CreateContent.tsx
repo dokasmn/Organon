@@ -105,8 +105,8 @@ const CreateContent:React.FC = () => {
         <div className="sm:flex justify-center">
             <TopNavigationBar/>
             <div>
-                <main className="xs:px-14 md:pt-32 md:px-10 max-w-160 sm:min-w-160" >
-                    <section className='px-5 xs:px-0 pb-5 md:px-0'>
+                <main className="xs:px-14 md:pt-40 md:px-10 max-w-160 sm:min-w-160" >
+                    <section className='px-5 xs:px-0 mb-5 md:mb-0 md:px-0'>
                         <TitleSection title="CONTENTS" />
                     </section>
                     <section className='bg-white-2 px-5 py-10 md:shadow-md' >
@@ -127,12 +127,12 @@ const CreateContent:React.FC = () => {
                                     id='title-content' 
                                     placeholder='Matrizes' 
                                     name='title'
-                                    style='h-full border-none'
+                                    style='h-full border-none bg-white'
                                 />
                             </label>
                         </div>
                         <div className='flex justify-between items-center' >
-                            <div className='w-7/12' >
+                            <div className='w-8/12 mr-2' >
                                 <label htmlFor="select-subject" className='block font-semibold mb-5'>Matéria:</label>
                                 <label htmlFor="" className='border border-black rounded flex h-10'>
                                     <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center' >
@@ -145,7 +145,7 @@ const CreateContent:React.FC = () => {
                                     </select>
                                 </label>
                             </div>
-                            <div className='w-4/12 '>
+                            <div className='w-4/12 ml-2 '>
                                 <label htmlFor="select-subject" className='block font-semibold mb-5' >Posição:</label>
                                 <label htmlFor="position-content" className='border border-black rounded flex h-10' >
                                     <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center ' >
@@ -158,7 +158,7 @@ const CreateContent:React.FC = () => {
                                         id='position-content' 
                                         placeholder='1º' 
                                         name="position"
-                                        style="h-full border-none"
+                                        style="h-full border-none bg-white"
                                     />
                                 </label>
                             </div>
@@ -179,7 +179,7 @@ const CreateContent:React.FC = () => {
                                 onChange={handleFileChange}
                             />
                         </div>
-                        <div>
+                        <div className='mb-5' >
                             <label htmlFor="descriptionContent" className='block font-semibold pb-5'>Descrição:</label>
                             <TextArea 
                                 id="descriptionContent"

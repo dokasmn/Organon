@@ -49,7 +49,7 @@ const Profile:React.FC = () => {
     return (
         <section className='flex justify-center'>
             <TopNavigationBar/>             
-            <main className={'px-5 xs:px-14 md:px-10 md:pt-32 md:max-w-6xl min-w-5 max-w-160 sm:min-w-160'} >
+            <main className={'px-5 xs:px-14 md:px-10 md:pt-40 md:max-w-6xl min-w-5 max-w-160 sm:min-w-160'} >
                 <div className=' flex flex-col '>
                     <SectionEditProfile userCode='1234' username='Daniel Lima' useremail={user.email} userphoto={profilePicture}/>
                     <section className='py-10 flex items-center '>

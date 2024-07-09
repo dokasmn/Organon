@@ -157,7 +157,9 @@ export default {
         'xl-right': '4px 0px 10px rgba(0, 0, 0, 0.4)',
         'xl-full': '0px 0px 30px rgba(0, 0, 0, .1)',
       },
-      
+      zIndex: {
+        '100':'100'
+      }
     },
   },
 

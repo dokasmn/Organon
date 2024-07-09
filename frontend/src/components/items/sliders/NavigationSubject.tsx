@@ -25,7 +25,7 @@ const NavigationSubject = () => {
   );
 
   return (
-    <div className='max-w-7xl lg:px-20' >  
+    <div className='max-w-7xl w-full' >  
       <div className="relative w-full bg-white rounded overflow-hidden py-5 md:shadow-md md:border border-black border-opacity-30">
           <div className="flex transition-transform duration-500" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
               {slides.map((words, __) => (

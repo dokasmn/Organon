@@ -34,18 +34,22 @@ class Content(models.Model):
     
     def save(self, *args, **kwargs):
         objects = Content.objects.all()
+        
         for obj in objects:
-            if obj.content_position > self.content_position:
+            if obj.content_position >= self.content_position:
                 obj.content_position += 1
                 obj.save()
+
+        super(Content, self).save(*args, **kwargs) 
 
                 
     def delete(self, *args, **kwargs):
         objects  = Content.objects.all()
         for obj in objects:
-            if obj.content_position > self.content_position:
+            if obj.content_position >= self.content_position:
                 obj.content_position -= 1
                 obj.save()
+        super(Content, self).delete(*args, **kwargs) 
         
     
     class Meta:

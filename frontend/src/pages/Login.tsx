@@ -22,7 +22,7 @@ import loginArt from '../assets/images/svg/login-art.svg';
 
 const Login: React.FC = () => {
     const { login } = useAuth();
-    const {showLoading, setShowLoading} = useLoading();
+    const { setShowLoading } = useLoading();
     const { validateEmail, emailError } = useValidateFields();
     const navigate = useNavigate();
     const { handleShowError } = usePopupLog();

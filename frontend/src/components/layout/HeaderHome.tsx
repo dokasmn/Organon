@@ -15,7 +15,7 @@ const HeaderHome:React.FC = () => {
     
     return (
         <>
-            <header className='hidden h-16 items-center text-white md:flex my-1 w-full max-w-7xl lg:px-20 '>
+            <header className='hidden h-16 items-center text-white md:flex my-1 w-full max-w-7xl'>
                 <div className={' w-2/12 '}>
                     <img src={flagSantaCatarinaDesktop} alt="" className={' w-16 '} />
                 </div>            
