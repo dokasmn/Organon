@@ -4,7 +4,6 @@ import { useLocation } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 
 // COMPONENTS
-import ButtonBigMobile from '../components/items/buttons/ButtonBigMobile';
 import HorizontalLine from '../components/items/texts/HorizontalLine.tsx';
 import ArrowSlider from '../components/items/cards/ArrowSlider.tsx';
 import Video from '../components/items/mediaComponents/Video.tsx';
@@ -55,7 +54,6 @@ const Class:React.FC = () => {
     )
 
     const comments: {imageProfile:string, nameProfile:string, commentText:string}[] = [
-
         {
             imageProfile:profilePicture, 
             nameProfile:"Daniel Lima", 
@@ -115,23 +113,22 @@ const Class:React.FC = () => {
     }
 
     return (
-        <div className='w-full xs:px-5 sm:flex flex-col items-center '>  
-            <header className='h-14 w-full flex max-w-160 lg:max-w-4xl' >
+        <div className='w-full sm:flex flex-col items-center '>  
+            <header className='h-14 w-full flex max-w-160 lg:max-w-4xl relative md:my-5 md:bg-white rounded md:rounded-none overflow-hidden py-5 md:shadow-md md:border border-black border-opacity-30' >
                 <Link style='flex cursor-pointer hover:text-blue-1' text={
                     <>
                         <section className='relative h-full' >
-                        <ArrowSlider icon={<MdArrowLeft className='text-3xl' />} style="left-0 bs:-left-2 top-8" />
+                            <ArrowSlider icon={<MdArrowLeft className='text-3xl md:text-2xl' />} style="left-0 md:left-5 sm:bg-gray-300 sm:p-1 flex items-center rounded-full hover:bg-gray-400" />
                         </section>
-                        <p className='h-full flex items-center pl-10'>Voltar para a matéria</p>
+                        <p className='h-full flex items-center pl-10 md:pl-16'>Voltar para a matéria</p>
                     </>
                 } to={prevUrl} />
-
             </header>
-            <main className='pt-0 max-w-160 lg:max-w-4xl' >
-                <section className='' >
+            <main className='pt-0 w-full max-w-160 lg:max-w-4xl' >
+                <section>
                     <Video path={contentData.content_video} />
                 </section>
-                <section className=' px-1 bs:px-0 py-5' >
+                <section className=' px-1 bs:px-0' >
                     <div className='flex items-start justify-between px-2 bs:px-0 pt-3 ' >
                         <div>
                             <h2 className='text-lg md:text-xl lg:text-2xl font-semibold' >
@@ -142,38 +139,43 @@ const Class:React.FC = () => {
                             </p>
                         </div>
                         
-                        <div className='p-2 border border-gray-1 rounded-sm hover:bg-blue-100 cursor-pointer' >
-                            <img src={makeNotes} alt="" className=' h-4 md:hidden' />
-                            <img src={makeNotesBig} alt="" className=' hidden md:block h-7' />
+                        <div className='p-2 border border-white-2-dark rounded-sm md:roundend-none hover:bg-blue-100 cursor-pointer' >
+                            <img src={makeNotes} alt="" className=' h-4 md:hidden'/>
+                            <img src={makeNotesBig} alt="" className=' hidden md:block h-6' />
                         </div>
                     </div>
-                    <div className='w-full h-5 flex justify-between pb-5 pt-10' >
-                        <section className='relative px-7 bs:px-5 hover:text-blue-1 cursor-pointer' >
-                            <ArrowSlider icon={<MdArrowLeft className='text-3xl' />} style=" left-0 xs:-left-2 top-4 "/>
-                            <p>Anterior</p>
-                        </section>
-                        <div className=' relative px-7 bs:px-5 hover:text-blue-1 cursor-pointer' >
-                            <p>Próximo</p>
-                            <ArrowSlider icon={<MdArrowRight className='text-3xl' />} style=" right-0 xs:-right-2 top-4"/>
+                    <div className='w-full h-8 flex items-center justify-between my-7' >
+                        <div className='relative px-7 bs:px-5 flex items-center h-full hover:text-blue-1 cursor-pointer' >
+                            <ArrowSlider icon={<MdArrowLeft className='text-3xl md:text-2xl'/>} style="left-0 top-4 md:bg-gray-300 md:p-1 flex items-center rounded-full md:hover:bg-gray-400"/>
+                            <p className='md:pl-10'>Anterior</p>
+                        </div>
+                        <div className=' relative px-7 bs:px-5 flex items-center h-full hover:text-blue-1 cursor-pointer' >
+                            <p className='md:pr-10' >Próximo</p>
+                            <ArrowSlider icon={<MdArrowRight className='text-3xl md:text-2xl'/>} style="right-0 top-4 md:bg-gray-300 md:p-1 flex items-center rounded-full md:hover:bg-gray-400"/>
                         </div>
                     </div>
                 </section>
-                <HorizontalLine style='w-full'/>  
-                <section className='px-3 py-5 flex flex-col items-center bs:px-0'>
-                    <h2 className=' font-semibold text-lg w-full pb-5 '>Description:</h2>
-                    <p className='pb-10 w-full  '>
-                        {contentData.content_description}
-                    </p>
-                    <Button 
-                        text='Book PDF' 
-                        style='bg-orange-1 hover:bg-orange-1-dark max-w-104' 
-                    />
+                <HorizontalLine style='w-full md:hidden'/>  
+                <section className='px-3 mb-5 flex flex-col md:border border-gray-1 md:bg-white md:p-5 justify-between'>
+                    <div>
+                        <h2 className=' font-semibold text-lg w-full pb-5'>Descrição:</h2>
+                        <p className='pb-5 w-full  '>
+                            {contentData.content_description}
+                        </p>
+                    </div>
+                    <div className='flex md:block flex-col items-center'>
+                        <h2 className=' font-semibold text-lg w-full pb-5'>Conteúdo do livro em PDF:</h2>
+                        <Button 
+                            text='Download' 
+                            style='bg-orange-1 hover:bg-orange-1-dark max-w-104 md:max-w-44' 
+                        />
+                    </div>    
                 </section>
-                <HorizontalLine style='w-full ' />  
-                <section className='px-3 py-5 bs:px-0' >
-                    <h2 className=' font-semibold text-lg  '>Comments:</h2>
+                <HorizontalLine style='w-full md:hidden ' />  
+                <section className='px-3 bs:px-0' >
+                    <h2 className=' font-semibold text-lg  '>Comentários:</h2>
                     
-                    <section className='pt-10'>
+                    <section className='pt-5'>
                         {
                             comments.map((comment, __) => (
                                 <Comment 
@@ -186,7 +188,6 @@ const Class:React.FC = () => {
                         }
                     </section>
                 </section>
-                <HorizontalLine style='w-full' />
                 <section className='px-3 pt-5 pb-5 md:flex justify-center' >
                     <CommentInput 
                         id={"commentImput"} 

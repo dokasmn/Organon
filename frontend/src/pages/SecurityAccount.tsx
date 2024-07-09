@@ -8,11 +8,16 @@ import BottomNavigationBar from '../components/layout/BottomNavigationBar.tsx';
 import HorizontalLine from '../components/items/texts/HorizontalLine.tsx';
 import Title from '../components/items/texts/Title.tsx';
 import TopNavigationBar from '../components/layout/TopNavigationBar.tsx';
-import SideBar from '../components/layout/SideBar.tsx';
 import Button from '../components/items/buttons/Button.tsx';
+import InputIcon from '../components/items/inputs/InputIcon.tsx';
 
 // HOOKS
 import useForm from '../hooks/useForm.tsx';
+
+// IMAGES
+import { IoMailOutline } from "react-icons/io5";
+import { PiPasswordLight } from "react-icons/pi";
+import { RiLockPasswordLine } from "react-icons/ri";
 
 const SecurityAccount:React.FC = () => {
 
@@ -41,8 +46,8 @@ const SecurityAccount:React.FC = () => {
                         <HorizontalLine style='w-full'/>
                         <form className='' onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="email-input-reset" className='font-semibold'>Email</label>
-                                <Input 
+                                <label htmlFor="email-input-reset" className='font-semibold '>Email:</label>
+                                <InputIcon 
                                     placeholder="E-mail"
                                     name="email-input-reset"
                                     type="text"
@@ -51,8 +56,8 @@ const SecurityAccount:React.FC = () => {
                                     title="Digite um e-mail válido."
                                     required={true}
                                     maxLength={254}
-                                    style='text-black bg-white my-5'
                                     onChange={handleChange}
+                                    icon={IoMailOutline}
                                 />
                             </div>
                             <Button 
@@ -64,8 +69,8 @@ const SecurityAccount:React.FC = () => {
                         <HorizontalLine style='w-full'/>
                         <form onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="email-input-reset" className=' font-semibold ' >Password</label>
-                                <Input 
+                                <label htmlFor="email-input-reset" className=' font-semibold ' >Password:</label>
+                                <InputIcon 
                                     placeholder="Digite uma nova senha"
                                     name="senha-input-reset"
                                     type="password"
@@ -74,13 +79,13 @@ const SecurityAccount:React.FC = () => {
                                     required
                                     maxLength={64}
                                     minLength={8}
-                                    style=' my-5 bg-white'
                                     onChange={handleChange}
+                                    icon={PiPasswordLight}
                                 />
                             </div>
                             <div>
-                                <label htmlFor="email-input-reset" className=' font-semibold ' >Confirm Password</label>
-                                <Input 
+                                <label htmlFor="email-input-reset" className=' font-semibold ' >Confirm Password:</label>
+                                <InputIcon 
                                     placeholder="Confirmar nova senha"
                                     name="confirm-password-input-reset"
                                     type="password"
@@ -88,8 +93,8 @@ const SecurityAccount:React.FC = () => {
                                     value={""}
                                     required={true}
                                     maxLength={254}
-                                    style='my-5 bg-white'
                                     onChange={handleChange}
+                                    icon={RiLockPasswordLine}
                                 />
                             </div>
                             <Button 

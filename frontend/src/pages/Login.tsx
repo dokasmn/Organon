@@ -54,10 +54,14 @@ const Login: React.FC = () => {
             }
         } catch (error: any) {
             setShowLoading(false);
-            if (error.response && error.response.data) {
-                handleShowError(error.response.data.detail);
-            } else {
-                handleShowError(error.message);
+            try{
+                if(error.response.data){    
+                    handleShowError(error.response.data.detail)
+                }else{
+                    handleShowError(error.message)
+                }
+            }catch{
+                handleShowError("Algo deu errado")
             }
             console.error('Error:', error.message);
         }

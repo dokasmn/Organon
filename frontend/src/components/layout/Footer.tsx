@@ -13,7 +13,7 @@ import SectionFooter from '../items/section/SectionFooter';
 const Footer:React.FC = () => {
     return (
         <footer className='bg-white md:border border-black border-opacity-30 p-7 pt-16 sm:px-16 md:mb-5 xl:flex justify-center md:shadow-md'>
-            <div className='max-w-7xl w-full lg:px-20' >
+            <div className='max-w-7xl w-full lg:px-0'>
                 <div className='flex gap-5 w-full' >
                     <div className='w-14' >
                         <img src={logo} alt="Bandeira do Brasil" className='h-8 w-10' />
