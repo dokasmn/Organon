@@ -54,16 +54,19 @@ const Home:React.FC = () => {
                             <SliderContent slides={slides} />
                             <SliderContent slides={slides} />
                         </section>
-                        <section className=''>
+                        <section>
                             <div className='flex justify-center' >
                                 <SubTitle text="Últimas Notícias?" />
                             </div>
 
-                            <NoticeCard 
-                                title="Novo ensino médio revogado" 
-                                description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada.' 
-                                image={highSchoolImage}
-                            />          
+                            <div className='flex justify-center'>
+
+                                <NoticeCard 
+                                    title="Novo ensino médio revogado" 
+                                    description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada.' 
+                                    image={highSchoolImage}
+                                />          
+                            </div>
                         </section>
                     </section>
                 </main>

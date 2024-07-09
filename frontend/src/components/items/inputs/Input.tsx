@@ -39,7 +39,7 @@ const Input: React.FC<InputProps> = ({
 
     return (
         <div className='w-full' >
-            <div className={`${style} relative border border-black border-opacity-50 transition-all duration-400 rounded pr-7 ${error ? 'mb-1' : 'mb-5'} focus-within:border-blue-1`}>
+            <div className={`${style} relative border border-black border-opacity-50 transition-all duration-400 rounded md:rounded-none pr-7 ${error ? 'mb-1' : 'mb-5'} focus-within:border-blue-1`}>
                 <input
                     value={value}
                     type={type === 'password' ? useType : type}

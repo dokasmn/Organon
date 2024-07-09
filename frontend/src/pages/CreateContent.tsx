@@ -116,7 +116,7 @@ const CreateContent:React.FC = () => {
                     <form className='w-full p-5 xs:px-0 sm:px-0 md:px-0 flex flex-col gap-5' onSubmit={handleSubmit} >
                         <div>
                             <label htmlFor="title-content" className='block font-semibold mb-5'>Título:</label>
-                            <label htmlFor="title-content" className='border border-black rounded flex h-10' >
+                            <label htmlFor="title-content" className='border border-black rounded md:rounded-none flex h-10' >
                                 <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center ' >
                                     <IoCreateOutline/>
                                 </div>
@@ -134,7 +134,7 @@ const CreateContent:React.FC = () => {
                         <div className='flex justify-between items-center' >
                             <div className='w-8/12 mr-2' >
                                 <label htmlFor="select-subject" className='block font-semibold mb-5'>Matéria:</label>
-                                <label htmlFor="" className='border border-black rounded flex h-10'>
+                                <label htmlFor="" className='border border-black rounded md:rounded-none flex h-10'>
                                     <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center' >
                                         <FiBookOpen/>
                                     </div>
@@ -147,7 +147,7 @@ const CreateContent:React.FC = () => {
                             </div>
                             <div className='w-4/12 ml-2 '>
                                 <label htmlFor="select-subject" className='block font-semibold mb-5' >Posição:</label>
-                                <label htmlFor="position-content" className='border border-black rounded flex h-10' >
+                                <label htmlFor="position-content" className='border border-black rounded md:rounded-none flex h-10' >
                                     <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center ' >
                                         <BsNodePlus/>    
                                     </div>
