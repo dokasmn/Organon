@@ -26,6 +26,7 @@
 
   // COMPONENTS
   import Loading from "./components/items/utils/Loading.tsx";
+  import AddTeacher from "./pages/AddTeacher.tsx";
 
   // CONTEXTS
   import { LoadingProvider } from "./contexts/LoadingContext.tsx";
@@ -57,6 +58,7 @@
                       <Route path="/bem-vindo" element={<PrivateRoute component={Welcome}/>} />
                       <Route path="/materia/:materia/:conteudo" element={<PrivateRoute component={Class}/>}/>
                       <Route path="/materia/:materia" element={<PrivateRoute component={Subject}/>}/>
+                      <Route path="/adicionar_professor" element={<PrivateRoute component={AddTeacher}/>}/>
                     </Routes>
                   </Responsive>
                 </section>

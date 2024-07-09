@@ -132,3 +132,18 @@ export function getRoute(): string[]{
         return ['home']    
     }
 }
+
+type Dictionary = { [key: string]: any };
+
+
+export function quickSort<T extends Dictionary>(arr: T[], key: string): T[] {
+    if (arr.length <= 1) {
+        return arr;
+    } else {
+        let pivot: T = arr[Math.floor(arr.length / 2)];
+        let left: T[] = arr.filter(x => x[key] < pivot[key]);
+        let middle: T[] = arr.filter(x => x[key] === pivot[key]);
+        let right: T[] = arr.filter(x => x[key] > pivot[key]);
+        return [...quickSort(left, key), ...middle, ...quickSort(right, key)];
+    }
+}

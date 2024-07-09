@@ -14,6 +14,14 @@ import Note from '../components/items/cards/Note';
 import TopNavigationBar from '../components/layout/TopNavigationBar';
 import HorizontalLine from '../components/items/texts/HorizontalLine';
 
+
+// HOOKS
+import { usePopupLog } from '../contexts/PopUpLogContext';
+import { useLoading } from '../contexts/LoadingContext';
+import useForm from '../hooks/useForm';
+import { useAuth } from '../contexts/AuthContext';
+
+
 // UTILS
 import { subjects } from '../utils';
 
@@ -24,20 +32,28 @@ interface NotesProps {
 const Notes:React.FC<NotesProps> = () => {
     const navigate = useNavigate();
 
+    const { user } = useAuth()
+    const { setShowLoading } = useLoading();
+    const { handleShowError, handleShowSuccess } = usePopupLog();
+    console.log(user.token)
 
     useEffect(()=>{
         const fetchDataNotes = async ()=>
             {
-                const token = localStorage.getItem('authToken');
-                console.log(token)
                 try {
-                    const response = await axiosInstance.get('http://localhost:8000/perfil/note/',{
-                        headers:{
-                            Authorization: 'Bearer '+token
-                        }});
-
-                    console.log(response);
-                    console.log(response.data);
+                    const response = await axiosInstance.post('perfil/note', {
+                        headers: {
+                            'Authorization': `Token ${user.token}`,
+                            'Content-Type': 'multipart/form-data',
+                        },
+                    });
+                    setShowLoading(false);
+                    if (response.status === 201) {
+                        handleShowSuccess("Conteúdo criado com sucesso")
+                    }else{
+                        handleShowError("Resposta inesperada.")
+                        console.error('Unexpected response status:', response.status);
+                    }
                 } catch (error) {
                     console.log("Erro ao realizar a requisição!!")
                 }    

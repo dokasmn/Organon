@@ -1,12 +1,11 @@
-# test_requests.py
 import requests
 import os
 
-BASE_URL = "http://127.0.0.1:8000/login/"
+BASE_URL = "http://localhost:8000"
 
 # Teste de Login de Usuário
 def test_login_user(email, password):
-    url = f"http://localhost:8000/login/auth/login/"
+    url = f"{BASE_URL}/auth/login/"
     data = {
         "email": email,
         "password": password
@@ -14,11 +13,13 @@ def test_login_user(email, password):
     response = requests.post(url, json=data)
     response_data = response.json()
     print(response_data)
-    # print(f"Login test passed. Token: {response_data['token']}, Is Professor: {response_data['is_professor']}")
-    # return response_data['token'], response_data['is_professor']
+    if response.status_code == 200:
+        print(f"Login bem-sucedido. Token: {response_data['token']}, Email: {response_data['email']}")
+    else:
+        print(f"Falha no login. Detalhes: {response_data['detail']}")
 
 if __name__ == "__main__":
     os.system("cls" if os.name == "nt" else "clear")
-    email = input("email: ")
-    password = input("password: ")
+    email = input("Email: ")
+    password = input("Senha: ")
     test_login_user(email, password)

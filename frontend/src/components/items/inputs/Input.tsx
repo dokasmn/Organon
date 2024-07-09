@@ -38,8 +38,8 @@ const Input: React.FC<InputProps> = ({
     }
 
     return (
-        <div>
-            <div className={`${style} relative border border-black border-opacity-50 transition-all duration-400 rounded ${error ? 'mb-1' : 'mb-5'} focus-within:border-blue-1`}>
+        <div className='w-full' >
+            <div className={`${style} relative border border-black border-opacity-50 transition-all duration-400 rounded pr-7 ${error ? 'mb-1' : 'mb-5'} focus-within:border-blue-1`}>
                 <input
                     value={value}
                     type={type === 'password' ? useType : type}
@@ -55,7 +55,7 @@ const Input: React.FC<InputProps> = ({
                 />
                 {type === 'password' && (
                     <span
-                        className="text-2xl cursor-pointer opacity-50 absolute right-5 top-1/2 transform -translate-y-1/2"
+                        className="text-2xl cursor-pointer opacity-50 absolute right-3 top-1/2 transform -translate-y-1/2"
                         onClick={changeType}
                         aria-label={useType === 'password' ? 'Mostrar senha' : 'Ocultar senha'}
                     >

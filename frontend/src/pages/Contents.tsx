@@ -63,7 +63,7 @@ const Contents:React.FC = () => {
             }
         } catch (error: any) {
             setShowLoading(false);
-            if(error.response.data){    
+            if(error.response){    
                 handleShowError(error.response.data.detail)
             }else{
                 handleShowError(error.message)
@@ -76,25 +76,35 @@ const Contents:React.FC = () => {
         <div className='sm:flex justify-center'>  
             <TopNavigationBar/>
             <div className=''>
-                <main className={'px-5 xs:px-14 md:pt-32 md:px-10 max-w-160 sm:min-w-160'} >
+                <main className={'px-5 xs:px-14 md:pt-40 md:px-10 max-w-160 sm:min-w-160'} >
                     <section className='pb-5 md:pb-0'>
                         <TitleSection title="CONTENTS"/>
                         <div className='hidden md:block'>
                             <Title text="Conteúdos"/>
                         </div>
-                        <HorizontalLine style='w-full hidden md:block mt-5'/>
+                        <HorizontalLine style='w-full p-0 hidden md:block mt-5'/>
                     </section>
                     <section>
-                        {contents.map((content) => (
-                            <ContentCrud
-                                key={uuidv4()}
-                                content={content.content_name}
-                                subject={content.content_subject}
-                                image={getImageSubject(content.content_subject, "square")}
-                            />
-                        ))}
-                        
-                        
+                        {contents.length > 0 ? 
+                            contents.map((content) => (
+                                <ContentCrud
+                                    key={uuidv4()}
+                                    content={content.content_name}
+                                    subject={content.content_subject}
+                                    image={getImageSubject(content.content_subject, "square")}
+                                />
+                            ))
+                            :
+                            <div className='pb-5' >
+                                <section className='px-5 xs:px-0 mb-5 md:mb-0 md:px-0'>
+                                    <TitleSection title="CONTENTS" />
+                                </section>
+                                <section className='bg-white-2 px-5 py-10 md:shadow-md' >
+                                    <h3 className='text-xl'>Você não possui conteúdos ainda</h3>
+                                </section>
+                            </div>
+                            
+                        }
                     </section>
                     <HorizontalLine style='w-full'/>
                     <Link

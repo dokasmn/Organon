@@ -9,7 +9,7 @@ import CardContentAccess from '../components/items/cards/CardContentAccess.tsx';
 import FooterSubject from '../components/layout/FooterSubject.tsx';
 
 // UTILS
-import { getImageSubject, setColorSubject, getRoute, decodeStringUrl } from '../utils.ts'
+import { getImageSubject, setColorSubject, getRoute, decodeStringUrl, quickSort } from '../utils.ts'
 
 // HOOKS
 import useSliderArrow from '../hooks/useSliderArrow.tsx';
@@ -23,14 +23,28 @@ import { MdArrowRight, MdArrowLeft } from "react-icons/md";
 // AXIOS
 import axiosInstance from '../axiosConfig.ts';
 
+interface contentsInterface {
+    content_professor_user:string, 
+    content_name:string, 
+    finished:string, 
+    imagePerfil:string
+}
+
 const Subject:React.FC = () => {
     const { setShowLoading } = useLoading();
     const { handleShowError } = usePopupLog();
     const { user } = useAuth();
     
     const [contents, setContents] = useState([
-        // {content_professor_user:'Nome do pr...', content_name:"Logaritmo", finished:"checked", imagePerfil:''},
-        {content_professor_user:'Nome do pr...', content_name:"Logaritmo", finished:"checked", imagePerfil:''},
+        {
+            content_description: "",
+            content_name: "",
+            content_pdf: "",
+            content_position: 0,
+            content_professor_user: "",
+            content_subject: "",
+            content_video: ""
+        }
     ]) 
 
     const route: string[] = getRoute();
@@ -64,8 +78,11 @@ const Subject:React.FC = () => {
             })
             setShowLoading(false);
             if (response.status === 200) {
-                setContents(response.data.results)
                 console.log(response.data.results)
+                
+                const ordenedList: contentsInterface[] = quickSort(response.data.results, "content_position");
+                setContents(ordenedList);
+                
             }else{
                 handleShowError("Resposta inesperada.")
                 console.error('Unexpected response status:', response.status);
@@ -110,7 +127,7 @@ const Subject:React.FC = () => {
                             teacher={content.content_professor_user} 
                             nameContent={content.content_name}
                             finished={content.finished} 
-                            imagePerfil={content.imagePerfil}
+                            // imagePerfil={content.imagePerfil}
                             to={content.content_name}
                         />
                     ))}

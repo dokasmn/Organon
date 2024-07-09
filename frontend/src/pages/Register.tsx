@@ -19,23 +19,33 @@ import { useAuth } from '../contexts/AuthContext';
 import { useLoading } from '../contexts/LoadingContext';
 
 // IMAGES
-import registerArt from '../assets/images/svg/register-art.svg'
+import registerArt from '../assets/images/svg/register-art.svg';
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
-
     const { login } = useAuth();
     const { handleShowError } = usePopupLog();
     const {showLoading, setShowLoading} = useLoading();
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
-    const {passwordIsValid, passwordError, emailError, emailIsvalid, validateEmail, validatePassword, confirmPasswordIsValid, confirmPasswordError, validateConfirmPassword} = useValidateFields();
+
+    const {
+        passwordIsValid,
+        passwordError,
+        emailError,
+        emailIsValid,
+        validateEmail,
+        validatePassword,
+        confirmPasswordIsValid,
+        confirmPasswordError,
+        validateConfirmPassword
+    } = useValidateFields();
 
     const { formData, handleChange, handleSubmit } = useForm(
         { name: '', email: '', password: '', confirmPassword: '' },
-        (data) => {
-            if(passwordIsValid && emailIsvalid){
-                fetchData(data);
+        async (data) => {
+            if (passwordIsValid && emailIsValid) {
+                await fetchData(data);
             }
         }
     );
@@ -43,40 +53,40 @@ const Register: React.FC = () => {
     const fetchData = async (data: { name: string, email: string, password: string, confirmPassword: string }) => {
         setShowLoading(true);
         try {
-            const response = await axiosInstance.post('login/register/', {
+            const response = await axiosInstance.post('login/user/register/', {
                 username: data.name,
                 email: data.email,
                 password: data.password,
-                re_password: data.password,
+                re_password: data.confirmPassword,
             });
-            
+
             setShowLoading(false);
             setConfirmEmail(data.email);
-            
+
             if (response.status === 201) {
                 setShowConfirmCodePopup(true);
                 setConfirmEmail(data.email);
             }
         } catch (error: any) {
             setShowLoading(false);
-            if(error.response && error.response.data){
-                handleShowError(error.response.data.detail)
-                console.error('Error:', error.response.data.detail);
-            }else{
-                handleShowError(error.message)
+            if (error.response && error.response.data) {
+                handleShowError(error.response.data.detail);
+            } else {
+                handleShowError(error.message);
             }
+            console.error('Error:', error.message);
         }
     };
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
-        validateEmail(value)
+        validateEmail(value);
         handleChange(event);
     };
 
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const { value } = event.target;
-        validatePassword(value)
+        validatePassword(value);
         handleChange(event);
     };
 
@@ -88,31 +98,31 @@ const Register: React.FC = () => {
 
     const confirmData = async (data: { email: string, confirmationCode: string }): Promise<void> => {
         try {
-            const response = await axiosInstance.post('login/confirm-email/', {
+            const response = await axiosInstance.post('login/user/confirm_email/', {
                 email: data.email,
                 confirmation_code: data.confirmationCode,
             });
-    
+
             if (response.status === 200) {
                 login(response.data);                
                 navigate('/home');
             } else {
-                handleShowError("Resposta inesperada.")
+                handleShowError("Resposta inesperada.");
                 console.error('Unexpected response status:', response.status);
             }
         } catch (error: any) {
-            if(error.response.data){
-                handleShowError(error.response.data)
+            if (error.response && error.response.data) {
+                handleShowError(error.response.data);
             }
-            handleShowError(error.message)
+            handleShowError(error.message);
             console.error('Error:', error.message);
         }
     };
 
     const handleSaveConfirmCode = (code: string): void => {
-        confirmData({email: confirmEmail, confirmationCode:code})
-    }
-    
+        confirmData({ email: confirmEmail, confirmationCode: code });
+    };
+
     return (
         <div className="bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
             {
@@ -129,7 +139,7 @@ const Register: React.FC = () => {
                 </div>
                 <div className="text-white w-full 2xl:w-2/4 flex justify-center">
                     <form className="text-white w-full max-w-96" onSubmit={handleSubmit}>
-                        <Title color="white" text="Bem Vindo!"/>
+                        <Title color="white" text="Bem Vindo!" />
                         <section>
                             <div className="py-7">
                                 <InputDark
@@ -181,30 +191,26 @@ const Register: React.FC = () => {
                                     error={confirmPasswordError}
                                     style='text-white bg-blue-5-opacity border-blue-1-opacity'
                                 />
-                            </div>                            
+                            </div>
                         </section>
-
-                        <Button 
-                            type="submit" 
-                            text="Registrar" 
+                        <Button
+                            type="submit"
+                            text="Registrar"
                             style='bg-blue-3 hover:bg-blue-3-dark text-white rounded mb-5'
                         />
-
                         <p>
-                            Já possui uma conta? <Link 
-                                                    to="/login" 
-                                                    text="Logar" 
-                                                    style="text-blue-1 hover:text-blue-1-dark "
-                                                />
+                            Já possui uma conta? <Link
+                                to="/login"
+                                text="Logar"
+                                style="text-blue-1 hover:text-blue-1-dark "
+                            />
                         </p>
                     </form>
                 </div>
-                
+
             </main>
         </div>
     );
 };
 
 export default Register;
-
-
