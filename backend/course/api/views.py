@@ -6,7 +6,8 @@ from login.models import Professor_user
 from cloudinary.uploader import upload
 from django.shortcuts import get_object_or_404
 
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, filters
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
@@ -43,12 +44,19 @@ class ContentViewSet(viewsets.ModelViewSet):
     serializer_class = ContentSerializer
     permission_classes = [IsAuthenticated, IsProfessorOwner]
 
+    #Filtros de pesquisa
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ['content_professor_user', 'content_subject__subject_name', 'content_name']
+    # search_fields = ['campo1', 'campo3']
+    # ordering_fields = ['campo1', 'campo4']
+
   
     def perform_create(self, serializer):
-        print(self.request)
         try:
+
             pdf_file = self.request.FILES.get('content_pdf')
             video_file = self.request.FILES.get('content_video')
+            
             try:
                 pdf_url = upload(pdf_file, folder="content_organon/pdfs")
             except Exception as e:
@@ -57,7 +65,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             try:
                 video_url = upload(video_file, resource_type='video', folder="content_organon/videos")
             except Exception as e:
-                raise "Envie um vídeo válido"
+                raise serializers.ValidationError("Envie um vídeo válido")
 
             try:
                 content_subject = get_object_or_404(Subject, subject_name=self.request.data['content_subject'])
@@ -71,14 +79,15 @@ class ContentViewSet(viewsets.ModelViewSet):
                     content_video=video_url['url'],
                     content_subject=content_subject,
                     content_description=self.request.data['content_description'],
-                    content_name=self.request.data['content_name']
+                    content_name=self.request.data['content_name'],
+                    content_position=int(self.request.data['content_position'])
                 )
             except Exception as e:
-                raise e
-            
+                raise serializers.ValidationError("Dados inválidos")
             return content
         except Exception as e:
-            raise "Houve algo errado com a requisição"
+            print(e)
+            raise serializers.ValidationError("Houve algo errado com a requisição")
 
    
     def create(self, request, *args, **kwargs):

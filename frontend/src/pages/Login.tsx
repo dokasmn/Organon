@@ -12,16 +12,17 @@ import Loading from '../components/items/utils/Loading';
 
 // HOOKS
 import useForm from '../hooks/useForm';
-import { usePopupLog } from '../components/popups/PopUpLogContext';
+import { usePopupLog } from '../contexts/PopUpLogContext';
 import useValidateFields from '../hooks/useValidateFields';
 import { useAuth } from '../contexts/AuthContext';
+import { useLoading } from '../contexts/LoadingContext';
 
 // IMAGES
 import loginArt from '../assets/images/svg/login-art.svg';
 
 const Login: React.FC = () => {
     const { login } = useAuth();
-    const [showLoading, setShowLoading] = useState<boolean>(false);
+    const { setShowLoading } = useLoading();
     const { validateEmail, emailError } = useValidateFields();
     const navigate = useNavigate();
     const { handleShowError } = usePopupLog();

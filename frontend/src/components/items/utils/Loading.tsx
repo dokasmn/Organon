@@ -2,17 +2,17 @@ import * as React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
 
-interface LoadingProps {
-    visibility: boolean,
-}
+// HOOKS
+import { useLoading } from '../../../contexts/LoadingContext';
 
-const Loading: React.FC<LoadingProps> = ({visibility}) => {
+const Loading: React.FC = () => {
+
+  const { showLoading } = useLoading();
+
   return (
-    
-      <Box className={`${visibility ? 'flex' : 'hidden'} justify-center items-center absolute z-50 h-full w-full bg-dark-op-2`} >
+      <Box className={`${showLoading ? 'flex' : 'hidden'} justify-center items-center fixed z-100 h-full w-full bg-dark-op-2`} >
         <CircularProgress className='' />
       </Box>
-    
   );
 }
 

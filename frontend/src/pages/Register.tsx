@@ -14,8 +14,9 @@ import Loading from '../components/items/utils/Loading';
 // HOOKS
 import useForm from '../hooks/useForm';
 import useValidateFields from '../hooks/useValidateFields';
-import { usePopupLog } from '../components/popups/PopUpLogContext';
+import { usePopupLog } from '../contexts/PopUpLogContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useLoading } from '../contexts/LoadingContext';
 
 // IMAGES
 import registerArt from '../assets/images/svg/register-art.svg';
@@ -24,7 +25,7 @@ const Register: React.FC = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
     const { handleShowError } = usePopupLog();
-    const [showLoading, setShowLoading] = useState<boolean>(false);
+    const {showLoading, setShowLoading} = useLoading();
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
 
@@ -103,7 +104,11 @@ const Register: React.FC = () => {
             });
 
             if (response.status === 200) {
+<<<<<<< HEAD
                 login();
+=======
+                login(response.data);                
+>>>>>>> c4b9eb634c834cb62d7a93e00305aed3440d0391
                 navigate('/home');
             } else {
                 handleShowError("Resposta inesperada.");
@@ -124,6 +129,7 @@ const Register: React.FC = () => {
 
     return (
         <div className="bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
+<<<<<<< HEAD
             {showConfirmCodePopup && (
                 <PopUpConfirmCode
                     onSave={handleSaveConfirmCode}
@@ -131,6 +137,16 @@ const Register: React.FC = () => {
                 />
             )}
             <Loading visibility={showLoading} />
+=======
+            {
+                showConfirmCodePopup && (
+                    <PopUpConfirmCode
+                        onSave={handleSaveConfirmCode}
+                        onClose={() => setShowConfirmCodePopup(false)}
+                    />
+                )
+            }
+>>>>>>> c4b9eb634c834cb62d7a93e00305aed3440d0391
             <main className="min-h-screen px-7 relative flex justify-center items-center py-0 2xl:px-32" style={{ maxWidth: `2000px` }}>
                 <div className='hidden w-2/4 2xl:flex justify-center ' >
                     <img src={registerArt} alt="Arte da página de registro"/>
