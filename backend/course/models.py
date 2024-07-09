@@ -1,3 +1,6 @@
+
+from django.db import models
+from login.models import *
 # Create your models here.
 from django.db import models
 from login.models import CustomUser
@@ -26,6 +29,7 @@ class Content(models.Model):
     content_professor_user = models.ForeignKey('login.Professor_user', on_delete=models.CASCADE, verbose_name="Professor do conteúdo")
     content_user = models.ManyToManyField(CustomUser, through='perfil.Note')
     content_position = models.IntegerField()
+    fk_school = models.ForeignKey(School, on_delete=models.CASCADE, verbose_name="Escola")
 
 
     def __str__(self):

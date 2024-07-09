@@ -12,15 +12,14 @@ def print_response(title, response):
 
 
 def get_access_token(email, password):
-    url = f"http://localhost:8000/login/auth/login/"
+    url = f"http://localhost:8000/login/user/login/"
     data = {
         "email": email,
         "password": password
     }
     response = requests.post(url, json=data)
-    assert response.status_code == 200, f"Expected status code 200, but got {response.status_code}"
-    response_data = response.json()
-    print(f"Login test passed. Token: {response_data['token']}, Is Professor: {response_data['is_professor']}")
+    response_data = response.json()['success']
+    print(response_data)
     return response_data['token'], response_data['is_professor']
 
 

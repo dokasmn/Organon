@@ -49,18 +49,26 @@ class ContentViewSet(viewsets.ModelViewSet):
     filterset_fields = ['content_professor_user', 'content_subject__subject_name', 'content_name']
     # search_fields = ['campo1', 'campo3']
     # ordering_fields = ['campo1', 'campo4']
+    
+    
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return Content.objects.all()
+        else:
+            professor = get_object_or_404(Professor_user, professor_auth_user=user)
+            return Content.objects.filter(fk_school=professor.fk_school)
 
   
     def perform_create(self, serializer):
         try:
-
             pdf_file = self.request.FILES.get('content_pdf')
             video_file = self.request.FILES.get('content_video')
-            
+
             try:
                 pdf_url = upload(pdf_file, folder="content_organon/pdfs")
             except Exception as e:
-                raise serializers.ValidationError("Imagem iválida")
+                raise serializers.ValidationError("PDF inválido")
 
             try:
                 video_url = upload(video_file, resource_type='video', folder="content_organon/videos")
@@ -70,25 +78,23 @@ class ContentViewSet(viewsets.ModelViewSet):
             try:
                 content_subject = get_object_or_404(Subject, subject_name=self.request.data['content_subject'])
             except Subject.DoesNotExist:
-                raise serializers.ValidationError("Vídeo inválido")
-            
-            try:
-                content = serializer.save(
-                    content_professor_user=get_object_or_404(Professor_user, professor_auth_user=self.request.user),
-                    content_pdf=pdf_url['url'],
-                    content_video=video_url['url'],
-                    content_subject=content_subject,
-                    content_description=self.request.data['content_description'],
-                    content_name=self.request.data['content_name'],
-                    content_position=int(self.request.data['content_position'])
-                )
-            except Exception as e:
-                raise serializers.ValidationError("Dados inválidos")
+                raise serializers.ValidationError("Matéria inválida")
+
+            professor = get_object_or_404(Professor_user, professor_auth_user=self.request.user)
+            content = serializer.save(
+                content_professor_user=professor,
+                content_pdf=pdf_url['url'],
+                content_video=video_url['url'],
+                content_subject=content_subject,
+                content_description=self.request.data['content_description'],
+                content_name=self.request.data['content_name'],
+                content_position=int(self.request.data['content_position']),
+                fk_school=professor.fk_school
+            )
             return content
         except Exception as e:
             print(e)
             raise serializers.ValidationError("Houve algo errado com a requisição")
-
    
     def create(self, request, *args, **kwargs):
         try:
@@ -101,22 +107,20 @@ class ContentViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-    
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
-        if instance.content_professor_user != request.user:
+        if instance.content_professor_user.professor_auth_user != request.user:
             raise PermissionDenied("Você não tem permissão para alterar este conteúdo.")
         data = request.data.copy()
         data['content_professor_user'] = instance.content_professor_user.id
         serializer = self.get_serializer(instance, data=data, partial=False)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        return Response(serializer.data)
+        return Response({"success": serializer.data}, status=status.HTTP_200_OK)
 
-    
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        if instance.content_professor_user != request.user:
+        if instance.content_professor_user.professor_auth_user != request.user:
             raise PermissionDenied("Você não tem permissão para deletar este conteúdo.")
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
