@@ -10,6 +10,7 @@ import BottomNavigationBar from '../components/layout/BottomNavigationBar';
 import TopNavigationBar from '../components/layout/TopNavigationBar';
 import Button from '../components/items/buttons/Button';
 import Input from '../components/items/inputs/Input';
+import InputIcon from '../components/items/inputs/InputIcon';
 
 // HOOKS
 import { usePopupLog } from '../contexts/PopUpLogContext';
@@ -60,7 +61,7 @@ const AddTeacher:React.FC = () => {
         setShowLoading(true);
 
         const formData = new FormData();
-        formData.append('content_name', data.title); 
+        // formData.append('content_name', data.title); 
 
         try {
             const response = await axiosInstance.post('home/content/', formData, {
@@ -100,98 +101,78 @@ const AddTeacher:React.FC = () => {
                         <h3 className=' font-bold text-xl mb-2'>Adicionar Professor</h3>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.!</p>
                     </section>
-                    <form className='w-full p-5 xs:px-0 sm:px-0 md:px-0 flex flex-col gap-5' onSubmit={handleSubmit} >
+                    <form className='w-full p-5 xs:px-0 sm:px-0 md:px-0 flex flex-col' onSubmit={handleSubmit} >
                         <div className='w-full' >
                             <label htmlFor="name-teacher" className='block font-semibold mb-5'>Nome:</label>
-                            <label htmlFor="name-teacher" className='border border-black rounded flex h-10' >
-                                <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center ' >
-                                    <IoPricetagOutline/>
-                                </div>
-                                <Input 
-                                    onChange={handleChange}
-                                    value={formData.nameTeacher}
-                                    type='text' 
-                                    id='name-teacher' 
-                                    placeholder='Inserir nome do professor' 
-                                    name='nameTeacher'
-                                    style='h-full border-none bg-white'
-                                />
-                            </label>
+                            <InputIcon 
+                                onChange={handleChange}
+                                value={formData.nameTeacher}
+                                type='text' 
+                                id='name-teacher' 
+                                placeholder='Inserir nome do professor' 
+                                name='nameTeacher'
+                                style='h-full border-none bg-white'
+                                icon={IoPricetagOutline}
+                            />
                         </div>
                         <div>
                             <label htmlFor="email-teacher" className='block font-semibold mb-5'>Email:</label>
-                            <label htmlFor="email-teacher" className='border border-black rounded flex h-10' >
-                                <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center'>
-                                    <IoMailOutline/>
-                                </div>
-                                <Input 
-                                    onChange={handleChange}
-                                    value={formData.emailTeacher}
-                                    type='email' 
-                                    id='email-teacher' 
-                                    placeholder='Inserir email do professor' 
-                                    name='emailTeacher'
-                                    style='h-full border-none bg-white'
-                                />
-                            </label>
+                            <InputIcon 
+                                onChange={handleChange}
+                                value={formData.emailTeacher}
+                                type='email' 
+                                id='email-teacher' 
+                                placeholder='Inserir email do professor' 
+                                name='emailTeacher'
+                                style='h-full border-none bg-white'
+                                icon={IoMailOutline}
+                            />
                         </div>
-                        <div className='sm:flex justify-between items-center'>
-                            <div className='w-full mb-5 sm:mb-0 sm:w-6/12 sm:mr-2' >
+                        <div className='sm:flex justify-between'>
+                            <div className='w-full sm:mb-0 sm:w-6/12 sm:mr-2' >
                                 <label htmlFor="password-teacher" className='block font-semibold mb-5'>Senha:</label>
-                                <label htmlFor="password-teacher" className='border border-black rounded flex h-10 '>
-                                    <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center'>
-                                        <PiPasswordLight/>
-                                    </div>
-                                    <Input 
-                                        onChange={handleChange}
-                                        value={formData.passwordTeacher}
-                                        type='password' 
-                                        id='password-teacher' 
-                                        placeholder='Inserir senha' 
-                                        name='passwordTeacher'
-                                        style='h-full border-none bg-white'
-                                    />
-                                </label>
+                                <InputIcon 
+                                    onChange={handleChange}
+                                    value={formData.passwordTeacher}
+                                    type='password' 
+                                    id='password-teacher' 
+                                    placeholder='Inserir senha' 
+                                    name='passwordTeacher'
+                                    style='h-full border-none bg-white'
+                                    icon={PiPasswordLight}
+                                />
                             </div>
                             <div className='w-full sm:w-6/12 sm:ml-2'>
                                 <label htmlFor="confirm-password-teacher" className='block font-semibold mb-5'>Confirmar Senha:</label>
-                                <label htmlFor="confirm-password-teacher" className='border border-black rounded flex h-10' >
-                                    <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center ' >
-                                        <RiLockPasswordLine/>    
-                                    </div>
-                                    <Input 
-                                        onChange={handleChange}
-                                        value={formData.confirmPasswordTeacher}
-                                        type='password' 
-                                        id='confirm-password-teacher' 
-                                        placeholder='Confirmar senha' 
-                                        name='confirmPasswordTeacher'
-                                        style='h-full border-none bg-white'
-                                    />
-                                </label>
+                                <InputIcon 
+                                    onChange={handleChange}
+                                    value={formData.confirmPasswordTeacher}
+                                    type='password' 
+                                    id='confirm-password-teacher' 
+                                    placeholder='Confirmar senha' 
+                                    name='confirmPasswordTeacher'
+                                    style='h-full border-none bg-white'
+                                    icon={RiLockPasswordLine}
+                                />
                             </div>
                         </div>
-                        <div className='sm:flex justify-between items-center'>
+                        <div className='sm:flex justify-between'>
                             <div className='w-full mb-5 sm:mb-0 sm:w-8/12 sm:mr-2  '>
                                 <label htmlFor="course-training" className='block font-semibold mb-5'>Curso:</label>
-                                <label htmlFor="course-training" className='border border-black rounded flex h-10  '>
-                                    <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center'>
-                                        <IoSchoolOutline/>
-                                    </div>
-                                    <Input 
-                                        onChange={handleChange}
-                                        value={formData.courseTraining}
-                                        type='text' 
-                                        id='course-training' 
-                                        placeholder='Inserir curso de formação' 
-                                        name='courseTraining'
-                                        style='h-full border-none bg-white'
-                                    />
-                                </label>
+                                <InputIcon 
+                                    onChange={handleChange}
+                                    value={formData.courseTraining}
+                                    type='text' 
+                                    id='course-training' 
+                                    placeholder='Inserir curso de formação' 
+                                    name='courseTraining'
+                                    style='h-full border-none bg-white'
+                                    icon={IoSchoolOutline}
+                                />
                             </div>
                             <div className='w-full sm:w-4/12 sm:ml-2'>
                                 <label htmlFor="degree-training" className='block font-semibold mb-5'>Grau:</label>
-                                <label htmlFor="degree-training" className='border border-black rounded flex h-10'>
+                                <label htmlFor="degree-training" className='border border-gray-1 md:rounded-none flex h-10'>
                                     <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center' >
                                         <IoRibbonOutline/>
                                     </div>
@@ -214,27 +195,23 @@ const AddTeacher:React.FC = () => {
                                 </label>
                             </div>
                         </div>
-                        <div className='sm:flex justify-between items-center mb-5' >
-                            <div className='w-full mb-5 sm:mb-0 sm:w-8/12 sm:mr-2' >
+                        <div className='sm:flex justify-between mb-5' >
+                            <div className='w-full sm:mb-0 sm:w-8/12 sm:mr-2' >
                                 <label htmlFor="company-job" className='block font-semibold mb-5'>Empresa:</label>
-                                <label htmlFor="company-job" className='border border-black rounded flex h-10 '>
-                                    <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center' >
-                                        <IoBusinessOutline />
-                                    </div>
-                                    <Input 
-                                        onChange={handleChange}
-                                        value={formData.companyJob}
-                                        type='text' 
-                                        id='company-job' 
-                                        placeholder='Informar empresa' 
-                                        name='companyJob'
-                                        style='h-full border-none bg-white'
-                                    />
-                                </label>
+                                <InputIcon
+                                    onChange={handleChange}
+                                    value={formData.companyJob}
+                                    type='text' 
+                                    id='company-job' 
+                                    placeholder='Informar empresa' 
+                                    name='companyJob'
+                                    style='h-full border-none bg-white'
+                                    icon={IoBusinessOutline}
+                                />
                             </div>
                             <div className='w-full sm:w-4/12 sm:ml-2'>
                                 <label htmlFor="responsibility-job" className='block font-semibold mb-5'>Cargo:</label>
-                                <label htmlFor="responsibility-job" className='border border-black rounded flex h-10'>
+                                <label htmlFor="responsibility-job" className='border border-gray-1 md:rounded-none flex h-10'>
                                     <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center' >
                                         <FiBookOpen/>
                                     </div>
