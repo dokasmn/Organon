@@ -60,39 +60,6 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         data = serializer.save()
         return Response({"success":data}, status=status.HTTP_200_OK)
 
-<<<<<<< HEAD
-    def post(self, request, *args, **kwargs):
-        try:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-            email = serializer.validated_data['email']
-            confirmation_code = serializer.validated_data['confirmation_code']
-            try:
-                user = CustomUser.objects.get(email=email, confirmation_code=confirmation_code)
-                if user.confirmation_code_created_at + timedelta(minutes=6) < timezone.now():
-                    user.generate_confirmation_code()
-                    send_mail(
-                        'Novo Código de Confirmação',
-                        f'Seu novo código de confirmação é: {user.confirmation_code}',
-                        settings.DEFAULT_FROM_EMAIL,
-                        [user.email],
-                        fail_silently=False,
-                    )
-                    return Response({'detail': 'Código expirado. Um novo código foi enviado para seu e-mail.'}, status=status.HTTP_400_BAD_REQUEST)
-                user.is_active = True
-                user.confirmation_code = ''
-                user.save()
-                token, created = Token.objects.get_or_create(user=user)
-                return Response({'token': token.key, 'user_id': user.id, 'email': user.email}, status=status.HTTP_200_OK)
-            except CustomUser.DoesNotExist:
-                return Response({'detail': 'Código inválido ou e-mail não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
-        except:
-            return Response({"detail":"não foi possível concluir a solicitação"}, status=status.HTTP_400_BAD_REQUEST)
-    
-    
-class ResendCodeView(generics.GenericAPIView):
-    def post(self, request, *args, **kwargs):
-=======
     @action(detail=False, methods=['post'])
     def confirm_email(self, request):
         serializer = ConfirmationSerializer(data=request.data)
@@ -137,7 +104,6 @@ class ResendCodeView(generics.GenericAPIView):
     @action(detail=True, methods=['post'])
     def invite_update_password_auth(self, request, pk=None):
         user = self.get_object()
->>>>>>> user_update_branch
         try:
             confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
             confirmation_code.generate_code()

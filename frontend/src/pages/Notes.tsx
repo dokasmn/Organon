@@ -39,25 +39,28 @@ const Notes:React.FC<NotesProps> = () => {
 
     useEffect(()=>{
         const fetchDataNotes = async ()=>
-            {
-                try {
-                    const response = await axiosInstance.post('perfil/note', {
-                        headers: {
-                            'Authorization': `Token ${user.token}`,
-                            'Content-Type': 'multipart/form-data',
-                        },
-                    });
-                    setShowLoading(false);
-                    if (response.status === 201) {
-                        handleShowSuccess("Conteúdo criado com sucesso")
-                    }else{
-                        handleShowError("Resposta inesperada.")
-                        console.error('Unexpected response status:', response.status);
-                    }
-                } catch (error) {
-                    console.log("Erro ao realizar a requisição!!")
-                }    
-            }
+        {
+            try {
+                const response = await axiosInstance.get('perfil/note', {
+                    headers: {
+                        'Authorization': `Token ${user.token}`
+                    },
+                });
+                setShowLoading(false);
+                if (response.status === 200) {
+                    handleShowSuccess("Conteúdo carregado com sucesso") 
+                }else{
+                    handleShowError("Resposta inesperada.")
+                    console.error('Unexpected response status:', response.status);
+                }
+            } catch (error) {
+                console.log("Erro ao realizar a requisição!!")
+            }    
+        }
+        const fetchDataCreateNotes = async () =>
+        {
+            
+        }
         fetchDataNotes();
     },[])
     
