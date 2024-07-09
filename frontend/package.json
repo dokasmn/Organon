@@ -13,7 +13,11 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+<<<<<<< HEAD
     "@mui/material": "^5.15.21",
+=======
+    "@mui/material": "^5.16.0",
+>>>>>>> 86d0808afa5945af754b63baeec7d6f054cea9d3
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.2",
     "crypto-js": "^4.2.0",
