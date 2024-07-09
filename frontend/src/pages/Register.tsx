@@ -104,11 +104,7 @@ const Register: React.FC = () => {
             });
 
             if (response.status === 200) {
-<<<<<<< HEAD
-                login();
-=======
                 login(response.data);                
->>>>>>> c4b9eb634c834cb62d7a93e00305aed3440d0391
                 navigate('/home');
             } else {
                 handleShowError("Resposta inesperada.");
@@ -129,15 +125,6 @@ const Register: React.FC = () => {
 
     return (
         <div className="bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
-<<<<<<< HEAD
-            {showConfirmCodePopup && (
-                <PopUpConfirmCode
-                    onSave={handleSaveConfirmCode}
-                    onClose={() => setShowConfirmCodePopup(false)}
-                />
-            )}
-            <Loading visibility={showLoading} />
-=======
             {
                 showConfirmCodePopup && (
                     <PopUpConfirmCode
@@ -146,7 +133,6 @@ const Register: React.FC = () => {
                     />
                 )
             }
->>>>>>> c4b9eb634c834cb62d7a93e00305aed3440d0391
             <main className="min-h-screen px-7 relative flex justify-center items-center py-0 2xl:px-32" style={{ maxWidth: `2000px` }}>
                 <div className='hidden w-2/4 2xl:flex justify-center ' >
                     <img src={registerArt} alt="Arte da página de registro"/>
