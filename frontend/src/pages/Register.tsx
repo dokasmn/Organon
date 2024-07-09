@@ -33,24 +33,23 @@ const Register: React.FC = () => {
         passwordIsValid,
         passwordError,
         emailError,
-        emailIsValid,
+        emailIsvalid,
         validateEmail,
         validatePassword,
-        confirmPasswordIsValid,
         confirmPasswordError,
         validateConfirmPassword
     } = useValidateFields();
 
     const { formData, handleChange, handleSubmit } = useForm(
-        { name: '', email: '', password: '', confirmPassword: '' },
+        { name: '', email: '', password: '', confirmPassword: '', state:'', school:'' },
         async (data) => {
-            if (passwordIsValid && emailIsValid) {
+            if (passwordIsValid && emailIsvalid) {
                 await fetchData(data);
             }
         }
     );
 
-    const fetchData = async (data: { name: string, email: string, password: string, confirmPassword: string }) => {
+    const fetchData = async (data: { name: string, email: string, password: string, confirmPassword: string, state: string, school: string }) => {
         setShowLoading(true);
         try {
             const response = await axiosInstance.post('login/user/register/', {
@@ -58,8 +57,9 @@ const Register: React.FC = () => {
                 email: data.email,
                 password: data.password,
                 re_password: data.confirmPassword,
+                state: data.state,
+                school: data.school
             });
-
             setShowLoading(false);
             setConfirmEmail(data.email);
 
@@ -189,6 +189,30 @@ const Register: React.FC = () => {
                                     maxLength={64}
                                     minLength={8}
                                     error={confirmPasswordError}
+                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                />
+                                <InputDark
+                                    placeholder="Estado"
+                                    name="state"
+                                    type="text"
+                                    id="state"
+                                    value={formData.state}
+                                    required
+                                    onChange={handleChange}
+                                    maxLength={100}
+                                    minLength={2}
+                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                />
+                                <InputDark
+                                    placeholder="Escola"
+                                    name="school"
+                                    type="text"
+                                    id="school"
+                                    value={formData.school}
+                                    required
+                                    onChange={handleChange}
+                                    maxLength={100}
+                                    minLength={2}
                                     style='text-white bg-blue-5-opacity border-blue-1-opacity'
                                 />
                             </div>

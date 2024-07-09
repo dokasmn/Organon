@@ -22,7 +22,7 @@ import loginArt from '../assets/images/svg/login-art.svg';
 
 const Login: React.FC = () => {
     const { login } = useAuth();
-    const { setShowLoading } = useLoading();
+    const { showLoading, setShowLoading } = useLoading();
     const { validateEmail, emailError } = useValidateFields();
     const navigate = useNavigate();
     const { handleShowError } = usePopupLog();
@@ -43,7 +43,7 @@ const Login: React.FC = () => {
             setShowLoading(false);
             if (response.status === 200) {
                 login(response.data);
-                // navigate("/home");
+                navigate("/home");
             } else {
                 handleShowError("Resposta inesperada.");
                 console.error('Unexpected response status:', response.status);
