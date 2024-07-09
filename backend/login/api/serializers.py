@@ -29,6 +29,7 @@ class CustomLoginSerializer(serializers.Serializer):
         return data
 
     def create(self, validated_data):
+        print(validated_data)
         user = validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
         is_professor = Professor_user.objects.filter(professor_auth_user=user).exists()
@@ -40,15 +41,17 @@ class CustomLoginSerializer(serializers.Serializer):
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'password']
+        fields = ['username', 'email', 'password', 'fk_school']
         extra_kwargs = {
             'password': {'write_only': True}
         }
 
     def create(self, validated_data):
         user = CustomUser(
+            username=validated_data['username'],
             email=validated_data['email'],
-            username=validated_data['username']
+            password=validated_data['password'],
+            fk_school=validated_data['fk_school']
         )
         user.set_password(validated_data['password'])
         user.save()

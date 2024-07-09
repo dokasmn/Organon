@@ -53,7 +53,6 @@ class ContentViewSet(viewsets.ModelViewSet):
   
     def perform_create(self, serializer):
         try:
-
             pdf_file = self.request.FILES.get('content_pdf')
             video_file = self.request.FILES.get('content_video')
             
@@ -111,7 +110,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance, data=data, partial=False)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        return Response(serializer.data)
+        return Response({"success":serializer.data},status=status.HTTP_200_OK)
 
     
     def destroy(self, request, *args, **kwargs):
