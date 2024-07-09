@@ -41,21 +41,17 @@ class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password']
-
         extra_kwargs = {
             'password': {'write_only': True}
         }
-        
 
     def create(self, validated_data):
         user = CustomUser(
             email=validated_data['email'],
             username=validated_data['username']
         )
-
         user.set_password(validated_data['password'])
         user.save()
-        
         return user
         
 
@@ -84,7 +80,6 @@ class ProfessorCreateSerializer(serializers.ModelSerializer):
         fields = ['professor_auth_user', 'fk_academic_education', 'fk_professional_history']
     
     def create(self, validated_data):
-        
         academic_education=None
         professional_history=None
         
