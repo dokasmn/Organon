@@ -37,7 +37,7 @@ const Login: React.FC = () => {
     const fetchData = async (data: { email: string, password: string }) => {
         setShowLoading(true);
         try {
-            const response = await axiosInstance.post('login/auth/login/', {
+            const response = await axiosInstance.post('login/user/login/', {
                 email: data.email,
                 password: data.password,
             });

@@ -87,7 +87,7 @@ const Register: React.FC = () => {
 
     const confirmData = async (data: { email: string, confirmationCode: string }): Promise<void> => {
         try {
-            const response = await axiosInstance.post('login/confirm-email/', {
+            const response = await axiosInstance.post('login/user/confirm_email/', {
                 email: data.email,
                 confirmation_code: data.confirmationCode,
             });

@@ -1,4 +1,5 @@
 from django.db import models
+from login.models import *
 
 # Create your models here.
 from django.db import models
@@ -23,6 +24,7 @@ class Content(models.Model):
     content_subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name="Matéria do conteúdo")
     content_professor_user = models.ForeignKey('login.Professor_user', on_delete=models.CASCADE, verbose_name="Professor do conteúdo")
     notes = models.ManyToManyField(CustomUser, through='perfil.Note')
+    fk_school = models.ForeignKey(School, on_delete=models.CASCADE, verbose_name="Escola")
     
     def __str__(self):
         return self.content_name

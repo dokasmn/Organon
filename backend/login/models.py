@@ -28,12 +28,51 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, username, password, **extra_fields)
 
 
+class School(models.Model):
+    STATES = {
+        "SC" : "Santa Catarina",
+        "RS" : "Rio Grande do Sul",
+        "PR" : "Paraná",
+        "SP" : "São Paulo",
+        "MT" : "Mato Grosso",
+        "MS" : "Mato Grosso do Sul",
+        "RJ" : "Rio de Janeiro",
+        "MG" : "Minas Gerais",
+        "GO" : "Goiás",
+        "DF" : "Distrito Federal",
+        "ES" : "Espírito Santo",
+        "BA" : "Bahia",
+        "PE" : "Pernanbuco",
+        "MA" : "Maranhão",
+        "AL" : "Alagoas",
+        "RN" : "Rio Grande do Norte",
+        "PB" : "Paaraíba",
+        "CE" : "Ceará",
+        "SE" : "Sergipe",
+        "PI" : "Piauí",
+        "TO" : "Tocantins",
+        "PA" : "Pará",
+        "AP" : "Amapá",
+        "RO" : "Rondônia",
+        "RR" : "Roraima",
+        "AM" : "Amazonas",
+        "AC" : "Acre"
+    }
+    school_name = models.CharField(max_length=255, unique=True)
+    school_state = models.CharField(max_length=2, choices=STATES)
+    
+    class Meta:
+        ordering = ['school_name']
+        verbose_name = 'Escola'
+
+
 class CustomUser(AbstractBaseUser):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=30)
     is_active = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
+    fk_school = models.ForeignKey(School, on_delete=models.CASCADE, verbose_name="Escola")
 
     objects = CustomUserManager()
 
@@ -69,47 +108,19 @@ class Professional_History(models.Model):
 
 class Professor_user(models.Model):
     professor_auth_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)    
-    fk_academic_education = models.ForeignKey(Academic_Education, on_delete= models.CASCADE,verbose_name="Academic Formation",null=True,blank=True)
-    fk_professional_history = models.ForeignKey(Professional_History, on_delete=models.CASCADE,verbose_name="Professional History",null=True,blank=True)
+    fk_academic_education = models.ForeignKey(Academic_Education, on_delete= models.CASCADE ,verbose_name="Formação acadêmica",null=True,blank=True)
+    fk_professional_history = models.ForeignKey(Professional_History, on_delete=models.CASCADE, verbose_name="Histórico professional",null=True,blank=True)
+    fk_school = models.ForeignKey(School, on_delete=models.CASCADE, verbose_name="Escola")
+    
     class Meta:
         ordering = ['professor_auth_user']
         verbose_name = 'Professor'
         
         
 class SchoolUser(models.Model):
-    STATES = {
-        "SC" : "Santa Catarina",
-        "RS" : "Rio Grande do Sul",
-        "PR" : "Paraná",
-        "SP" : "São Paulo",
-        "MT" : "Mato Grosso",
-        "MS" : "Mato Grosso do Sul",
-        "RJ" : "Rio de Janeiro",
-        "MG" : "Minas Gerais",
-        "GO" : "Goiás",
-        "DF" : "Distrito Federal",
-        "ES" : "Espírito Santo",
-        "BA" : "Bahia",
-        "PE" : "Pernanbuco",
-        "MA" : "Maranhão",
-        "AL" : "Alagoas",
-        "RN" : "Rio Grande do Norte",
-        "PB" : "Paaraíba",
-        "CE" : "Ceará",
-        "SE" : "Sergipe",
-        "PI" : "Piauí",
-        "TO" : "Tocantins",
-        "PA" : "Pará",
-        "AP" : "Amapá",
-        "RO" : "Rondônia",
-        "RR" : "Roraima",
-        "AM" : "Amazonas",
-        "AC" : "Acre"
-    }
     school_auth_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    school_name = models.CharField(max_length=255, unique=True)
-    school_state = models.CharField(max_length=2, choices=STATES)
-    
+    fk_school = models.ForeignKey(School, on_delete=models.CASCADE, verbose_name="Escola")
     class Meta:
         ordering = ['school_auth_user']
-        verbose_name = "school_name"
+        verbose_name = 'Admin escolar'
+    
