@@ -147,7 +147,7 @@ const Class:React.FC = () => {
                                 </p>
                             </div>
                             
-                            <div className='p-2 border border-white-2-dark rounded-sm md:roundend-none hover:bg-blue-100 cursor-pointer' >
+                            <div className='p-2 border border-white-2-dark rounded-sm md:roundend-none hover:bg-white-2 cursor-pointer' >
                                 <img src={makeNotes} alt="" className=' h-4 md:hidden' onClick={() => {setShowCreateNotePopup(true)}} />
                                 <img src={makeNotesBig} alt="" className=' hidden md:block h-6' onClick={() => {setShowCreateNotePopup(true)}} />
                             </div>

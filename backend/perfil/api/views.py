@@ -19,12 +19,15 @@ class NoteViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         return serializer.save(note_user=self.request.user)
     
+
     def create(self, request, *args, **kwargs):
         try:
+            obj_content = Content.objects.get(content_name=request.data['note_content'], fk_school=request.user.fk_school)
+
             data = {
                 "note_title": request.data['note_title'],
                 "note_text": request.data['note_text'],
-                "note_content": Content.objects.get(content_name=request.data['note_content'], fk_school=School.objects.get(id_school=request.user.fk_school))
+                "note_content": obj_content.id
             }
             
             serializer = self.get_serializer(data=data)
@@ -36,8 +39,7 @@ class NoteViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-    
-    
+        
     def list(self, request, *args, **kwargs):
         queryset = Note.objects.filter(note_user=request.user)
         page = self.paginate_queryset(queryset)

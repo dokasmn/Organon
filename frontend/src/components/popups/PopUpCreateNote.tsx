@@ -57,7 +57,7 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent}) => {
     noteContent: string,
   }) => {
     try {
-      const response = await axiosInstance.post('home/content/', {
+      const response = await axiosInstance.post('perfil/note/', {
         note_title: data.noteTitle,
         note_text: data.noteText,
         note_content: data.noteContent

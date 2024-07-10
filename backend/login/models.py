@@ -7,6 +7,7 @@ from django.utils.crypto import get_random_string
 import random
 import string
 
+
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, username, password=None, **extra_fields):
         if not email:
