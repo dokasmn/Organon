@@ -1,4 +1,4 @@
-from ..models import Content, Subject
+from ..models import *
 from login.permissions import IsProfessorOwner
 from ..permissions import IsSuperUser
 from .serializers import *
@@ -114,15 +114,18 @@ class ContentViewSet(viewsets.ModelViewSet):
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if instance.content_professor_user.professor_auth_user != request.user:
-            raise PermissionDenied("Você não tem permissão para alterar este conteúdo.")
-        data = request.data.copy()
-        data['content_professor_user'] = instance.content_professor_user.id
-        serializer = self.get_serializer(instance, data=data, partial=False)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response({"success": serializer.data}, status=status.HTTP_200_OK)
+        try:
+            instance = self.get_object()
+            if instance.content_professor_user.professor_auth_user != request.user:
+                raise PermissionDenied("Você não tem permissão para alterar este conteúdo.")
+            data = request.data.copy()
+            data['content_professor_user'] = instance.content_professor_user.id
+            serializer = self.get_serializer(instance, data=data, partial=False)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+            return Response({"success": serializer.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"detail":str(e)})
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -130,3 +133,34 @@ class ContentViewSet(viewsets.ModelViewSet):
             raise PermissionDenied("Você não tem permissão para deletar este conteúdo.")
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+    
+    
+class CommentViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    
+    
+    def create(self, request, *args, **kwargs):
+        try:
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            conten = self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(self.get_serializer(content).data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.fk_user != request.user:
+            raise PermissionDenied("Você não tem permissão para alterar este conteúdo.")
+        data = request.data.copy()
+        data['fk_user'] = request.user
+        serializer = self.get_serializer(instance, data=data, partial=False)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response({"success": serializer.data}, status=status.HTTP_200_OK)
+        

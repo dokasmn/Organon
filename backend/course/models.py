@@ -1,9 +1,6 @@
+from login.models import *
 
 from django.db import models
-from login.models import *
-# Create your models here.
-from django.db import models
-from login.models import CustomUser
 from cloudinary.models import CloudinaryField
 
 class Subject(models.Model):
@@ -60,3 +57,20 @@ class Content(models.Model):
         ordering = ["content_subject"]
         verbose_name = 'Conteúdo'
         verbose_name_plural = 'Conteúdos'
+      
+      
+      
+class Comment(models.Model):
+    comment_text = models.CharField(max_length=160, verbose_name="texto do comentário")
+    comment_date = models.DateTimeField(auto_now_add=True)
+    fk_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, verbose_name="Usuario do comentário")
+    fk_content = models.ForeignKey(Content, on_delete=models.CASCADE, verbose_name="Conteudo do comentário")
+
+    def __str__(self):
+        return self.comment_text
+
+    class Meta:
+        ordering = ["comment_date"]
+        verbose_name = "Comentário"
+        verbose_name_plural = "Comentários"        
+        
