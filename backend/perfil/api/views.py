@@ -1,6 +1,7 @@
 # projeto
 from ..models import *
 from .serializers import *
+from login.models import School
 
 # rest framework
 from rest_framework import viewsets
@@ -17,6 +18,24 @@ class NoteViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         return serializer.save(note_user=self.request.user)
+    
+    def create(self, request, *args, **kwargs):
+        try:
+            data = {
+                "note_title": request.data['note_title'],
+                "note_text": request.data['note_text'],
+                "note_content": Content.objects.get(content_name=request.data['note_content'], fk_school=School.objects.get(id_school=request.user.fk_school))
+            }
+            
+            serializer = self.get_serializer(data=data)
+            serializer.is_valid(raise_exception=True)
+
+            note = self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(self.get_serializer(note).data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
     
     
     def list(self, request, *args, **kwargs):
