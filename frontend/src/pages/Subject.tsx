@@ -87,22 +87,14 @@ const Subject:React.FC = () => {
             }
         } catch (error: any) {
             setShowLoading(false);
-            try{
-                if(error.response.data && error.response.data.detail){  
-                    if(error.response.status != 404){
-                        handleShowError(error.response.data.detail);
-                    }
-                }else{
-                    
-                    handleShowError(`Algo deu errado - ${error.response.status}`);    
-                }
-            }catch{
-                handleShowError(`Algo deu errado - ${error.response.status}`);
-            }
             if(error.response.status != 404){
-                handleShowError(`Algo deu errado - ${error.response.status}`);
-                console.error('Error:', error.message);
+                if(error.response?.data?.detail){    
+                    handleShowError(error.response.data.detail)
+                }else{
+                    handleShowError(`Algo deu errado - ${error.response.status}`)
+                }
             }
+            console.error('Error:', error.message);
         }
     }
 

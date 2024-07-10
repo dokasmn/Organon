@@ -1,10 +1,8 @@
 // React
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
-
 
 // COMPONENTS
 import TitleSection from '../components/layout/TitleSection';
@@ -14,11 +12,9 @@ import Note from '../components/items/cards/Note';
 import TopNavigationBar from '../components/layout/TopNavigationBar';
 import HorizontalLine from '../components/items/texts/HorizontalLine';
 
-
 // HOOKS
 import { usePopupLog } from '../contexts/PopUpLogContext';
 import { useLoading } from '../contexts/LoadingContext';
-import useForm from '../hooks/useForm';
 import { useAuth } from '../contexts/AuthContext';
 
 
@@ -29,11 +25,22 @@ interface NotesProps {
     notesUser: {title:string, text:string}[],
 }
 
+type notesList = {
+    note_content:string,
+    note_text:string,
+    note_title:string
+}[]
+
 const Notes:React.FC<NotesProps> = () => {
     const { user } = useAuth()
     const { setShowLoading } = useLoading();
     const { handleShowError, handleShowSuccess } = usePopupLog();
-    
+    const [notesOfUser, setNotesOfUser] = useState<notesList>([{
+        note_content:"",
+        note_text:"",
+        note_title:""
+    }]);
+
     useEffect(()=>{
         const fetchDataNotes = async ()=>
             {
@@ -46,29 +53,23 @@ const Notes:React.FC<NotesProps> = () => {
                 });
                 setShowLoading(false);
                 if (response.status === 200) {
-                    handleShowSuccess("Conteúdo carregado com sucesso")
+                    setNotesOfUser(response.data.results)
                     console.log(response.data)
                 }else{
                     handleShowError("Resposta inesperada.")
                     console.error('Unexpected response status:', response.status);
                 }
-            } catch (error) {
-                console.log("Erro ao realizar a requisição!!")
-                console.log(error)
+            } catch (error: any) {
+                if(error.response?.data?.detail){    
+                    handleShowError(error.response.data.detail)
+                }else{
+                    handleShowError(`Algo deu errado - ${error.response.status}`)
+                }
+                console.error('Error:', error.message);
             }    
         }
-     
         fetchDataNotes();
     },[])
-    
-    const notesUser = [
-        {title:"Matemática", text:"loremlorem"},
-        {title:"Matemática", text:"loremlorem"},
-        {title:"Matemática", text:"loremlorem"},
-        {title:"Matemática", text:"loremlorem"},
-        {title:"Matemática", text:"loremlorem"},
-        {title:"Matemática", text:"loremlorem"},
-    ]
 
     return (
         <div className='sm:flex justify-center' >
@@ -85,10 +86,10 @@ const Notes:React.FC<NotesProps> = () => {
                 <section className='flex justify-center md:px-5' >
                     <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-10 lg:gap-5 md:w-full' >
                         {
-                            notesUser.map((field, __) => (
+                            notesOfUser.map((note, __) => (
                                 <Note 
-                                    title={field.title} 
-                                    text={field.text} 
+                                    title={note.note_title} 
+                                    text={note.note_text} 
                                     key={uuidv4()}
                                 />
                             ))

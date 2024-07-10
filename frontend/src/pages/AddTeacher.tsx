@@ -77,13 +77,12 @@ const AddTeacher:React.FC = () => {
                 handleShowError("Resposta inesperada.")
                 console.error('Unexpected response status:', response.status);
             }
-
         } catch (error: any) {
             setShowLoading(false);
-            if(error.response.data && error.response.data.detail){    
+            if(error.response?.data?.detail){    
                 handleShowError(error.response.data.detail)
             }else{
-                handleShowError(error.message)
+                handleShowError(`Algo deu errado - ${error.response.status}`)
             }
             console.error('Error:', error.message);
         }

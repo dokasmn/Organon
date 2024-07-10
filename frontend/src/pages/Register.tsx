@@ -114,10 +114,11 @@ const Register: React.FC = () => {
                 console.error('Unexpected response status:', response.status);
             }
         } catch (error: any) {
-            if (error.response && error.response.data) {
-                handleShowError(error.response.data);
+            if(error.response?.data?.detail){    
+                handleShowError(error.response.data.detail)
+            }else{
+                handleShowError(`Algo deu errado - ${error.response.status}`)
             }
-            handleShowError(error.message);
             console.error('Error:', error.message);
         }
     };
