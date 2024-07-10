@@ -141,26 +141,28 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
     
     
-    def create(self, request, *args, **kwargs):
-        try:
-            serializer = self.get_serializer(data=request.data)
-            serializer.is_valid(raise_exception=True)
-
-            conten = self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
-            return Response(self.get_serializer(content).data, status=status.HTTP_201_CREATED, headers=headers)
-        except Exception as e:
-            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-    
-    
     def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        if instance.fk_user != request.user:
-            raise PermissionDenied("Você não tem permissão para alterar este conteúdo.")
-        data = request.data.copy()
-        data['fk_user'] = request.user
-        serializer = self.get_serializer(instance, data=data, partial=False)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response({"success": serializer.data}, status=status.HTTP_200_OK)
+        try:
+            instance = self.get_object()
+            if instance.fk_user != request.user:
+                raise PermissionDenied("Você não tem permissão para alterar este conteúdo.")
+            data = request.data.copy()
+            data['fk_user'] = request.user
+            serializer = self.get_serializer(instance, data=data, partial=False)
+            serializer.is_valid(raise_exception=True)
+            self.perform_update(serializer)
+            return Response({"success": serializer.data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            Response({"detail":str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+    def destroy(self, request, *args, **kwargs):
+        try:
+            instance = self.get_object()
+            if instance.fk_user != request.user:
+                raise PermissionDenied("Você não tem permissão para alterar este conteúdo.")
+            self.perform_destroy(instance)
+            return Response({"success":"dados deletados com sucesso"},status=status.HTTP_204_NO_CONTENT)
+        except Exception as e:
+            Response({"detail":str(e)}, status=status.HTTP_400_BAD_REQUEST)
         
