@@ -30,42 +30,37 @@ interface NotesProps {
 }
 
 const Notes:React.FC<NotesProps> = () => {
-    const navigate = useNavigate();
-
     const { user } = useAuth()
     const { setShowLoading } = useLoading();
     const { handleShowError, handleShowSuccess } = usePopupLog();
-    console.log(user.token)
-
+    
     useEffect(()=>{
         const fetchDataNotes = async ()=>
-        {
-            try {
-                const response = await axiosInstance.get('perfil/note', {
+            {
+                try {
+                    setShowLoading(true);
+                    const response = await axiosInstance.get('perfil/note/', {
                     headers: {
                         'Authorization': `Token ${user.token}`
                     },
                 });
                 setShowLoading(false);
                 if (response.status === 200) {
-                    handleShowSuccess("Conteúdo carregado com sucesso") 
+                    handleShowSuccess("Conteúdo carregado com sucesso")
+                    console.log(response.data)
                 }else{
                     handleShowError("Resposta inesperada.")
                     console.error('Unexpected response status:', response.status);
                 }
             } catch (error) {
                 console.log("Erro ao realizar a requisição!!")
+                console.log(error)
             }    
         }
-        const fetchDataCreateNotes = async () =>
-        {
-            
-        }
+     
         fetchDataNotes();
     },[])
     
-
-
     const notesUser = [
         {title:"Matemática", text:"loremlorem"},
         {title:"Matemática", text:"loremlorem"},
