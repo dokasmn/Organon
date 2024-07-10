@@ -12,10 +12,9 @@ interface SectionEditProfileProps {
     username: string,
     useremail: string,
     userphoto: string,
-    userCode: string,
 }
 
-const SectionEditProfile:React.FC<SectionEditProfileProps> = ({username, useremail, userphoto, userCode}) => {
+const SectionEditProfile:React.FC<SectionEditProfileProps> = ({username, useremail, userphoto}) => {
     const [showEditPopup, setShowEditPopup] = useState<boolean>(false);
     const [usernameEdit, setUsernameEdit] = useState<string>('');
     const [profilePic, setProfilePic] = useState<string>('');

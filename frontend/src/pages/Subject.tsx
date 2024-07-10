@@ -7,6 +7,7 @@ import HorizontalLine from '../components/items/texts/HorizontalLine.tsx';
 import ArrowSlider from '../components/items/cards/ArrowSlider.tsx';
 import CardContentAccess from '../components/items/cards/CardContentAccess.tsx';
 import FooterSubject from '../components/layout/FooterSubject.tsx';
+import TitleSection from '../components/layout/TitleSection.tsx';
 
 // UTILS
 import { getImageSubject, setColorSubject, getRoute, decodeStringUrl, quickSort } from '../utils.ts'
@@ -37,13 +38,13 @@ const Subject:React.FC = () => {
     
     const [contents, setContents] = useState([
         {
-            content_description: "",
-            content_name: "",
-            content_pdf: "",
+            content_description: "default",
+            content_name: "default",
+            content_pdf: "default",
             content_position: 0,
-            content_professor_user: "",
-            content_subject: "",
-            content_video: ""
+            content_professor_user: "default",
+            content_subject: "default",
+            content_video: "default"
         }
     ]) 
 
@@ -78,23 +79,30 @@ const Subject:React.FC = () => {
             })
             setShowLoading(false);
             if (response.status === 200) {
-                console.log(response.data.results)
-                
                 const ordenedList: contentsInterface[] = quickSort(response.data.results, "content_position");
                 setContents(ordenedList);
-                
             }else{
                 handleShowError("Resposta inesperada.")
                 console.error('Unexpected response status:', response.status);
             }
         } catch (error: any) {
             setShowLoading(false);
-            if(error.response.data){    
-                handleShowError(error.response.data.detail)
-            }else{
-                handleShowError(error.message)
+            try{
+                if(error.response.data && error.response.data.detail){  
+                    if(error.response.status != 404){
+                        handleShowError(error.response.data.detail);
+                    }
+                }else{
+                    
+                    handleShowError(`Algo deu errado - ${error.response.status}`);    
+                }
+            }catch{
+                handleShowError(`Algo deu errado - ${error.response.status}`);
             }
-            console.error('Error:', error.message);
+            if(error.response.status != 404){
+                handleShowError(`Algo deu errado - ${error.response.status}`);
+                console.error('Error:', error.message);
+            }
         }
     }
 
@@ -115,30 +123,44 @@ const Subject:React.FC = () => {
                         false
                     }
                 </section>
-                
             </header>   
             <HorizontalLine style='w-full' />  
             <main className='my-0 py-0 px-5 xs:px-14 md:px-10 max-w-160 sm:min-w-160 w-full'>
-                <h2 className='font-semibold text-lg md:text-xl lg:text-2xl flex justify-center' >Módule {currentSlide+1}</h2>
-                <section className='py-5 sm:py-14 ' >
-                    {contents.map((content) => (
-                        <CardContentAccess
-                            key={uuidv4()} 
-                            teacher={content.content_professor_user} 
-                            nameContent={content.content_name}
-                            finished={content.finished} 
-                            // imagePerfil={content.imagePerfil}
-                            to={content.content_name}
-                        />
-                    ))}
-                </section>
-                <section className='px-12'>
-                    <div className='flex justify-center items-center relative' >
-                        <ArrowSlider icon={<MdArrowLeft className='text-3xl sm:bg-gray-300 hover:bg-gray-400 rounded-full'/>} handleEvent={handlePrev} style="left-0" />
-                        <p className='p-0 m-0'> {currentSlide+1} </p>
-                        <ArrowSlider icon={<MdArrowRight className='text-3xl sm:bg-gray-300 hover:bg-gray-400 rounded-full'/>} handleEvent={handleNext} style="right-0"/>
-                    </div>
-                </section>
+                    {contents.length > 0 && contents[0].content_description != "default" ?
+                        <>
+                            <h2 className='font-semibold text-lg md:text-xl lg:text-2xl flex justify-center' >Módule {currentSlide+1}</h2>
+                            <section className='py-5 sm:py-14 ' >
+                            {
+                                contents.map((content) => (
+                                    <CardContentAccess
+                                        key={uuidv4()} 
+                                        teacher={content.content_professor_user} 
+                                        nameContent={content.content_name}
+                                        finished={content.finished} 
+                                        // imagePerfil={content.imagePerfil}
+                                        to={content.content_name}
+                                    />
+                                ))
+                            }
+                            </section>
+                            <section className='px-12'>
+                                <div className='flex justify-center items-center relative' >
+                                    <ArrowSlider icon={<MdArrowLeft className='text-3xl sm:bg-gray-300 hover:bg-gray-400 rounded-full'/>} handleEvent={handlePrev} style="left-0" />
+                                    <p className='p-0 m-0'> {currentSlide+1} </p>
+                                    <ArrowSlider icon={<MdArrowRight className='text-3xl sm:bg-gray-300 hover:bg-gray-400 rounded-full'/>} handleEvent={handleNext} style="right-0"/>
+                                </div>
+                            </section>
+                        </>
+                        :
+                        <div className='pb-5' >
+                            <section className='px-5 xs:px-0 mb-5 md:mb-0 md:px-0'>
+                                <TitleSection title="CONTENTS" />
+                            </section>
+                            <section className='bg-white-2 px-5 py-10 md:shadow-md' >
+                                <h3 className='text-xl'>Não há conteúdos para essa matéria!</h3>
+                            </section>
+                        </div>
+                    }
             </main>
             <FooterSubject 
                 emailTeacher={teacherEmail}

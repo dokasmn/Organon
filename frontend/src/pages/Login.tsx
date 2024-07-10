@@ -51,13 +51,13 @@ const Login: React.FC = () => {
         } catch (error: any) {
             setShowLoading(false);
             try{
-                if(error.response.data){    
+                if(error.response.data && error.response.data.detail){    
                     handleShowError(error.response.data.detail)
                 }else{
-                    handleShowError(error.message)
+                    handleShowError(`Algo deu errado - ${error.response.status}`)    
                 }
             }catch{
-                handleShowError("Algo deu errado")
+                handleShowError(`Algo deu errado - ${error.response.status}`)
             }
             console.error('Error:', error.message);
         }
@@ -71,7 +71,7 @@ const Login: React.FC = () => {
 
     return (
         <div className="bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
-            <Loading visibility={showLoading} />
+            <Loading/>
             <main className="min-h-screen px-7 relative flex justify-center items-center py-0 2xl:px-32" style={{ maxWidth: `2000px` }}>
                 <div className='hidden w-2/4 2xl:flex justify-center ' >
                     <img src={loginArt} alt="Your SVG" className="" />

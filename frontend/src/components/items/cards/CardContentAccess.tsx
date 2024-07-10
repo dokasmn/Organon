@@ -2,7 +2,7 @@ import React, {useState, useMemo} from 'react';
 
 // COMPONENTS
 import Input from '../inputs/Input';
-import CheckBox from '../inputs/ChekBox';
+import CheckBox from '../inputs/CheckBox';
 import HoldDownLink from '../buttons/HoldDownLink';
 
 interface CardContentAccessProps {
