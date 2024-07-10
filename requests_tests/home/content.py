@@ -31,7 +31,7 @@ def create_content(access_token, content_name, content_description, content_subj
     }
     payload = {
         'content_name': content_name,
-        'content_description': content_description,  # isto deverá ser o vídeo, talvez
+        'content_description': content_description,
         'content_subject': content_subject,
     }
     response = requests.post(url, headers=headers, json=payload)
