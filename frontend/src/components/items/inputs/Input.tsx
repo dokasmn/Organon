@@ -52,6 +52,7 @@ const Input: React.FC<InputProps> = ({
                     onChange={onChange}
                     maxLength={maxLength}
                     minLength={minLength}
+                    autoComplete={id}
                 />
                 {type === 'password' && (
                     <span

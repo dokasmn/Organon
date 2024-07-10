@@ -7,7 +7,6 @@ import TextArea from '../items/inputs/TextArea';
 import PopUpBase from './PopUpBase';
 
 // HOOKS
-import { useLoading } from '../../contexts/LoadingContext';
 import { usePopupLog } from '../../contexts/PopUpLogContext';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -15,28 +14,33 @@ import { useAuth } from '../../contexts/AuthContext';
 import axiosInstance from '../../axiosConfig';
 
 interface PopUpCreateNoteProps {
-  initialUsername: string;
-  initialProfilePic: string;
-  onSave: (username: string, profilePic: string) => void;
-  onClose: () => void;
+  noteContent: string;
 }
 
-const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({ initialUsername, initialProfilePic, onSave, onClose }) => {
+const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent}) => {
   const { user } = useAuth()
-  const { showLoading, setShowLoading } = useLoading();
-  const [isVisible, setIsVisible] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>(initialUsername);
-  const [profilePic, setProfilePic] = useState<string>(initialProfilePic);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
   const { handleShowError, handleShowSuccess } = usePopupLog();
+
+  const [title, setTitle] = useState<string>("")
+  const [noteText, setNoteText] = useState<string>("")
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
+  const onClose = () => {
+    setIsVisible(false)
+  }
+
+  const onSave = () => {
+    fetchData({'noteTitle': title, 'noteText': noteText, 'noteContent': noteContent})
+  }
+
   const handleSave = () => {
     setIsVisible(false);
     setTimeout(() => {
-      onSave(username, profilePic);
+      onSave();
       // fetchData();
       onClose();
     }, 300);
@@ -51,21 +55,19 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({ initialUsername, init
     noteTitle: string,
     noteText: string,
     noteContent: string,
-    
   }) => {
-  setShowLoading(true);
-  try {
-    const response = await axiosInstance.post('home/content/', {
-      note_title: data.noteTitle,
-      note_text: data.noteText,
-      note_content: data.noteContent
-    }, {
-      headers: {
-        'Authorization': `Token ${user.token}`,
-        'Content-Type': 'application/json'
-      },
-    });
-      setShowLoading(false);
+    try {
+      const response = await axiosInstance.post('perfil/note/', {
+        note_title: data.noteTitle,
+        note_text: data.noteText,
+        note_content: data.noteContent
+      }, {
+        headers: {
+          'Authorization': `Token ${user.token}`,
+          'Content-Type': 'application/json'
+        },
+      });
+
       if (response.status === 201) {
         handleShowSuccess("Anotação criada com sucesso")
       }else{
@@ -73,7 +75,6 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({ initialUsername, init
         console.error('Unexpected response status:', response.status);
       }
     } catch (error: any) {
-      setShowLoading(false);
       try{
         if(error.response.data && error.response.data.detail){    
             handleShowError(error.response.data.detail)
@@ -94,8 +95,8 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({ initialUsername, init
         <Input
           id="title-note"
           type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
           placeholder='Inserir título da nota'
           name='titleNote'
         />
@@ -103,8 +104,8 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({ initialUsername, init
       <div className="mb-4">
         <TextArea
             id="description-note"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={noteText}
+            onChange={(e) => setNoteText(e.target.value)}
             placeholder='Inserir descrição da nota'
             name='descriptionNote'
         />
