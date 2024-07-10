@@ -49,7 +49,6 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                 user = serializer.save()
                 confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
                 confirmation_code.generate_code()
-                print(confirmation_code.code)
                 send_mail(
                     'Código de confirmação',
                     f'Seu código de confirmação é: {confirmation_code.code}',
@@ -67,7 +66,8 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         serializer = CustomLoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         data = serializer.save()
-        return Response({"success":data}, status=status.HTTP_200_OK)
+
+        return Response(data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['post'])
     def confirm_email(self, request):
