@@ -32,12 +32,13 @@ const Contents:React.FC = () => {
     const { setShowLoading } = useLoading();
     const { handleShowError } = usePopupLog();
     const { user } = useAuth();
+    console.log(user)
 
     const [contents, setContents] = useState<contentInterface[]>([
         {
-            content_name:"", 
-            content_subject:"",
-            image:"",
+            content_name:"default", 
+            content_subject:"default",
+            image:"default",
         }
     ]);
     
@@ -49,7 +50,7 @@ const Contents:React.FC = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axiosInstance.get(`home/content/?content_professor_user=1`, {
+            const response = await axiosInstance.get(`home/content/?content_professor_user__professor_auth_user__email=${user.email}`, {
                 headers: {
                     'Authorization': `Token ${user.token}`,
                 },
@@ -63,11 +64,16 @@ const Contents:React.FC = () => {
             }
         } catch (error: any) {
             setShowLoading(false);
-            if(error.response){    
-                handleShowError(error.response.data.detail)
-            }else{
-                handleShowError(error.message)
+            try{
+                if(error.response.data && error.response.data.detail){    
+                    handleShowError(error.response.data.detail)
+                }else{
+                    handleShowError(`Algo deu errado - ${error.response.status}`)    
+                }
+            }catch{
+                handleShowError(`Algo deu errado - ${error.response.status}`)
             }
+            handleShowError(`Algo deu errado - ${error.response.status}`)
             console.error('Error:', error.message);
         }
     }
@@ -85,7 +91,7 @@ const Contents:React.FC = () => {
                         <HorizontalLine style='w-full p-0 hidden md:block mt-5'/>
                     </section>
                     <section>
-                        {contents.length > 0 ? 
+                        {contents.length > 0  && contents[0].content_name != "default"  ? 
                             contents.map((content) => (
                                 <ContentCrud
                                     key={uuidv4()}
@@ -100,10 +106,9 @@ const Contents:React.FC = () => {
                                     <TitleSection title="CONTENTS" />
                                 </section>
                                 <section className='bg-white-2 px-5 py-10 md:shadow-md' >
-                                    <h3 className='text-xl'>Você não possui conteúdos ainda</h3>
+                                    <h3 className='text-xl'>Você não possui conteúdos ainda!</h3>
                                 </section>
                             </div>
-                            
                         }
                     </section>
                     <HorizontalLine style='w-full'/>

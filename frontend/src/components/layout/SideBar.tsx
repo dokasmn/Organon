@@ -10,9 +10,12 @@ import Link from '../items/buttons/Link';
 import { FiMoreHorizontal } from "react-icons/fi";
 import { IoPersonOutline, IoHomeOutline, IoExitOutline, IoAddCircleOutline  } from "react-icons/io5";
 
+// HOOKS
+import { useAuth } from '../../contexts/AuthContext';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user } = useAuth()
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -58,18 +61,20 @@ const Sidebar = () => {
               />
               
             </li>
-            <li className={` p-3 hover:bg-blue-1-opacity rounded-md cursor-pointer`}>
-              <Link 
-                style='flex items-center'
-                text={
-                <>
-                  <IoAddCircleOutline className='text-xl'/>
-                  <span className={`ml-4 transition-all duration-500 min-w-36 ${!isOpen && 'invisible opacity-0 absolute'}`}>Adicionar Professor</span>
-                </>
-                }
-                to="/adicionar_professor"
-              />
-            </li>
+            { user.is_school_user &&  
+              <li className={` p-3 hover:bg-blue-1-opacity rounded-md cursor-pointer`}>
+                <Link 
+                  style='flex items-center'
+                  text={
+                  <>
+                    <IoAddCircleOutline className='text-xl'/>
+                    <span className={`ml-4 transition-all duration-500 min-w-36 ${!isOpen && 'invisible opacity-0 absolute'}`}>Adicionar Professor</span>
+                  </>
+                  }
+                  to="/adicionar_professor"
+                />
+              </li>
+            }
           </ul>
         </div>
         <div className='absolute bottom-5 w-9/12'>

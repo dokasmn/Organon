@@ -34,7 +34,7 @@ class CustomLoginSerializer(serializers.Serializer):
         token, created = Token.objects.get_or_create(user=user)
         is_professor = Professor_user.objects.filter(professor_auth_user=user).exists()
         is_school_user = SchoolUser.objects.filter(school_auth_user=user).exists()
-        response =  {'token': token.key, 'is_professor': is_professor, 'is_school_user':is_school_user, 'email': user.email}
+        response =  {'token': token.key, 'is_professor': is_professor, 'is_school_user':is_school_user, 'email': user.email, "username":user.username}
         return response
     
 
