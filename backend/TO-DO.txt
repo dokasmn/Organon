@@ -12,19 +12,24 @@ no Update de conteúdo não pode ser possível alterar o professor do conteúdo
 SCRIPTS:
 
 from course.models import Subject
->>> list_subjects = [                     
-...     "Matemática", "Gramática", "Filosofia", "Inglês",
-...     "Sociologia", "História", "Física", "Química",
-...     "Biologia", "Artes", "Literatura", "Geografia"
-... ]
->>> for subj in list_subjects:
-...     Subject.objects.create(subject_name=subj)
+list_subjects = [                     
+    "Matemática", "Gramática", "Filosofia", "Inglês",
+    "Sociologia", "História", "Física", "Química",
+    "Biologia", "Artes", "Literatura", "Geografia"
+]
+
+for subj in list_subjects:
+    Subject.objects.create(subject_name=subj)
 
 Escola:
 
->>> from login.models import *
->>> school = Schooluser()
->>> school.school_name = "Escola qualquer"
->>> school.school_state = "SC"
->>> school.save()
+from login.models import *
+school = Schooluser()
+school.school_name = "Escola qualquer"
+school.school_state = "SC"
+school.save()
 
+
+Professor_user.objects.create(fk_academic_education_id=Academic_Education.objects.get(id=1), fk_professional_history_id=Professional_History.objects.get(id=1), professor_auth_user_id=CustomUser.objects.get(id=1))
+Professor_user.objects.create(fk_academic_education_id=1, fk_professional_history_id=1, professor_auth_user_id=1, fk_school_id=1) 
+<Professor_user: Professor_user object (1)>

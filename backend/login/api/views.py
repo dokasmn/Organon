@@ -57,6 +57,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                 )
                 return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
             except Exception as e:
+                print(e)
                 return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

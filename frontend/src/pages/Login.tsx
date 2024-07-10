@@ -41,6 +41,10 @@ const Login: React.FC = () => {
                 password: data.password,
             });
             setShowLoading(false);
+            
+            const token = response.data.token
+            localStorage.setItem('authToken', token);
+
             if (response.status === 200) {
                 login(response.data);
                 navigate("/home");

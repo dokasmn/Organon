@@ -1,6 +1,10 @@
 // React
-import React from 'react';
+import React, { useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+
+import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../axiosConfig';
+
 
 // COMPONENTS
 import TitleSection from '../components/layout/TitleSection';
@@ -10,6 +14,14 @@ import Note from '../components/items/cards/Note';
 import TopNavigationBar from '../components/layout/TopNavigationBar';
 import HorizontalLine from '../components/items/texts/HorizontalLine';
 
+
+// HOOKS
+import { usePopupLog } from '../contexts/PopUpLogContext';
+import { useLoading } from '../contexts/LoadingContext';
+import useForm from '../hooks/useForm';
+import { useAuth } from '../contexts/AuthContext';
+
+
 // UTILS
 import { subjects } from '../utils';
 
@@ -18,7 +30,37 @@ interface NotesProps {
 }
 
 const Notes:React.FC<NotesProps> = () => {
-
+    const { user } = useAuth()
+    const { setShowLoading } = useLoading();
+    const { handleShowError, handleShowSuccess } = usePopupLog();
+    
+    useEffect(()=>{
+        const fetchDataNotes = async ()=>
+            {
+                try {
+                    setShowLoading(true);
+                    const response = await axiosInstance.get('perfil/note/', {
+                    headers: {
+                        'Authorization': `Token ${user.token}`
+                    },
+                });
+                setShowLoading(false);
+                if (response.status === 200) {
+                    handleShowSuccess("Conteúdo carregado com sucesso")
+                    console.log(response.data)
+                }else{
+                    handleShowError("Resposta inesperada.")
+                    console.error('Unexpected response status:', response.status);
+                }
+            } catch (error) {
+                console.log("Erro ao realizar a requisição!!")
+                console.log(error)
+            }    
+        }
+     
+        fetchDataNotes();
+    },[])
+    
     const notesUser = [
         {title:"Matemática", text:"loremlorem"},
         {title:"Matemática", text:"loremlorem"},

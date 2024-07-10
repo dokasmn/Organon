@@ -30,17 +30,16 @@ import axiosInstance from '../axiosConfig.ts';
 // UTILS
 import { getRoute, decodeStringUrl } from '../utils.ts';
 
-const Class:React.FC = () => {
-    const [showCreateNotePopup, setShowCreateNotePopup] = useState<boolean>(false);
-
+const Class:React.FC = () => {    
     const location: string[] = useLocation().pathname.split("/");
     const prevUrl = "/" + location[1] + "/" + location[2];
-
+    
     const route: string[] = getRoute();
     const content: string = route[route.length-1];
-
+    
     const decodecontent = decodeStringUrl(content);
 
+    const [showCreateNotePopup, setShowCreateNotePopup] = useState<boolean>(false);
     const { setShowLoading } = useLoading();
     const { handleShowError } = usePopupLog();
     const { user } = useAuth();
@@ -118,7 +117,9 @@ const Class:React.FC = () => {
     return (
         <>
             {showCreateNotePopup && (
-                <PopUpCreateNote  />
+                <PopUpCreateNote 
+                    noteContent={contentData.content_name}
+                />
             )}        
             <div className='w-full sm:flex flex-col items-center '>  
                 <header className='h-14 w-full flex max-w-160 lg:max-w-4xl relative md:my-5 md:bg-white rounded md:rounded-none overflow-hidden py-5 md:shadow-md md:border border-black border-opacity-30' >
@@ -146,7 +147,7 @@ const Class:React.FC = () => {
                                 </p>
                             </div>
                             
-                            <div className='p-2 border border-white-2-dark rounded-sm md:roundend-none hover:bg-blue-100 cursor-pointer' >
+                            <div className='p-2 border border-white-2-dark rounded-sm md:roundend-none hover:bg-white-2 cursor-pointer' >
                                 <img src={makeNotes} alt="" className=' h-4 md:hidden' onClick={() => {setShowCreateNotePopup(true)}} />
                                 <img src={makeNotesBig} alt="" className=' hidden md:block h-6' onClick={() => {setShowCreateNotePopup(true)}} />
                             </div>
