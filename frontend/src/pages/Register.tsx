@@ -9,7 +9,7 @@ import InputDark from '../components/items/inputs/Input';
 import Link from '../components/items/buttons/Link';
 import Button from '../components/items/buttons/Button';
 import PopUpConfirmCode from '../components/popups/PopUpConfirmCode';
-import Loading from '../components/items/utils/Loading';
+import ComboBox from '../components/items/inputs/ComboBox';
 
 // HOOKS
 import useForm from '../hooks/useForm';
@@ -20,6 +20,9 @@ import { useLoading } from '../contexts/LoadingContext';
 
 // IMAGES
 import registerArt from '../assets/images/svg/register-art.svg';
+
+// UTILS
+import { states } from '../utils';
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
@@ -40,7 +43,7 @@ const Register: React.FC = () => {
         validateConfirmPassword
     } = useValidateFields();
 
-    const { formData, handleChange, handleSubmit } = useForm(
+    const { formData, handleChange, handleSubmit, handleChangeSelect } = useForm(
         { name: '', email: '', password: '', confirmPassword: '', state:'', school:'' },
         async (data) => {
             if (passwordIsValid && emailIsvalid) {
@@ -191,30 +194,31 @@ const Register: React.FC = () => {
                                     error={confirmPasswordError}
                                     style='text-white bg-blue-5-opacity border-blue-1-opacity'
                                 />
-                                <InputDark
-                                    placeholder="Estado"
-                                    name="state"
-                                    type="text"
-                                    id="state"
-                                    value={formData.state}
-                                    required
-                                    onChange={handleChange}
-                                    maxLength={100}
-                                    minLength={2}
-                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
-                                />
-                                <InputDark
-                                    placeholder="Escola"
-                                    name="school"
-                                    type="text"
-                                    id="school"
-                                    value={formData.school}
-                                    required
-                                    onChange={handleChange}
-                                    maxLength={100}
-                                    minLength={2}
-                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
-                                />
+                                <div className='md:flex gap-5' >        
+                                    <ComboBox
+                                        name="state"
+                                        id="state"
+                                        value={formData.state}
+                                        required
+                                        onChange={handleChangeSelect}
+                                        style='text-white bg-blue-5-opacity border-blue-1-opacity mb-5 border focus:border-blue-1 '
+                                        styleOption='bg-white text-black rounded-none border-none outline-none'
+                                        defaultOption="Estado"
+                                        list={states}
+                                    />
+                                    <InputDark
+                                        placeholder="Escola"
+                                        name="school"
+                                        type="text"
+                                        id="school"
+                                        value={formData.school}
+                                        required
+                                        onChange={handleChange}
+                                        maxLength={100}
+                                        minLength={2}
+                                        style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                    />
+                                </div>
                             </div>
                         </section>
                         <Button

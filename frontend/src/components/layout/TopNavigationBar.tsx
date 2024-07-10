@@ -27,10 +27,10 @@ const TopNavigationBar:React.FC = () => {
                         <li className='font-semibold border-b-2 border-transparent hover:border-blue-5 hover:text-blue-5 cursor-pointer' >
                             <Link text={
                                 <>
-                                    <span className='lg:hidden'>{isProfessor || isSchool ? 'Conteúdo' : 'notas'}</span>
-                                    <span className='hidden lg:block'>{isProfessor || isSchool ? 'Seu conteúdo' : 'Suas notas'}</span>
+                                    <span className='lg:hidden'>{isProfessor || isSchool ? 'Conteúdo' : 'Notas'}</span>
+                                    <span className='hidden lg:block'>{isProfessor || isSchool ? 'Seu conteúdo' : 'Suas anotacões'}</span>
                                 </>
-                            } to={`${isProfessor || isSchool ? '/perfil/conteudo' : '/perfil/notas'}`}/>
+                            } to={`${isProfessor || isSchool ? '/perfil/conteudo' : '/perfil/anotacoes'}`}/>
                         </li>
                         <li className='font-semibold border-b-2 border-transparent hover:border-blue-5 hover:text-blue-5 cursor-pointer'>
                             <>

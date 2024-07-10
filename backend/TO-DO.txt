@@ -23,7 +23,7 @@ from course.models import Subject
 Escola:
 
 >>> from login.models import *
->>> school = School()
+>>> school = Schooluser()
 >>> school.school_name = "Escola qualquer"
 >>> school.school_state = "SC"
 >>> school.save()

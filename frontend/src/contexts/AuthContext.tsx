@@ -2,11 +2,12 @@ import React, { createContext, useContext, useState, ReactNode, FC, useEffect } 
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: ({}: {email: string, is_professor: boolean, is_school_user: boolean, token: string}) => void;
+  login: ({}: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string}) => void;
   logout: () => void;
   isSchool: boolean;
   isProfessor: boolean;
-  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string};
+  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string};
+  loading: boolean;
 }
 
 // Criação do contexto de autenticação
@@ -25,50 +26,51 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<{email: string, is_professor: boolean, is_school_user: boolean, token: string}>(
       {email: "", is_professor: false, is_school_user: false, token: ""}
     );
-
+    const [loading, setLoading] = useState<boolean>(true);
+    
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          const data = JSON.parse(storedUser);
-          setIsAuthenticated(true);
-          setUser(data)
-    
-          if (data.is_professor) {
-            setIsprofessor(true);
-          }
-    
-          if (data.is_school_user) {
-            setIsSchool(true);
-          }
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const data = JSON.parse(storedUser);
+        setIsAuthenticated(true);
+        setUser(data);
+        console.log(data)  
+  
+        if (data.is_professor) {
+          setIsprofessor(true);
         }
-    }, []);
+  
+        if (data.is_school_user) {
+          setIsSchool(true);
+        }
+      }
+      setLoading(false);
+    }, [isAuthenticated])
     
     const login = (data: {email: string, is_professor: boolean, is_school_user: boolean, token: string}) => {
-        console.log(data)
+      setIsAuthenticated(true);
+      localStorage.setItem('user', JSON.stringify(data));
 
-        setIsAuthenticated(true);
-        localStorage.setItem('user', JSON.stringify(data));
+      setUser(data)
+      localStorage.setItem('token', data.token);
 
-        setUser(data)
-        localStorage.setItem('token', data.token);
+      if(data.is_professor){
+          setIsprofessor(true);
+      }
 
-        if(data.is_professor){
-            setIsprofessor(true);
-        }
-
-        if(data.is_school_user){
-            setIsSchool(true);
-        }
+      if(data.is_school_user){
+          setIsSchool(true);
+      }
     };
 
     const logout = () => {
         setIsAuthenticated(false);
-        sessionStorage.removeItem('user');
-        sessionStorage.removeItem('token');
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, isSchool, isProfessor, user }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, isSchool, isProfessor, user, loading }}>
             {children}
         </AuthContext.Provider>
     );

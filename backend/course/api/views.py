@@ -46,7 +46,13 @@ class ContentViewSet(viewsets.ModelViewSet):
 
     #Filtros de pesquisa
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
-    filterset_fields = ['content_professor_user', 'content_subject__subject_name', 'content_name']
+    filterset_fields = [
+        'content_professor_user', 
+        'content_professor_user__professor_auth_user__username',
+        'content_professor_user__professor_auth_user__email', 
+        'content_subject__subject_name', 
+        'content_name'
+    ]
     # search_fields = ['campo1', 'campo3']
     # ordering_fields = ['campo1', 'campo4']
     

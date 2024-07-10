@@ -28,7 +28,6 @@ import biologyGreenBlueSmall from '../assets/images/subjects_image/biology-green
 import { useAuth } from '../contexts/AuthContext.tsx';
 
 const Profile:React.FC = () => {
-
     const { user } = useAuth();
 
     const slidesSubject = [
@@ -51,7 +50,7 @@ const Profile:React.FC = () => {
             <TopNavigationBar/>             
             <main className={'px-5 xs:px-14 md:px-10 md:pt-40 md:max-w-6xl min-w-5 max-w-160 sm:min-w-160'} >
                 <div className=' flex flex-col '>
-                    <SectionEditProfile userCode='1234' username='Daniel Lima' useremail={user.email} userphoto={profilePicture}/>
+                    <SectionEditProfile username={user.username} useremail={user.email} userphoto={profilePicture}/>
                     <section className='py-10 flex items-center '>
                         <div className="w-20 h-2 bg-dotted-line bg-repeat-x"></div>
                         <img src={markerStudent} alt="" className='w-12 lg:w-14' />

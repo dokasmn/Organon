@@ -147,3 +147,33 @@ export function quickSort<T extends Dictionary>(arr: T[], key: string): T[] {
         return [...quickSort(left, key), ...middle, ...quickSort(right, key)];
     }
 }
+
+export const states = {
+    "SC" : "Santa Catarina",
+    "RS" : "Rio Grande do Sul",
+    "PR" : "Paraná",
+    "SP" : "São Paulo",
+    "MT" : "Mato Grosso",
+    "MS" : "Mato Grosso do Sul",
+    "RJ" : "Rio de Janeiro",
+    "MG" : "Minas Gerais",
+    "GO" : "Goiás",
+    "DF" : "Distrito Federal",
+    "ES" : "Espírito Santo",
+    "BA" : "Bahia",
+    "PE" : "Pernanbuco",
+    "MA" : "Maranhão",
+    "AL" : "Alagoas",
+    "RN" : "Rio Grande do Norte",
+    "PB" : "Paaraíba",
+    "CE" : "Ceará",
+    "SE" : "Sergipe",
+    "PI" : "Piauí",
+    "TO" : "Tocantins",
+    "PA" : "Pará",
+    "AP" : "Amapá",
+    "RO" : "Rondônia",
+    "RR" : "Roraima",
+    "AM" : "Amazonas",
+    "AC" : "Acre"
+}

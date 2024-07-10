@@ -8,11 +8,7 @@ import InputSearch from '../items/inputs/InputSearch';
 import flagBrasilDesktop from '../../assets/images/flag_brasil_desktop.png'
 import flagSantaCatarinaDesktop from '../../assets/images/flag_santa_catarina_desktop.png'
 
-
-// UTILS
-
 const HeaderHome:React.FC = () => {
-    
     return (
         <>
             <header className='hidden h-16 items-center text-white md:flex my-1 w-full max-w-7xl'>

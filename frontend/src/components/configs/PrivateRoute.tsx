@@ -1,19 +1,30 @@
-// components/configs/PrivateRoute.tsx
-
+// REACT
 import React from 'react';
 import { Route, Navigate, RouteProps } from 'react-router-dom';
+
+// HOOKS
 import { useAuth } from '../../contexts/AuthContext';
+import { useLoading } from '../../contexts/LoadingContext';
 
 interface PrivateRouteProps extends RouteProps {
     component: React.ComponentType<any>;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...rest }) => {
-    const { isAuthenticated } = useAuth();
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component }) => {
+    const { isAuthenticated, loading } = useAuth();
+    const { setShowLoading } = useLoading();
 
-    // if (!isAuthenticated) {
-    //     return <Navigate to="/login" replace />;
-    // }
+    if (loading) {
+        
+        return;
+    }
+
+    setShowLoading(false);
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace />;
+    }
+    
 
     return <Component/>;
 };
