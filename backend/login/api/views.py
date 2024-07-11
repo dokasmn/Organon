@@ -36,30 +36,48 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         school = School.objects.get(school_state=data['state'], school_name=data['school'])
         if not school:
             return Response({"detail": "não foi encontrada nenhuma escola com essas características"}, status=status.HTTP_400_BAD_REQUEST)
-        atribute = {
-            'username':data['username'],
-            'email':data['email'],
-            'password':data['password'],
-            'fk_school':school.id
-        }
-        serializer = UserCreateSerializer(data=atribute)
-        if serializer.is_valid():
-            try:
-                user = serializer.save()
-                confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
-                confirmation_code.generate_code()
-                send_mail(
-                    'Código de confirmação',
-                    f'Seu código de confirmação é: {confirmation_code.code}',
-                    settings.DEFAULT_FROM_EMAIL,
-                    [user.email],
-                    fail_silently=False,
-                )
-                return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
-            except Exception as e:
-                print(e)
-                return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        search_user = CustomUser.objects.get(
+            username=data['username'],
+            email=data['email'],
+            fk_school=school.id,
+            password=data['password']
+        )
+        if not search_user:
+            atribute = {
+                'username':data['username'],
+                'email':data['email'],
+                'password':data['password'],
+                'fk_school':school.id
+            }
+            serializer = UserCreateSerializer(data=atribute)
+            if serializer.is_valid():
+                try:
+                    user = serializer.save()
+                    confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
+                    confirmation_code.generate_code()
+                    send_mail(
+                        'Código de confirmação',
+                        f'Seu código de confirmação é: {confirmation_code.code}',
+                        settings.DEFAULT_FROM_EMAIL,
+                        [user.email],
+                        fail_silently=False,
+                    )
+                    return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
+                except Exception as e:
+                    print(e)
+                    return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
+            confirmation_code.generate_code()
+            send_mail(
+                'Código de confirmação',
+                f'Seu código de confirmação é: {confirmation_code.code}',
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=False,
+            )
 
     @action(detail=False, methods=['post'])
     def login(self, request):
@@ -92,7 +110,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def resend_code(self, request):
         user = request.user
-        user.generate_confirmation_code()
+        code = ConfirmationCode(user_id=user)
+        code.generate_confirmation_code()
+        code.save()
         send_mail(
             'Novo Código de Confirmação',
             f'Seu novo código de confirmação é: {user.confirmation_code}',
@@ -169,7 +189,34 @@ class ProfessorViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         if not self.get_permissions()[0].has_permission(request, self):
             return Response({"detail": "Permissão negada"}, status=status.HTTP_403_FORBIDDEN)
-        return super().create(request, *args, **kwargs)
+        data = request.data
+        school = School.objects.get(school_state=data['state'], school_name=data['school'])
+        if not school:
+            return Response({"detail": "não foi encontrada nenhuma escola com essas características"}, status=status.HTTP_400_BAD_REQUEST)
+        atribute = {
+            'username':data['username'],
+            'email':data['email'],
+            'password':data['password'],
+            'fk_school':school.id
+        }
+        serializer = UserCreateSerializer(data=atribute)
+        if serializer.is_valid():
+            try:
+                user = serializer.save()
+                confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
+                confirmation_code.generate_code()
+                send_mail(
+                    'Código de confirmação',
+                    f'Seu código de confirmação é: {confirmation_code.code}',
+                    settings.DEFAULT_FROM_EMAIL,
+                    [user.email],
+                    fail_silently=False,
+                )
+                return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
+            except Exception as e:
+                print(e)
+                return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, *args, **kwargs):
         if not self.get_permissions()[0].has_permission(request, self):

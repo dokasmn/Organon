@@ -140,6 +140,18 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     
+    def create(self, request, *args, **kwargs):
+        try:
+            data = {""}
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+
+            comment = self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(self.get_serializer(content).data, status=status.HTTP_201_CREATED, headers=headers)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
     
     def update(self, request, *args, **kwargs):
         try:
