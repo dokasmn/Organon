@@ -19,7 +19,7 @@ const TextArea:React.FC<TextAreaProps> = ({placeholder, id, onChange, value, nam
             value={value}
             placeholder={placeholder} 
             style={{ resize: 'none' }}
-            className='border border-black rounded md:rounded-none p-5 bg-white w-full'
+            className='border border-gray-1 outline-none rounded md:rounded-none p-5 bg-white w-full'
         >
         </textarea>
     )

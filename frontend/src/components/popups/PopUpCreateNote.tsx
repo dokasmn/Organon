@@ -13,6 +13,9 @@ import { useAuth } from '../../contexts/AuthContext';
 // AXIOS
 import axiosInstance from '../../axiosConfig';
 
+
+
+
 interface PopUpCreateNoteProps {
   noteContent: string;
 }
@@ -32,8 +35,9 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent}) => {
   const onClose = () => {
     setIsVisible(false)
   }
-
+  console.log(noteContent)
   const onSave = () => {
+    
     fetchData({'noteTitle': title, 'noteText': noteText, 'noteContent': noteContent})
   }
 

@@ -1,6 +1,8 @@
 // REACT
-import React, {useState, useMemo} from 'react';
+import React from 'react';
 
+// CONTENT
+import { setColorSubject } from '../../../utils';
 
 // COMPONENTS
 import HorizontalLine from '../texts/HorizontalLine';
@@ -8,23 +10,11 @@ import HorizontalLine from '../texts/HorizontalLine';
 interface NoteProps {
     title: string,
     text: string,
+    subject: string
 }
 
-const Note:React.FC<NoteProps> = ({title, text}) => {
-
-    let color: string = "bg-red-subject";
-
-    if(title === "Matemática"){
-        color = "bg-blue-subject" 
-    }else if(title === "Biologia"){
-        color = "bg-green-subject" 
-    }else if(title === "Física"){
-        color = "bg-purple-subject" 
-    }else if(title === "Geografia"){
-        color = "bg-yellow-subject" 
-    }else if(title === "História"){
-        color = "bg-yellow-orange-subject" 
-    }
+const Note:React.FC<NoteProps> = ({title, text, subject}) => {
+    let color: string = setColorSubject(subject);
 
     return (
         <div

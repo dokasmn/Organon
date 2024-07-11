@@ -2,6 +2,7 @@
 from ..models import *
 from .serializers import *
 from login.models import School
+from django.shortcuts import get_object_or_404
 
 # rest framework
 from rest_framework import viewsets
@@ -22,15 +23,24 @@ class NoteViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
-            obj_content = Content.objects.get(content_name=request.data['note_content'], fk_school=request.user.fk_school)
-
+            print("-----------------------------------")
+            print(request.data['note_content'])
+            print(request.user.fk_school)
+            print("-----------------------------------")
+            try:
+                obj_content = Content.objects.get(content_name=request.data['note_content'], fk_school=request.user.fk_school)
+            except Content.DoesNotExist:
+                return Response({"detail": "O conteúdo especificado não foi encontrado."}, status=status.HTTP_404_NOT_FOUND)
+            print(obj_content)
+            print(obj_content.id)
             data = {
                 "note_title": request.data['note_title'],
                 "note_text": request.data['note_text'],
-                "note_content": obj_content.id
+                "note_content": obj_content.id,
             }
             
             serializer = self.get_serializer(data=data)
+                
             serializer.is_valid(raise_exception=True)
 
             note = self.perform_create(serializer)

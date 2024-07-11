@@ -29,7 +29,7 @@ const Register: React.FC = () => {
     const { login } = useAuth();
     const { handleShowError } = usePopupLog();
     const {showLoading, setShowLoading} = useLoading();
-    const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
+    const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(true);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
 
     const {
@@ -72,11 +72,11 @@ const Register: React.FC = () => {
             }
         } catch (error: any) {
             setShowLoading(false);
-            if (error.response && error.response.data) {
+            if(error.response?.data?.detail){
                 handleShowError(error.response.data.detail);
-            } else {
-                handleShowError(error.message);
             }
+            
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`);
             console.error('Error:', error.message);
         }
     };
@@ -114,11 +114,12 @@ const Register: React.FC = () => {
                 console.error('Unexpected response status:', response.status);
             }
         } catch (error: any) {
-            if(error.response?.data?.detail){    
-                handleShowError(error.response.data.detail)
-            }else{
-                handleShowError(`Algo deu errado - ${error.response.status}`)
+            setShowLoading(false);
+            if(error.response?.data?.detail){
+                handleShowError(error.response.data.detail);
             }
+            
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`);
             console.error('Error:', error.message);
         }
     };

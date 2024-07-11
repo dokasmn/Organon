@@ -15,7 +15,6 @@ interface ComboBoxProps {
 }
 
 const ComboBox: React.FC<ComboBoxProps> = (props) => {
-    console.log(props.list)
     return (
         <div className='w-full' >
            <select 
@@ -26,7 +25,7 @@ const ComboBox: React.FC<ComboBoxProps> = (props) => {
                 className={`${props.style} w-full text-base py-2 px-4 outline-none`}
                 style={{ height:'42px', }}
             >   
-                <option value="default" selected>
+                <option value="default">
                     {props.defaultOption}
                 </option>
                 {Object.entries(props.list).map(([key, value]) => (
@@ -35,6 +34,7 @@ const ComboBox: React.FC<ComboBoxProps> = (props) => {
                         key={uuidv4()}
                         value={key}
                         className={props.styleOption}
+                        
                     >
                         {value}
                     </option>

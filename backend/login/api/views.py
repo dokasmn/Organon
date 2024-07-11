@@ -33,9 +33,12 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def register(self, request):
         data = request.data
+        
         school = School.objects.get(school_state=data['state'], school_name=data['school'])
+        
         if not school:
             return Response({"detail": "não foi encontrada nenhuma escola com essas características"}, status=status.HTTP_400_BAD_REQUEST)
+        
         atribute = {
             'username':data['username'],
             'email':data['email'],

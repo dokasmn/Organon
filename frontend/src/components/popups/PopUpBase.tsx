@@ -13,9 +13,10 @@ interface PopUpBaseProps {
   children: ReactNode;
   title: string;
   isVisible: boolean;
+  secondButton?: {text: string, onClick: () => void};
 }
 
-const PopUpBase: React.FC<PopUpBaseProps> = ({ onClose, onSave, title, children, isVisible }) => {
+const PopUpBase: React.FC<PopUpBaseProps> = ({ onClose, onSave, title, children, isVisible, secondButton }) => {
 
   return (
     <div className={`fixed inset-0 z-100 ${isVisible ? 'flex' : 'hidden' } items-start justify-center mt-4 ${isVisible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
@@ -27,6 +28,17 @@ const PopUpBase: React.FC<PopUpBaseProps> = ({ onClose, onSave, title, children,
         </div>
         { children }
         <div className="flex justify-end">
+        {secondButton ? 
+          <div className='mr-3' >
+            <Button
+              text={secondButton.text}
+              onClick={secondButton.onClick}
+              style="bg-blue-5 hover:bg-blue-5-dark text-white font-semibold py-2 "
+            />
+          </div>  
+          :
+          false
+        }
         <div>
           <Button
             text='Salvar'

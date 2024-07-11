@@ -9,7 +9,6 @@ from djoser.serializers import TokenSerializer
 from django.contrib.auth import authenticate
 from djoser.serializers import UserCreatePasswordRetypeSerializer as BaseUserCreatePasswordRetypeSerializer
 
-
 class CustomLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
@@ -29,12 +28,19 @@ class CustomLoginSerializer(serializers.Serializer):
         return data
 
     def create(self, validated_data):
-        print(validated_data)
         user = validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
         is_professor = Professor_user.objects.filter(professor_auth_user=user).exists()
         is_school_user = SchoolUser.objects.filter(school_auth_user=user).exists()
-        response =  {'token': token.key, 'is_professor': is_professor, 'is_school_user':is_school_user, 'email': user.email, "username":user.username}
+
+        response =  {
+            'token': token.key, 
+            'is_professor': is_professor, 
+            'is_school_user':is_school_user, 
+            'email': user.email, 
+            "username":user.username
+        }
+        
         return response
     
 

@@ -66,9 +66,9 @@ const Contents:React.FC = () => {
             setShowLoading(false);
             if(error.response?.data?.detail){    
                 handleShowError(error.response.data.detail)
-            }else{
-                handleShowError(`Algo deu errado - ${error.response.status}`)
+                return 
             }
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`)
             console.error('Error:', error.message);
         }
     }
@@ -109,7 +109,7 @@ const Contents:React.FC = () => {
                     <HorizontalLine style='w-full'/>
                     <Link
                         text="Add Content"
-                        style='flex justify-center md:bg-blue-5 md:text-white md:hover:bg-blue-5-dark md:shadow-md w-full text-black bg-white-2 hover:bg-white-2-dark rounded md:rounded-none font-bold py-3'
+                        style='flex justify-center md:bg-blue-5 md:text-white md:hover:bg-blue-5-dark md:shadow-md w-full text-black bg-white-2 hover:bg-white-2-dark rounded md:rounded-none font-semibold py-3'
                         to='/perfil/conteudo/criar-conteudo'
                     />
                 </main>

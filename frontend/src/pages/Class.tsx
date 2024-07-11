@@ -43,9 +43,9 @@ const Class:React.FC = () => {
     const { setShowLoading } = useLoading();
     const { handleShowError } = usePopupLog();
     const { user } = useAuth();
-    const [commentData, setCommentData] = useState<{[key: string]:string}>({});
     const [contentData, setContentData] = useState(
-        {
+        {   
+            content_id: 1,
             content_description: "",
             content_name: "",
             content_pdf: "",
@@ -55,31 +55,13 @@ const Class:React.FC = () => {
         }
     )
 
-    const comments: {imageProfile:string, nameProfile:string, commentText:string}[] = [
+    const [comments, setComments] = useState<any>([
         {
             imageProfile:profilePicture, 
             nameProfile:"Daniel Lima", 
             commentText:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, recusandae beatae necessitatibus placeat a et ad reprehenderit"
         },
-        {
-            imageProfile:profilePicture, 
-            nameProfile:"Daniel Lima", 
-            commentText:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, recusandae beatae necessitatibus placeat a et ad reprehenderit"
-        },
-        {
-            imageProfile:profilePicture, 
-            nameProfile:"Daniel Lima", 
-            commentText:"Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, recusandae beatae necessitatibus placeat a et ad reprehenderit"
-        }
-    ]
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setCommentData({
-          ...commentData,
-          [name]: value,
-        });
-    };
+    ])
 
     useEffect(() => {
         if(user.token){
@@ -99,17 +81,45 @@ const Class:React.FC = () => {
             if (response.status === 200) {
                 setContentData(response.data.results[0])
                 console.log(response.data.results)
+                fetchComments();
             }else{
                 handleShowError("Resposta inesperada.")
-                console.error('Unexpected response status:', response.status);
+                console.error('Resposta inesperada:', response.status);
             }
         } catch (error: any) {
             setShowLoading(false);
-            if(error.response.data && error.response.data.detail){    
+            if(error.response?.data?.detail){    
                 handleShowError(error.response.data.detail)
-            }else{
-                handleShowError(error.message)
+                return 
             }
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`)
+            console.error('Error:', error.message);
+        }
+    }
+
+    const fetchComments = async () => {
+        setShowLoading(true);
+        try {
+            const response = await axiosInstance.get(`course/comment`, {
+                headers: {
+                    'Authorization': `Token ${user.token}`,
+                },
+            })
+            setShowLoading(false);
+            if (response.status === 200) {
+                setComments(response.data.results)
+                console.log(response.data.results)
+            }else{
+                handleShowError("Resposta inesperada.")
+                console.error('Resposta inesperada:', response.status);
+            }
+        } catch (error: any) {
+            setShowLoading(false);
+            if(error.response?.data?.detail){    
+                handleShowError(error.response.data.detail)
+                return 
+            }
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`)
             console.error('Error:', error.message);
         }
     }
@@ -126,7 +136,10 @@ const Class:React.FC = () => {
                     <Link style='flex cursor-pointer hover:text-blue-1' text={
                         <>
                             <section className='relative h-full' >
-                                <ArrowSlider icon={<MdArrowLeft className='text-3xl md:text-2xl' />} style="left-0 md:left-5 sm:bg-gray-300 sm:p-1 flex items-center rounded-full hover:bg-gray-400" />
+                                <ArrowSlider 
+                                    icon={<MdArrowLeft className='text-3xl md:text-2xl' />} 
+                                    style="left-0 md:left-5 sm:bg-gray-300 sm:p-1 flex items-center rounded-full hover:bg-gray-400" 
+                                />
                             </section>
                             <p className='h-full flex items-center pl-10 md:pl-16'>Voltar para a matéria</p>
                         </>
@@ -164,7 +177,7 @@ const Class:React.FC = () => {
                         </div>
                     </section>
                     <HorizontalLine style='w-full md:hidden'/>  
-                    <section className='px-3 mb-5 flex flex-col md:border border-gray-1 md:bg-white md:p-5 justify-between'>
+                    <section className='px-3 mb-5 flex flex-col md:border border-gray-1 md:bg-white md:shadow-md md:p-5 justify-between'>
                         <div>
                             <h2 className=' font-semibold text-lg w-full pb-5'>Descrição:</h2>
                             <p className='pb-5 w-full  '>
@@ -188,9 +201,9 @@ const Class:React.FC = () => {
                                 comments.map((comment, __) => (
                                     <Comment 
                                         key={uuidv4()}
-                                        userName={comment.nameProfile} 
+                                        userName={comment.fk_user} 
                                         photoPerfil={comment.imageProfile}
-                                        comment={comment.commentText}
+                                        comment={comment.comment_text}
                                     />
                                 ))
                             }
@@ -198,10 +211,7 @@ const Class:React.FC = () => {
                     </section>
                     <section className='px-3 pt-5 pb-5 md:flex justify-center' >
                         <CommentInput 
-                            id={"commentImput"} 
-                            value={commentData.user_id || ""} 
-                            onChange={handleChange} 
-                            name={"user_id"}
+                            contentSubjectId={contentData.content_id}
                         />
                     </section>
                     

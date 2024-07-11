@@ -60,14 +60,11 @@ const AddTeacher:React.FC = () => {
     const fetchData = async (data: teacherFormInterface) => {
         setShowLoading(true);
 
-        const formData = new FormData();
-        // formData.append('content_name', data.title); 
-
         try {
             const response = await axiosInstance.post('home/content/', formData, {
                 headers: {
                     'Authorization': `Token ${user.token}`,
-                    'Content-Type': 'multipart/form-data',
+                    'Content-Type': 'application/json',
                 },
             });
             setShowLoading(false);
@@ -79,11 +76,12 @@ const AddTeacher:React.FC = () => {
             }
         } catch (error: any) {
             setShowLoading(false);
+            setShowLoading(false);
             if(error.response?.data?.detail){    
                 handleShowError(error.response.data.detail)
-            }else{
-                handleShowError(`Algo deu errado - ${error.response.status}`)
+                return 
             }
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`)
             console.error('Error:', error.message);
         }
     };

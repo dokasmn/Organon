@@ -73,10 +73,11 @@ export const subjectColors: string[] = [
 
 export const setColorSubject = (title: string): string => {
     title = title.toUpperCase()
-
+    
     const index = subjects.findIndex(subjectOfList => title === subjectOfList.toUpperCase());
-
+    console.log(index)
     if (index !== -1) {
+        console.log(subjectColors[index])
         return subjectColors[index]
     }
 
@@ -99,6 +100,7 @@ export function getImageSubject(subject: string, size: "small" | "medium" | "big
         if (size === "square") {
             return subjectsImagesSquare[index];
         }
+        
         return subjectsImagesSmall[index];
     }
 
@@ -134,7 +136,6 @@ export function getRoute(): string[]{
 }
 
 type Dictionary = { [key: string]: any };
-
 
 export function quickSort<T extends Dictionary>(arr: T[], key: string): T[] {
     if (arr.length <= 1) {

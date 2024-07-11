@@ -21,22 +21,18 @@ import { useAuth } from '../contexts/AuthContext';
 // UTILS
 import { subjects } from '../utils';
 
-interface NotesProps {
-    notesUser: {title:string, text:string}[],
-}
-
 type notesList = {
-    note_content:string,
+    note_content:{note_content: string, subject: string},
     note_text:string,
-    note_title:string
+    note_title:string,
 }[]
 
-const Notes:React.FC<NotesProps> = () => {
+const Notes:React.FC = () => {
     const { user } = useAuth()
     const { setShowLoading } = useLoading();
     const { handleShowError, handleShowSuccess } = usePopupLog();
     const [notesOfUser, setNotesOfUser] = useState<notesList>([{
-        note_content:"",
+        note_content:{note_content:"", subject:""},
         note_text:"",
         note_title:""
     }]);
@@ -89,7 +85,8 @@ const Notes:React.FC<NotesProps> = () => {
                             notesOfUser.map((note, __) => (
                                 <Note 
                                     title={note.note_title} 
-                                    text={note.note_text} 
+                                    text={note.note_text}
+                                    subject={note.note_content.subject} 
                                     key={uuidv4()}
                                 />
                             ))

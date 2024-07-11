@@ -24,12 +24,25 @@ for subj in list_subjects:
 Escola:
 
 from login.models import *
+School.objects.create(school_state="SC", school_name="Escola")
 school = Schooluser()
 school.school_name = "Escola qualquer"
 school.school_state = "SC"
 school.save()
 
-
 Professor_user.objects.create(fk_academic_education_id=Academic_Education.objects.get(id=1), fk_professional_history_id=Professional_History.objects.get(id=1), professor_auth_user_id=CustomUser.objects.get(id=1))
 Professor_user.objects.create(fk_academic_education_id=1, fk_professional_history_id=1, professor_auth_user_id=1, fk_school_id=1) 
 <Professor_user: Professor_user object (1)>
+
+
+from login.models import Professor_user
+from login.models import *                   
+
+Profession.objects.create(profession_name="Desenvolvedor jr")
+
+from login.models import *                                                       
+Professional_History.objects.create(company="My Company", fk_profession_id=1)
+
+Academic_Education.objects.create(degree="Doutorado", training_name="Advocacia")
+
+Professor_user.objects.create(professor_auth_user=CustomUser.objects.get(id=1), fk_academic_education=Academic_Education.objects.get(id=1), fk_professional_history=Professional_History.objects.get(id=1), fk_school=School.objects.get(id=1))
