@@ -30,7 +30,7 @@ academic_education = Academic_Education.objects.create(degree="Bacharel", traini
 professional_history = Professional_History.objects.create(company="Empresa Exemplo", fk_profession=profession)
 
 # Crie uma instância do Professor_user
-professor_user = Professor_user.objects.create(professor_auth_user=custom_user, fk_academic_education=academic_education, fk_professional_history=professional_history, fk_school=school)
+professor_user = Professor_user.objects.create(professor_auth_user=custom_user, fk_academic_education=academic_education, fk_professional_history=professional_history)
 
 # Crie uma instância do SchoolUser
 school_user = SchoolUser.objects.create(school_auth_user=custom_user, fk_school=school)

@@ -29,7 +29,7 @@ const Register: React.FC = () => {
     const { login } = useAuth();
     const { handleShowError } = usePopupLog();
     const {showLoading, setShowLoading} = useLoading();
-    const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(true);
+    const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
 
     const {
