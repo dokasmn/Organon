@@ -62,8 +62,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         if user.is_superuser:
             return Content.objects.all()
         else:
-            professor = get_object_or_404(Professor_user, professor_auth_user=user)
-            return Content.objects.filter(fk_school=professor.fk_school)
+            return Content.objects.filter(fk_school=user.fk_school)
 
   
     def perform_create(self, serializer):
@@ -142,13 +141,13 @@ class CommentViewSet(viewsets.ModelViewSet):
     
     def create(self, request, *args, **kwargs):
         try:
-            data = {""}
-            serializer = self.get_serializer(data=request.data)
+            data = {"comment_text":request.data['coment_text'],"fk_content":request.data['fk_content'],"fk_user_id":request.user}
+            serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
 
             comment = self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
-            return Response(self.get_serializer(content).data, status=status.HTTP_201_CREATED, headers=headers)
+            return Response(self.get_serializer(comment).data, status=status.HTTP_201_CREATED, headers=headers)
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
