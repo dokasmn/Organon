@@ -84,7 +84,7 @@ class CustomUser(AbstractBaseUser):
 class ConfirmationCode(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='confirmation_codes')
     code = models.CharField(max_length=6)
-    purpose = models.CharField(max_length=50)  # e.g., '2fa', 'password_reset'
+    purpose = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def generate_code(self):
@@ -111,7 +111,6 @@ class Professor_user(models.Model):
     professor_auth_user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)    
     fk_academic_education = models.ForeignKey(Academic_Education, on_delete= models.CASCADE ,verbose_name="Formação acadêmica",null=True,blank=True)
     fk_professional_history = models.ForeignKey(Professional_History, on_delete=models.CASCADE, verbose_name="Histórico professional",null=True,blank=True)
-    fk_school = models.ForeignKey(School, on_delete=models.CASCADE, verbose_name="Escola")
     
     class Meta:
         ordering = ['professor_auth_user']

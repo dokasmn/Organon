@@ -32,7 +32,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta():
         model=Comment
-        fields=('comment_text','fk_user','fk_content')
+        fields=('comment_text','fk_content')
     
     def get_fk_user(self, obj):
         return obj.fk_user.username if obj else None
