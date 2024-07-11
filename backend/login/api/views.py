@@ -7,7 +7,6 @@ from ..permissions import IsSchoolAdmin, IsProfessorOwner
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
-from django.utils import timezone
 
 # rest_framework
 from rest_framework import status
@@ -157,7 +156,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         except ConfirmationCode.DoesNotExist:
             return Response({'detail': 'Código de confirmação inválido.'}, status=status.HTTP_400_BAD_REQUEST)
         
-    @action(detail=True, method=['post'])
+    @action(detail=True, methods=['post'])
     def logout(self, request):
         try:
             token = Token.objects.get(user=request.user)
