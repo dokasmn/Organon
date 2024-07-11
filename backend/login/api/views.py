@@ -79,15 +79,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             code_obj = ConfirmationCode.objects.get(code=confirmation_code)
             user = CustomUser.objects.get(email=email, pk=code_obj.user.id)
             if code_obj.created_at + timezone.timedelta(minutes=6) < timezone.now():
-                code_obj.generate_code()
-                send_mail(
-                    'Novo Código de Confirmação',
-                    f'Seu novo código de confirmação é: {code_obj.code}',
-                    settings.DEFAULT_FROM_EMAIL,
-                    [user.email],
-                    fail_silently=False,
-                )
-                return Response({'detail':'Código expirado. Um novo código foi enviado para seu e-mail.'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'detail':'Código expirado. Tente novamente'}, status=status.HTTP_400_BAD_REQUEST)
             user.is_active = True
             code_obj.code = ''
             user.save()
@@ -110,7 +102,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         )
         return Response({'success': 'Um novo código foi enviado para seu e-mail.'}, status=status.HTTP_200_OK)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post','put'])
     def invite_update_password_auth(self, request, pk=None):
         user = self.get_object()
         try:
@@ -127,7 +119,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    @action(detail=True, methods=['post'])
+    @action(detail=True, methods=['post','put'])
     def set_password(self, request, pk=None):
         user = self.get_object()
         code = request.data.get('code')
@@ -144,6 +136,17 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             return Response({'detail': 'Código de confirmação expirado.'}, status=status.HTTP_400_BAD_REQUEST)
         except ConfirmationCode.DoesNotExist:
             return Response({'detail': 'Código de confirmação inválido.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=True, method=['post'])
+    def logout(self, request):
+        try:
+            token = Token.objects.get(user=request.user)
+            token.delete()
+            return Response({"success": "Usuário deslogado com sucesso"}, status=status.HTTP_200_OK)
+        except Token.DoesNotExist:
+            return Response({"error": "Usuário não está logado"}, status=status.HTTP_400_BAD_REQUEST)
+
+        
         
         
 class ProfessorViewSet(viewsets.ModelViewSet):
