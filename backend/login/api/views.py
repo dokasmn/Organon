@@ -87,7 +87,6 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         serializer = CustomLoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         data = serializer.save()
-
         return Response(data, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['post'])
@@ -193,24 +192,30 @@ class ProfessorViewSet(viewsets.ModelViewSet):
         if not self.get_permissions()[0].has_permission(request, self):
             return Response({"detail": "Permissão negada"}, status=status.HTTP_403_FORBIDDEN)
         data = request.data
-        school = School.objects.get(school_state=data['state'], school_name=data['school'])
-        if not school:
-            return Response({"detail": "não foi encontrada nenhuma escola com essas características"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            school = School.objects.get(school_state=data['state'], school_name=data['school'])
+        except School.DoesNotExist:
+            return Response({"detail": "Não foi encontrada nenhuma escola com essas características"}, status=status.HTTP_400_BAD_REQUEST)
+        
         atribute = {
-            'username':data['username'],
-            'email':data['email'],
-            'password':data['password'],
-            'fk_school':school.id
+            'fk_academic_education_id': data['fk_academic_education_id'],
+            'fk_professional_history': data['fk_professional_history'],
+            'password': data['password'],
+            'fk_school': school.id
         }
-        serializer = UserCreateSerializer(data=atribute)
+        
+        serializer = ProfessorCreateSerializer(data=atribute)
         if serializer.is_valid():
             try:
-                user = serializer.save()
-                confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
+                professor = serializer.save()
+                user = CustomUser.objects.get(id=professor.professor_auth_user_id)
+                token, created = Token.objects.get_or_create(user=user)
+                confirmation_code = ConfirmationCode(user=user, purpose='2af')
                 confirmation_code.generate_code()
+                frontend_url = f"http://localhost:5173/home?confirm_code={confirmation_code.code}&token={token.key}"
                 send_mail(
                     'Código de confirmação',
-                    f'Seu código de confirmação é: {confirmation_code.code}',
+                    f'Clique no link para confirmar seu e-mail e acessar a aplicação: {frontend_url}',
                     settings.DEFAULT_FROM_EMAIL,
                     [user.email],
                     fail_silently=False,
@@ -220,8 +225,3 @@ class ProfessorViewSet(viewsets.ModelViewSet):
                 print(e)
                 return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, *args, **kwargs):
-        if not self.get_permissions()[0].has_permission(request, self):
-            return Response({"detail": "Permissão negada"}, status=status.HTTP_403_FORBIDDEN)
-        return super().destroy(request, *args, **kwargs)
