@@ -18,11 +18,10 @@
   import Class from "./pages/Class.tsx";
   import Subject from "./pages/Subject.tsx";
   import SideBar from "./components/layout/SideBar.tsx";
-  import { PopupLogProvider } from "./contexts/PopUpLogContext.tsx";
+  
   import Header from './components/layout/Header.tsx';
   import PopupLog from "./components/popups/PopUpLog.tsx";
   import PrivateRoute from "./components/configs/PrivateRoute.tsx";
-  import { AuthProvider } from "./contexts/AuthContext.tsx";
 
   // COMPONENTS
   import Loading from "./components/items/utils/Loading.tsx";
@@ -30,6 +29,8 @@
 
   // CONTEXTS
   import { LoadingProvider } from "./contexts/LoadingContext.tsx";
+  import { PopupLogProvider } from "./contexts/PopUpLogContext.tsx";
+  import { AuthProvider } from "./contexts/AuthContext.tsx";
 
   const App = () => {
     return (
