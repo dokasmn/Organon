@@ -155,7 +155,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         except ConfirmationCode.DoesNotExist:
             return Response({'detail': 'Código de confirmação inválido.'}, status=status.HTTP_400_BAD_REQUEST)
         
-    @action(detail=True, methods=['post'])
+    @action(detail=False, methods=['post'])
     def logout(self, request):
         try:
             token = Token.objects.get(user=request.user)

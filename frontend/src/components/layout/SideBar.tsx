@@ -1,6 +1,8 @@
 // REACT
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
+import axiosInstance from '../../axiosConfig';
+import { useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import HorizontalLine from '../items/texts/HorizontalLine';
@@ -16,9 +18,38 @@ import { useAuth } from '../../contexts/AuthContext';
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth()
+  const navigate = useNavigate();
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
+  };
+
+  const fetchDataLogout = async () => {
+    try {
+      const response = await axiosInstance.post('login/user/logout/', {}, {
+        headers: {
+          'Authorization': `Token ${user.token}`,
+          'Content-Type': 'application/json'
+        },
+      });
+      if (response.status === 200) {
+        console.log("SAIDA")
+        navigate("/login")
+      }else{
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error: any) {
+      try{
+        if(error.response.data && error.response.data.detail){    
+            console.error(error.response.data.detail)
+        }else{
+            console.error(`Algo deu errado - ${error.response.status}`)    
+        }
+      }catch{
+          console.error(`Algo deu errado - ${error.response.status}`)
+      }
+      console.error('Error:', error.message);
+    }
   };
 
   const location = useLocation();
@@ -79,7 +110,7 @@ const Sidebar = () => {
         </div>
         <div className='absolute bottom-5 w-9/12'>
           <HorizontalLine style='w-full bg-white h-px mb-5'/>
-          <button className={`rounded p-3 flex hover:bg-blue-1-opacity ${isOpen ? 'w-full justify-start' : 'justify-center w-full'}`}>
+          <button className={`rounded p-3 flex hover:bg-blue-1-opacity ${isOpen ? 'w-full justify-start' : 'justify-center w-full'}`}  onClick={fetchDataLogout}>
             <IoExitOutline className='text-white text-2xl' />
           </button>
         </div>
