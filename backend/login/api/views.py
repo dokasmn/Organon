@@ -205,15 +205,13 @@ class ProfessorViewSet(viewsets.ModelViewSet):
             try:
                 professor = serializer.save()
                 user = CustomUser.objects.get(id=professor.professor_auth_user_id)
+                token, created = Token.objects.get_or_create(user=user)
                 confirmation_code = ConfirmationCode(user=user, purpose='2af')
                 confirmation_code.generate_code()
-                
-                # Generate the frontend URL with the confirmation code
-                frontend_url = f"http://your-frontend-url.com/confirm-email?code={confirmation_code.code}&email={user.email}"
-                
+                frontend_url = f"http://localhost:5173/home?confirm_code={confirmation_code.code}&token={token.key}"
                 send_mail(
                     'Código de confirmação',
-                    f'Seu código de confirmação é: {confirmation_code.code}\nConfirme seu email aqui: {frontend_url}',
+                    f'Clique no link para confirmar seu e-mail e acessar a aplicação: {frontend_url}',
                     settings.DEFAULT_FROM_EMAIL,
                     [user.email],
                     fail_silently=False,
