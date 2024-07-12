@@ -1,5 +1,6 @@
 // React
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axiosInstance from '../axiosConfig';
 
 // COMPONENTS
 import NavigationSubject from '../components/items/sliders/NavigationSubject';
@@ -21,17 +22,69 @@ import { SliderContentInterface } from "../types"
 // IMAGES 
 import  highSchoolImage from "../assets/images/high_school.png"
 
+// HOOKS
+import { useAuth } from '../contexts/AuthContext';
+
+// TYPES
+import { slidesContent } from '../types';
+
 const Home:React.FC = () => {
-    const slides: SliderContentInterface[] = [
-        { subject: 'Geografia', content: 'Globalização', date: '04/06/2023', "image":GeoGraphySmall },
-        { subject: 'História', content: 'Revolução Francesa', date: '05/06/2023', "image":GeoGraphySmall },
-        { subject: 'Matemática', content: 'Cálculo Diferencial', date: '06/06/2023', "image":GeoGraphySmall },
-    ];
+    const { user } = useAuth();
+    const [slides, setSlides] = useState<slidesContent[]>([{
+        content_description:"",
+        content_id:1,
+        content_name:"",
+        content_pdf:"",
+        content_position:1,
+        content_professor_user:"",
+        content_subject: "",
+        content_video: "",
+    }])
+    
+    const [searchQuery, setSearchQuery] = useState('');
+    const [filteredSlides, setFilteredSlides] = useState(slides);
+
+    const fetchData = async () => {
+        try {
+            const response = await axiosInstance.get('course/content/', {
+                headers: {
+                    'Authorization': `Token ${user.token}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            if (response.status === 200) {
+                let contents:any = response.data.results;
+                setSlides(contents)
+                console.log(contents)
+                // contents.map((obj:slideContent) => {
+                //     setSlides({subject: obj.content_subject, content: obj.content_name, date:"12/04/2024", image:GeoGraphySmall}) 
+                // })
+            }
+        } catch (error: any) {
+            if(error.response?.data?.detail){    
+                console.log(error.response.data.detail)
+            }else{
+                console.log(`Algo deu errado - ${error.response.status}`)
+            }
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+        if (searchQuery) {
+            setFilteredSlides(slides.filter(slide => 
+                slide.content_subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                slide.content_name.toLowerCase().includes(searchQuery.toLowerCase())
+            ));
+        } else {
+            setFilteredSlides(slides);
+        }
+    }, [searchQuery])
     
     return (
         <>
             <div className='xl:flex xl:flex-col xl:items-center'>
-                <HeaderHome/>
+                <HeaderHome searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
                 <NavigationSubject/>
                 <main className={' pt-5 max-w-7xl w-full '}>
                     <section className={' relative w-full overflow-hidden h-128 '} >

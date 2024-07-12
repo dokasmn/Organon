@@ -64,15 +64,19 @@ const CreateContent:React.FC = () => {
         formData.append('content_description', data.descriptionContent);
 
         if (data.uploadVideo) {
+            console.log("vai adicionar video")
             formData.append('content_video', data.uploadVideo);
         }
 
         if (data.uploadImage) {
+            console.log("vai adicionar pdf")
             formData.append('content_pdf', data.uploadImage);
         }
 
         formData.append('content_subject', data.subject);
         formData.append('content_position', data.position);
+
+        console.log(formData);
 
         try {
             console.log(user.token)

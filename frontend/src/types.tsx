@@ -1,4 +1,5 @@
 import { ReactNode } from "react"
+import SliderContent from "./components/items/sliders/SliderContent"
 
 export interface SliderContentInterface{
     "subject":string, 
@@ -14,3 +15,14 @@ export type note = {
     subject: string,
     content: string
 } 
+
+export type slidesContent = {
+    content_description:string,
+    content_id:number,
+    content_name:string,
+    content_pdf:string,
+    content_position:number,
+    content_professor_user:string,
+    content_subject: string,
+    content_video: string,
+}

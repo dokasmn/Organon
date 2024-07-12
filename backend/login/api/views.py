@@ -80,20 +80,6 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                 except Exception as e:
                     return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-<<<<<<< HEAD
-        else:
-            confirmation_code = ConfirmationCode(user=user, purpose='2af')
-            confirmation_code.generate_code()
-            send_mail(
-                'Código de confirmação',
-                f'Seu código de confirmação é: {confirmation_code.code}',
-                settings.DEFAULT_FROM_EMAIL,
-                [user.email],
-                fail_silently=False,
-            )
-=======
-        return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
->>>>>>> 01701cc85a3b6f7a7120831047dbeeb157bed007
 
     @action(detail=False, methods=['post'])
     def login(self, request):
