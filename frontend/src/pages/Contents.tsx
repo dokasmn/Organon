@@ -66,9 +66,9 @@ const Contents:React.FC = () => {
             setShowLoading(false);
             if(error.response?.data?.detail){    
                 handleShowError(error.response.data.detail)
-            }else{
-                handleShowError(`Algo deu errado - ${error.response.status}`)
+                return 
             }
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`)
             console.error('Error:', error.message);
         }
     }
@@ -83,7 +83,7 @@ const Contents:React.FC = () => {
                         <div className='hidden md:block'>
                             <Title text="Conteúdos"/>
                         </div>
-                        <HorizontalLine style='w-full p-0 hidden md:block mt-5'/>
+                        <HorizontalLine style='w-full p-0 hidden md:block my-5'/>
                     </section>
                     <section>
                         {contents.length > 0  && contents[0].content_name != "default"  ? 
@@ -106,10 +106,10 @@ const Contents:React.FC = () => {
                             </div>
                         }
                     </section>
-                    <HorizontalLine style='w-full'/>
+                    <HorizontalLine style='w-full mb-5'/>
                     <Link
                         text="Add Content"
-                        style='flex justify-center md:bg-blue-5 md:text-white md:hover:bg-blue-5-dark md:shadow-md w-full text-black bg-white-2 hover:bg-white-2-dark rounded md:rounded-none font-bold py-3'
+                        style='flex justify-center md:bg-blue-5 md:text-white md:hover:bg-blue-5-dark md:shadow-md w-full text-black bg-white-2 hover:bg-white-2-dark rounded md:rounded-none font-semibold py-3'
                         to='/perfil/conteudo/criar-conteudo'
                     />
                 </main>

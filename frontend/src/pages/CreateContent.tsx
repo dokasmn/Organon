@@ -95,9 +95,9 @@ const CreateContent:React.FC = () => {
             setShowLoading(false);
             if(error.response?.data?.detail){    
                 handleShowError(error.response.data.detail)
-            }else{
-                handleShowError(`Algo deu errado - ${error.response.status}`)
+                return 
             }
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`)
             console.error('Error:', error.message);
         }
     };
@@ -190,7 +190,7 @@ const CreateContent:React.FC = () => {
                                 value = {formData.descriptionContent}
                             />
                         </div>
-                        <HorizontalLine style='w-full'/>
+                        <HorizontalLine style='w-full mb-5'/>
                         <div >
                             <Button 
                                 text='Save' 

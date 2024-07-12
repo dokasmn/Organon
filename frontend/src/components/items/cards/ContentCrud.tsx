@@ -2,6 +2,7 @@ import React, {useState, useMemo} from 'react';
 
 // COMPONENTS
 import Button from '../buttons/Button';
+import Link from '../buttons/Link';
 
 // IMAGES
 import { FaQuestion } from "react-icons/fa6";
@@ -39,7 +40,12 @@ const ContentCrud:React.FC<ContentCrudProps> = ({content, subject, image}) => {
             </div>
             <div className={'w-2/4 flex '}>
                 <div className={' w-5/6 flex justify-center sm:justify-end items-center '} >
-                    <Button text='View' style=' max-w-28 bg-blue-5 hover:bg-blue-5-dark ' />
+                    <Link
+                        text="View"
+                        style='flex justify-center bg-blue-5 hover:bg-blue-5-dark max-w-28 md:shadow-md w-full rounded md:rounded-none font-semibold text-white py-2'
+                        to={`/materia/${subject}/${content}`}
+                    />
+                    {/* <Button text='View' style=' max-w-28 bg-blue-5 hover:bg-blue-5-dark ' /> */}
                 </div>
                 <div className={' w-1/6 flex items-center sm:ml-5 justify-center cursor-pointer hover:bg-gray-300 rounded px-1 py-2'} >
                     <SlOptionsVertical  className=' text-xl ' />

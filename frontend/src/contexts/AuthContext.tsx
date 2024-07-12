@@ -6,7 +6,7 @@ interface AuthContextType {
   logout: () => void;
   isSchool: boolean;
   isProfessor: boolean;
-  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string};
+  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string, id:string};
   loading: boolean;
 }
 
@@ -16,12 +16,20 @@ interface AuthProviderProps {
   children: ReactNode;
 }
 
+type userType = {
+  email: string, 
+  is_professor: boolean, 
+  is_school_user: boolean, 
+  token: string, 
+  username: string
+}
+
 export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isProfessor, setIsProfessor] = useState<boolean>(false);
     const [isSchool, setIsSchool] = useState<boolean>(false);
-    const [user, setUser] = useState<{email: string, is_professor: boolean, is_school_user: boolean, token: string}>(
-      {email: "", is_professor: false, is_school_user: false, token: ""}
+    const [user, setUser] = useState<userType>(
+      {email: "", is_professor: false, is_school_user: false, token: "", username: ""}
     );
     const [loading, setLoading] = useState<boolean>(true);
     
@@ -31,7 +39,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         const data = JSON.parse(storedUser);
         setIsAuthenticated(true);
         setUser(data);
-
+        console.log(user)
         if (data.is_professor) {
           setIsProfessor(true);
         }
@@ -43,7 +51,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
       setLoading(false);
     }, []);
     
-    const login = (data: {email: string, is_professor: boolean, is_school_user: boolean, token: string}) => {
+    const login = (data: userType) => {
       setIsAuthenticated(true);
       localStorage.setItem('user', JSON.stringify(data));
       setUser(data);
@@ -71,7 +79,6 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
     );
 };
 
-// Hook personalizado para usar o contexto de autenticação
 export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);
     if (!context) {

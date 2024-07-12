@@ -47,6 +47,21 @@ export const subjects: string[] = [
     "Biologia", "Artes", "Literatura", "Geografia"
 ]
 
+export const subjectsDict = {
+    "Matemática":"Matemática",
+    "Gramática":"Gramática",
+    "Filosofia":"Filosofia",
+    "Inglês":"Inglês",
+    "Sociologia":"Sociologia",
+    "História":"História",
+    "Física":"Física",
+    "Química":"Química",
+    "Biologia":"Biologia",
+    "Artes":"Artes", 
+    "Literatura":"Literatura",
+    "Geografia":"Geografia"
+}
+
 export const subjectsImagesSmall: string[] = [
     mathematicsSmall, grammarSmall, philosophySmall, englishSmall,
     sociologySmall, historySmall, physicsSmall, chemicalSmall, 
@@ -73,9 +88,8 @@ export const subjectColors: string[] = [
 
 export const setColorSubject = (title: string): string => {
     title = title.toUpperCase()
-
+    
     const index = subjects.findIndex(subjectOfList => title === subjectOfList.toUpperCase());
-
     if (index !== -1) {
         return subjectColors[index]
     }
@@ -99,6 +113,7 @@ export function getImageSubject(subject: string, size: "small" | "medium" | "big
         if (size === "square") {
             return subjectsImagesSquare[index];
         }
+        
         return subjectsImagesSmall[index];
     }
 
@@ -134,7 +149,6 @@ export function getRoute(): string[]{
 }
 
 type Dictionary = { [key: string]: any };
-
 
 export function quickSort<T extends Dictionary>(arr: T[], key: string): T[] {
     if (arr.length <= 1) {
@@ -177,3 +191,13 @@ export const states = {
     "AM" : "Amazonas",
     "AC" : "Acre"
 }
+
+export const listObjectsToComboBox = (list: any[], field: string) => {
+    let dict: {[key: string]: string} = {};
+    
+    list.map((item) => {
+        dict[`${item[`${field}`]}`] = item[`${field}`];
+    })
+
+    return dict;
+}   

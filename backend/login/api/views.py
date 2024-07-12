@@ -32,17 +32,31 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'])
     def register(self, request):
         data = request.data
+
         school = School.objects.get(school_state=data['state'], school_name=data['school'])
+
         if not school:
             return Response({"detail": "não foi encontrada nenhuma escola com essas características"}, status=status.HTTP_400_BAD_REQUEST)
         
-        search_user = CustomUser.objects.get(
-            username=data['username'],
-            email=data['email'],
-            fk_school=school.id,
-            password=data['password']
-        )
-        if not search_user:
+        try:
+            search_user = CustomUser.objects.get(
+                username=data['username'],
+                email=data['email'],
+                fk_school=school.id,
+                password=data['password']
+            )
+
+            confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
+            confirmation_code.generate_code()
+            send_mail(
+                'Código de confirmação',
+                f'Seu código de confirmação é: {confirmation_code.code}',
+                settings.DEFAULT_FROM_EMAIL,
+                [user.email],
+                fail_silently=False,
+            )
+            return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
+        except:
             atribute = {
                 'username':data['username'],
                 'email':data['email'],
@@ -64,11 +78,11 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                     )
                     return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
                 except Exception as e:
-                    print(e)
                     return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+<<<<<<< HEAD
         else:
-            confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
+            confirmation_code = ConfirmationCode(user=user, purpose='2af')
             confirmation_code.generate_code()
             send_mail(
                 'Código de confirmação',
@@ -77,6 +91,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                 [user.email],
                 fail_silently=False,
             )
+=======
+        return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+>>>>>>> 01701cc85a3b6f7a7120831047dbeeb157bed007
 
     @action(detail=False, methods=['post'])
     def login(self, request):

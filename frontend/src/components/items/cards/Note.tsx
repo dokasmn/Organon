@@ -1,47 +1,42 @@
 // REACT
-import React, {useState, useMemo} from 'react';
+import React, { ReactNode } from 'react';
 
+// UTILS
+import { setColorSubject } from '../../../utils';
 
 // COMPONENTS
 import HorizontalLine from '../texts/HorizontalLine';
 
+// TYPES
+import { note } from '../../../types';
+
 interface NoteProps {
     title: string,
-    text: string,
+    text: string | ReactNode,
+    subject: string,
+    content?: string,
+    onClick: (props: note) => void,
 }
 
-const Note:React.FC<NoteProps> = ({title, text}) => {
-
-    let color: string = "bg-red-subject";
-
-    if(title === "Matemática"){
-        color = "bg-blue-subject" 
-    }else if(title === "Biologia"){
-        color = "bg-green-subject" 
-    }else if(title === "Física"){
-        color = "bg-purple-subject" 
-    }else if(title === "Geografia"){
-        color = "bg-yellow-subject" 
-    }else if(title === "História"){
-        color = "bg-yellow-orange-subject" 
-    }
+const Note:React.FC<NoteProps> = ({title, text, subject, content="", onClick}) => {
+    let color: string = setColorSubject(subject);
 
     return (
         <div
-            className={`rounded md:shadow-lg transition-all transform duration-500 hover:border-2 hover:border-blue-1 hover:shadow md:rounded-none cursor-pointer flex-col w-40 05xl:w-52 xs:w-48 items-center font-semibold border border-gray-300 px-3 py-4 mb-4`}
+            onClick={() => {onClick({color, title, text, subject, content})}}
+            className={`rounded md:shadow-lg transition-all transform duration-500 hover:border-1 hover:border-blue-1 hover:shadow md:rounded-none hover:bg-gray-400 hover:bg-opacity-5 cursor-pointer flex-col w-40 05xl:w-52 xs:w-48 items-center font-semibold border border-gray-300 px-3 py-4 mb-4`}
         >   
-            <HorizontalLine style={` w-full ${color} rounded py-0.5`} />
+            <HorizontalLine style={` w-full ${color} rounded py-0.5 mb-5`} />
             <section className='px-1' >
-                <h3>
+                <h3 className='text-xl break-all ' >
                     {title}
                 </h3>
+
                 <p className='w-full break-words pt-3 pb-5 text-sm' >
-                    {text} 
-                </p>
+                    {text}
+                </p>                
             </section>
-            
         </div>
-        
     )
 }
 

@@ -72,11 +72,11 @@ const Register: React.FC = () => {
             }
         } catch (error: any) {
             setShowLoading(false);
-            if (error.response && error.response.data) {
+            if(error.response?.data?.detail){
                 handleShowError(error.response.data.detail);
-            } else {
-                handleShowError(error.message);
             }
+            
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`);
             console.error('Error:', error.message);
         }
     };
@@ -114,11 +114,12 @@ const Register: React.FC = () => {
                 console.error('Unexpected response status:', response.status);
             }
         } catch (error: any) {
-            if(error.response?.data?.detail){    
-                handleShowError(error.response.data.detail)
-            }else{
-                handleShowError(`Algo deu errado - ${error.response.status}`)
+            setShowLoading(false);
+            if(error.response?.data?.detail){
+                handleShowError(error.response.data.detail);
             }
+            
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`);
             console.error('Error:', error.message);
         }
     };
@@ -155,7 +156,7 @@ const Register: React.FC = () => {
                                     value={formData.name}
                                     required
                                     maxLength={40}
-                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                    style='text-white bg-blue-5-opacity border-blue-1-opacity focus-within:border-blue-1'
                                 />
                                 <InputDark
                                     placeholder="E-mail"
@@ -167,7 +168,7 @@ const Register: React.FC = () => {
                                     onChange={handleEmailChange}
                                     maxLength={254}
                                     error={emailError}
-                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                    style='text-white bg-blue-5-opacity border-blue-1-opacity focus-within:border-blue-1'
                                 />
                                 <InputDark
                                     placeholder="Senha"
@@ -180,7 +181,7 @@ const Register: React.FC = () => {
                                     maxLength={64}
                                     minLength={8}
                                     error={passwordError}
-                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                    style='text-white bg-blue-5-opacity border-blue-1-opacity focus-within:border-blue-1'
                                 />
                                 <InputDark
                                     placeholder="Confirmar senha"
@@ -193,7 +194,7 @@ const Register: React.FC = () => {
                                     maxLength={64}
                                     minLength={8}
                                     error={confirmPasswordError}
-                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                    style='text-white bg-blue-5-opacity border-blue-1-opacity focus-within:border-blue-1'
                                 />
                                 <div className='md:flex gap-5' >        
                                     <ComboBox
@@ -217,7 +218,7 @@ const Register: React.FC = () => {
                                         onChange={handleChange}
                                         maxLength={100}
                                         minLength={2}
-                                        style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                        style='text-white bg-blue-5-opacity border-blue-1-opacity focus-within:border-blue-1'
                                     />
                                 </div>
                             </div>

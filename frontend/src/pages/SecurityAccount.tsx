@@ -43,7 +43,7 @@ const SecurityAccount:React.FC = () => {
                         </div>
                     </section>
                     <section>
-                        <HorizontalLine style='w-full'/>
+                        <HorizontalLine style='w-full mb-5'/>
                         <form className='' onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="email-input-reset" className='font-semibold '>Email:</label>
@@ -66,7 +66,7 @@ const SecurityAccount:React.FC = () => {
                                 type='submit'
                             />
                         </form>
-                        <HorizontalLine style='w-full'/>
+                        <HorizontalLine style='w-full mb-5'/>
                         <form onSubmit={handleSubmit}>
                             <div>
                                 <label htmlFor="email-input-reset" className=' font-semibold ' >Password:</label>

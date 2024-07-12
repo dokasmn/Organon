@@ -42,7 +42,6 @@ class SubjectViewSet(viewsets.ModelViewSet):
 class ContentViewSet(viewsets.ModelViewSet):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
-    permission_classes = [IsAuthenticated, IsProfessorOwner]
 
     #Filtros de pesquisa
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
@@ -57,13 +56,19 @@ class ContentViewSet(viewsets.ModelViewSet):
     # ordering_fields = ['campo1', 'campo4']
     
     
+    def get_permissions(self):
+        if self.action in ['create','update','delete']:
+            self.permission_classes = [IsProfessorOwner]
+        else:
+            self.permission_classes = [IsAuthenticated]
+        return super(ContentViewSet, self).get_permissions()
+    
     def get_queryset(self):
         user = self.request.user
         if user.is_superuser:
             return Content.objects.all()
         else:
-            professor = get_object_or_404(Professor_user, professor_auth_user=user)
-            return Content.objects.filter(fk_school=professor.fk_school)
+            return Content.objects.filter(fk_school=user.fk_school)
 
   
     def perform_create(self, serializer):
@@ -86,7 +91,8 @@ class ContentViewSet(viewsets.ModelViewSet):
             except Subject.DoesNotExist:
                 raise serializers.ValidationError("Matéria inválida")
 
-            professor = get_object_or_404(Professor_user, professor_auth_user=self.request.user)
+            user = self.request.user
+            professor = get_object_or_404(Professor_user, professor_auth_user=user)
             content = serializer.save(
                 content_professor_user=professor,
                 content_pdf=pdf_url['url'],
@@ -95,7 +101,7 @@ class ContentViewSet(viewsets.ModelViewSet):
                 content_description=self.request.data['content_description'],
                 content_name=self.request.data['content_name'],
                 content_position=int(self.request.data['content_position']),
-                fk_school=professor.fk_school
+                fk_school=user.fk_school
             )
             return content
         except Exception as e:
@@ -104,6 +110,7 @@ class ContentViewSet(viewsets.ModelViewSet):
    
     def create(self, request, *args, **kwargs):
         try:
+            print(request.data)
             serializer = self.get_serializer(data=request.data)
             serializer.is_valid(raise_exception=True)
 

@@ -56,9 +56,9 @@ const Login: React.FC = () => {
             setShowLoading(false);
             if(error.response?.data?.detail){    
                 handleShowError(error.response.data.detail)
-            }else{
-                handleShowError(`Algo deu errado - ${error.response.status}`)
+                return 
             }
+            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`)
             console.error('Error:', error.message);
         }
     };
@@ -91,7 +91,7 @@ const Login: React.FC = () => {
                                     onChange={handleEmailChange}
                                     error={emailError}
                                     maxLength={254}
-                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                    style='text-white bg-blue-5-opacity border-blue-1-opacity focus-within:border-blue-1'
                                 />
                                 <InputDark
                                     placeholder="Senha"
@@ -103,7 +103,7 @@ const Login: React.FC = () => {
                                     onChange={handleChange}
                                     maxLength={64}
                                     minLength={8}
-                                    style='text-white bg-blue-5-opacity border-blue-1-opacity'
+                                    style='text-white bg-blue-5-opacity border-blue-1-opacity focus-within:border-blue-1'
                                 />
                             </div>
                             <div className="flex justify-between items-center pb-5 cursor-pointer">
