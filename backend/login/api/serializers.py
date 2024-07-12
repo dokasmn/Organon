@@ -29,7 +29,6 @@ class CustomLoginSerializer(serializers.Serializer):
         return data
 
     def create(self, validated_data):
-        print(validated_data)
         user = validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
         is_professor = Professor_user.objects.filter(professor_auth_user=user).exists()
