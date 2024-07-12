@@ -3,10 +3,6 @@ funções para fazer:
 change e-mail
 calcular o progresso no curso
 função de pesquisa na home
-função de retornar meus conteúdos
-logout
-adicionar um comentário a um comteúdo
-no Update de conteúdo não pode ser possível alterar o professor do conteúdo
 
 
 SCRIPTS:

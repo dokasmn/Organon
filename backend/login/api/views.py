@@ -68,7 +68,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                     return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
-            confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
+            confirmation_code = ConfirmationCode(user=user, purpose='2af')
             confirmation_code.generate_code()
             send_mail(
                 'Código de confirmação',
