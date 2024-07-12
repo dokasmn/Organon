@@ -190,7 +190,7 @@ const CreateContent:React.FC = () => {
                                 value = {formData.descriptionContent}
                             />
                         </div>
-                        <HorizontalLine style='w-full'/>
+                        <HorizontalLine style='w-full mb-5'/>
                         <div >
                             <Button 
                                 text='Save' 

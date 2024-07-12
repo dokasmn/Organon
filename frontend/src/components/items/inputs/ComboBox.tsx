@@ -10,7 +10,7 @@ interface ComboBoxProps {
     list:  {[key: string]: string };
     icon?: IconType;
     onChange?: (event: React.ChangeEvent<HTMLSelectElement>) => void;
-    styleOption: string;
+    styleOption?: string;
     defaultOption: string;
 }
 
@@ -20,9 +20,9 @@ const ComboBox: React.FC<ComboBoxProps> = (props) => {
            <select 
                 name={props.name} 
                 onChange={props.onChange} 
-                value={props.value} 
+                value={props.value}
                 id={props.id}
-                className={`${props.style} w-full text-base py-2 px-4 outline-none`}
+                className={`w-full text-base py-2 px-4 outline-none ${props.style}`}
                 style={{ height:'42px', }}
             >   
                 <option value="default">
@@ -34,7 +34,6 @@ const ComboBox: React.FC<ComboBoxProps> = (props) => {
                         key={uuidv4()}
                         value={key}
                         className={props.styleOption}
-                        
                     >
                         {value}
                     </option>

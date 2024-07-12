@@ -85,7 +85,8 @@ class ContentViewSet(viewsets.ModelViewSet):
             except Subject.DoesNotExist:
                 raise serializers.ValidationError("Matéria inválida")
 
-            professor = get_object_or_404(Professor_user, professor_auth_user=self.request.user)
+            user = self.request.user
+            professor = get_object_or_404(Professor_user, professor_auth_user=user)
             content = serializer.save(
                 content_professor_user=professor,
                 content_pdf=pdf_url['url'],
@@ -94,7 +95,7 @@ class ContentViewSet(viewsets.ModelViewSet):
                 content_description=self.request.data['content_description'],
                 content_name=self.request.data['content_name'],
                 content_position=int(self.request.data['content_position']),
-                fk_school=professor.fk_school
+                fk_school=user.fk_school
             )
             return content
         except Exception as e:

@@ -126,11 +126,13 @@ const Class:React.FC = () => {
 
     return (
         <>
-            {showCreateNotePopup && (
+            {showCreateNotePopup && 
                 <PopUpCreateNote 
-                    noteContent={contentData.content_name}
+                    onClose={() => {setShowCreateNotePopup(false);}} 
+                    noteContent={contentData.content_name} 
                 />
-            )}        
+            }
+
             <div className='w-full sm:flex flex-col items-center '>  
                 <header className='h-14 w-full flex max-w-160 lg:max-w-4xl relative md:my-5 md:bg-white rounded md:rounded-none overflow-hidden py-5 md:shadow-md md:border border-black border-opacity-30' >
                     <Link style='flex cursor-pointer hover:text-blue-1' text={
@@ -176,7 +178,7 @@ const Class:React.FC = () => {
                             </div>
                         </div>
                     </section>
-                    <HorizontalLine style='w-full md:hidden'/>  
+                    <HorizontalLine style='w-full md:hidden mb-5'/>  
                     <section className='px-3 mb-5 flex flex-col md:border border-gray-1 md:bg-white md:shadow-md md:p-5 justify-between'>
                         <div>
                             <h2 className=' font-semibold text-lg w-full pb-5'>Descrição:</h2>
@@ -192,7 +194,7 @@ const Class:React.FC = () => {
                             />
                         </div>    
                     </section>
-                    <HorizontalLine style='w-full md:hidden ' />  
+                    <HorizontalLine style='w-full md:hidden mb-5' />  
                     <section className='px-3 bs:px-0' >
                         <h2 className=' font-semibold text-lg  '>Comentários:</h2>
                         

@@ -64,9 +64,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                 'fk_school':school.id
             }
             serializer = UserCreateSerializer(data=atribute)
-            print(serializer)
             if serializer.is_valid():
-                print("ENTROU KARLO")
                 try:
                     user = serializer.save()
                     confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
@@ -81,10 +79,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                     return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
                 except Exception as e:
                     return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            print("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB")
-            print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        print("AAAAAAAAAAAAAAAAAAAA")
         return Response(serializer.errors, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @action(detail=False, methods=['post'])

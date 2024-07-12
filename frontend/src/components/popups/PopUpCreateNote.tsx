@@ -5,55 +5,55 @@ import React, { useEffect, useState } from 'react';
 import Input from '../items/inputs/Input';
 import TextArea from '../items/inputs/TextArea';
 import PopUpBase from './PopUpBase';
+import ComboBox from '../items/inputs/ComboBox';
 
 // HOOKS
 import { usePopupLog } from '../../contexts/PopUpLogContext';
 import { useAuth } from '../../contexts/AuthContext';
+import useForm from '../../hooks/useForm';
+import { useLoading } from '../../contexts/LoadingContext';
 
 // AXIOS
 import axiosInstance from '../../axiosConfig';
 
+// IMAGES
+import HorizontalLine from '../items/texts/HorizontalLine';
 
-
+// UTILS
+import { subjectsDict, listObjectsToComboBox } from '../../utils';
 
 interface PopUpCreateNoteProps {
   noteContent: string;
+  color?: string;
+  subject?: boolean;
+  onClose: () => void;
 }
 
-const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent}) => {
+const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent, color, subject, onClose}) => {
+  const { setShowLoading } = useLoading();
   const { user } = useAuth()
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const { handleShowError, handleShowSuccess } = usePopupLog();
+  const { formData , handleChange, handleChangeSelect, handleSubmit} = useForm(
+    { noteTitle: '', noteText: '', noteSubject: '' , noteContent: ''},
+      (data) => {  
+      
+      const content = subject ? data.noteContent : noteContent
+        
+      fetchData({'noteTitle': data.noteTitle, 'noteText': data.noteText, 'noteContent': content});
+      onClose();
+    }
+  );
 
-  const [title, setTitle] = useState<string>("")
-  const [noteText, setNoteText] = useState<string>("")
+  const [contents, setContents] = useState<{[key: string]: string} >(
+    {
+      content_name: "--",
+    }
+  ) 
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
-
-  const onClose = () => {
-    setIsVisible(false)
-  }
-  console.log(noteContent)
-  const onSave = () => {
-    
-    fetchData({'noteTitle': title, 'noteText': noteText, 'noteContent': noteContent})
-  }
-
-  const handleSave = () => {
-    setIsVisible(false);
-    setTimeout(() => {
-      onSave();
-      // fetchData();
-      onClose();
-    }, 300);
-  };
-
-  const handleClose = () => {
-    setIsVisible(false);
-    setTimeout(onClose, 300);
-  };
 
   const fetchData = async (data: { 
     noteTitle: string,
@@ -79,41 +79,106 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent}) => {
         console.error('Unexpected response status:', response.status);
       }
     } catch (error: any) {
-      try{
-        if(error.response.data && error.response.data.detail){    
-            handleShowError(error.response.data.detail)
-        }else{
-            handleShowError(`Algo deu errado - ${error.response.status}`)    
-        }
-      }catch{
-          handleShowError(`Algo deu errado - ${error.response.status}`)
+      setShowLoading(false);
+      if(error.response?.data?.detail){
+        handleShowError(error.response.data.detail);
       }
+      handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`);
       console.error('Error:', error.message);
     }
   };
 
+
+  const fetchContentsBySubject = async () => {
+    setShowLoading(true);
+    try {
+        const response = await axiosInstance.get(`course/content/?content_subject=${formData.noteSubject}`, {
+            headers: {
+                'Authorization': `Token ${user.token}`,
+            },
+        })
+        setShowLoading(false);
+        if (response.status === 200) {
+          let dict_contents = listObjectsToComboBox(response.data.results, 'content_name');
+          setContents(dict_contents);
+        }else{
+          handleShowError("Resposta inesperada.")
+          console.error('Unexpected response status:', response.status);
+        }
+    } catch (error: any) {
+        setShowLoading(false);
+        if(error.response.status != 404){
+            setShowLoading(false);
+            if(error.response?.data?.detail){    
+                handleShowError(error.response.data.detail)
+                return 
+            }
+        }
+        handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`)
+        console.error('Error:', error.message);
+    }
+  }
+
+  const handleSubjectSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    handleChangeSelect(event);
+  }
+
+  useEffect(() => {
+    if (formData.noteSubject) {
+      fetchContentsBySubject();
+    }
+  }, [formData.noteSubject]);
+
   return (
-    <PopUpBase onSave={handleSave} onClose={handleClose} title="Criar Uma Nota" isVisible={isVisible}>
+    <PopUpBase onSave={handleSubmit} secondButton={{text: "Cancelar", onClick: onClose}} onClose={onClose} title={
+      <HorizontalLine style={`w-full mb-0 rounded py-1 ${color}`}/>
+    } isVisible={isVisible}>
+      
       <div className="mb-4">
-        <label className="block text-gray-700 mb-3">Título:</label>
         <Input
           id="title-note"
           type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder='Inserir título da nota'
-          name='titleNote'
+          value={formData.noteTitle}
+          onChange={handleChange}
+          placeholder='Titulo da anotação'
+          name='noteTitle'
+          style='border-gray-1'
         />
       </div>
-      <div className="mb-4">
+
+      <div className="mb-4 ">
         <TextArea
-            id="description-note"
-            value={noteText}
-            onChange={(e) => setNoteText(e.target.value)}
-            placeholder='Inserir descrição da nota'
-            name='descriptionNote'
+          id="description-note"
+          value={formData.noteText}
+          onChange={handleChange}
+          placeholder='Inserir descrição da nota'
+          name='noteText'
+          styleProps='border-opacity-50'
         />
       </div>
+
+      {subject && 
+        <>
+          <ComboBox
+            id= "selectSubject"
+            list={subjectsDict}
+            value={formData.noteSubject}
+            onChange={handleSubjectSelect}
+            defaultOption="Matérias"
+            style='border mb-5 border-gray-1 border-opacity-50'
+            name="noteSubject"
+          />
+          <ComboBox
+            id= "selectContent"
+            list={contents}
+            value={formData.noteContent}
+            onChange={handleChangeSelect}
+            defaultOption="Conteúdos"
+            style='border mb-5 border-gray-1 border-opacity-50'
+            name="noteContent"
+          />
+        </>
+      }
     </PopUpBase>
   );
 }

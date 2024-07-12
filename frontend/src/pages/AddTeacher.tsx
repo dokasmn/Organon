@@ -223,7 +223,7 @@ const AddTeacher:React.FC = () => {
                                 </label>
                             </div>
                         </div>
-                        <HorizontalLine style='w-full mb-1'/>
+                        <HorizontalLine style='w-full mb-5'/>
                         <div >
                             <Button 
                                 text='Salvar' 

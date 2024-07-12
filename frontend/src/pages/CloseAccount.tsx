@@ -33,14 +33,14 @@ const CloseAccount:React.FC = () => {
                         <div className='hidden md:block mb-5'>
                             <Title text="Conteúdos"/>
                         </div>
-                        <HorizontalLine style='w-full hidden md:block'/>
+                        <HorizontalLine style='w-full hidden md:block mb-5'/>
                     </section>
                     <section>
                         <div className='p-5 bg-red-100 md:shadow-md mb-5' >
                             <p className='text-red-2 font-semibold pb-2' >ALERT</p>
                             <p className=' text-gray-1 ' >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor sit.</p>
                         </div>
-                        <HorizontalLine style='w-full'/>
+                        <HorizontalLine style='w-full mb-5'/>
                         <Button 
                             text='Desativar Conta'
                             

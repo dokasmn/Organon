@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 interface ButtonProps {
-    text: string,
+    text: string | ReactNode,
     type?: string,
     style?: string,
     onClick?: () => void;

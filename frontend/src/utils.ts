@@ -47,6 +47,21 @@ export const subjects: string[] = [
     "Biologia", "Artes", "Literatura", "Geografia"
 ]
 
+export const subjectsDict = {
+    "Matemática":"Matemática",
+    "Gramática":"Gramática",
+    "Filosofia":"Filosofia",
+    "Inglês":"Inglês",
+    "Sociologia":"Sociologia",
+    "História":"História",
+    "Física":"Física",
+    "Química":"Química",
+    "Biologia":"Biologia",
+    "Artes":"Artes", 
+    "Literatura":"Literatura",
+    "Geografia":"Geografia"
+}
+
 export const subjectsImagesSmall: string[] = [
     mathematicsSmall, grammarSmall, philosophySmall, englishSmall,
     sociologySmall, historySmall, physicsSmall, chemicalSmall, 
@@ -75,9 +90,7 @@ export const setColorSubject = (title: string): string => {
     title = title.toUpperCase()
     
     const index = subjects.findIndex(subjectOfList => title === subjectOfList.toUpperCase());
-    console.log(index)
     if (index !== -1) {
-        console.log(subjectColors[index])
         return subjectColors[index]
     }
 
@@ -178,3 +191,13 @@ export const states = {
     "AM" : "Amazonas",
     "AC" : "Acre"
 }
+
+export const listObjectsToComboBox = (list: any[], field: string) => {
+    let dict: {[key: string]: string} = {};
+    
+    list.map((item) => {
+        dict[`${item[`${field}`]}`] = item[`${field}`];
+    })
+
+    return dict;
+}   

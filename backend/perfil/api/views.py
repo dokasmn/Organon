@@ -28,11 +28,11 @@ class NoteViewSet(viewsets.ModelViewSet):
             print(request.user.fk_school)
             print("-----------------------------------")
             try:
-                obj_content = Content.objects.get(content_name=request.data['note_content'], fk_school=request.user.fk_school)
+                print(request.data['note_content'])
+                obj_content = Content.objects.get(content_name=request.data['note_content'], fk_school=request.user.fk_school.id)
             except Content.DoesNotExist:
                 return Response({"detail": "O conteúdo especificado não foi encontrado."}, status=status.HTTP_404_NOT_FOUND)
-            print(obj_content)
-            print(obj_content.id)
+                
             data = {
                 "note_title": request.data['note_title'],
                 "note_text": request.data['note_text'],

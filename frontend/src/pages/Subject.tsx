@@ -117,7 +117,7 @@ const Subject:React.FC = () => {
                     }
                 </section>
             </header>   
-            <HorizontalLine style='w-full' />  
+            <HorizontalLine style='w-full mb-5' />  
             <main className='my-0 py-0 px-5 xs:px-14 md:px-10 max-w-160 sm:min-w-160 w-full'>
                     {contents.length > 0 && contents[0].content_description != "default" ?
                         <>

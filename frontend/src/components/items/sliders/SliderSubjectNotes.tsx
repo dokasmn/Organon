@@ -65,8 +65,8 @@ const SliderSubjectNotes:React.FC<SliderSubjectNotesProps> = ({slides}) => {
   };
 
   return (
-    <div className="slider-container overflow-hidden py-10 md:py-0 sm:px-3 md:pl-50 md:pr-0 max-w-160 lg:max-w-4xl">
-      <Slider {...settings} className=" lg:pl-20 lg:px-16 lg:pt-5" >
+    <div className="slider-container overflow-hidden py-10 md:py-0 md:pr-0 max-w-160 lg:max-w-4xl">
+      <Slider {...settings} className=" lg:pl-20 lg:px-16 lg:pt-5 pb-2" >
         {slides.map((slide, __) => (
           <CardSubjectNote key={uuidv4()} title={slide} />
         ))}
