@@ -89,6 +89,7 @@ const Home: React.FC = () => {
         }
     }, [searchQuery, slides]);
 
+
     return (
         <>
             <div className='xl:flex xl:flex-col xl:items-center'>

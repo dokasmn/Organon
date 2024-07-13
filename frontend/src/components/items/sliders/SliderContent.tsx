@@ -41,17 +41,21 @@ const SliderContent: React.FC<SliderContentProps> = ({slides}) => {
           ))}
       </div>
 
-      <ArrowSlider 
-        icon={<MdArrowLeft className='text-3xl' />} 
-        handleEvent={handlePrev} 
-        style="ml-10 sm:ml-32 bs:ml-40 05xl:ml-52 xl:ml-64 p-1 05xl:p-2.5 rounded-full flex items-center sm:bg-gray-300 left-0 hover:bg-gray-400" 
-      />
-
-      <ArrowSlider 
-        icon={<MdArrowRight className='text-3xl'/>} 
-        handleEvent={handleNext} 
-        style="mr-10 sm:mr-32 bs:mr-40 05xl:mr-52 xl:mr-64 p-1 05xl:p-2.5 rounded-full flex items-center sm:bg-gray-300 right-0 hover:bg-gray-400"
-      />
+      {slides.length > 1 && (
+        <>
+          <ArrowSlider 
+            icon={<MdArrowLeft className='text-3xl' />} 
+            handleEvent={handlePrev} 
+            style="ml-10 sm:ml-32 bs:ml-40 05xl:ml-52 xl:ml-64 p-1 05xl:p-2.5 rounded-full flex items-center sm:bg-gray-300 left-0 hover:bg-gray-400" 
+          />
+    
+          <ArrowSlider 
+            icon={<MdArrowRight className='text-3xl'/>} 
+            handleEvent={handleNext} 
+            style="mr-10 sm:mr-32 bs:mr-40 05xl:mr-52 xl:mr-64 p-1 05xl:p-2.5 rounded-full flex items-center sm:bg-gray-300 right-0 hover:bg-gray-400"
+          />
+        </>
+      )}
 
     </div>
   );

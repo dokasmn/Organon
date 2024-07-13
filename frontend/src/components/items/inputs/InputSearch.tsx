@@ -1,33 +1,38 @@
-import React, {useState, useMemo} from 'react';
+import React, { useState } from 'react';
 import { IoSearch } from "react-icons/io5";
 
 interface InputSearchProps {
     id: string;
-    placeholder: string,
+    placeholder: string;
+    value: string;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-const InputSearch:React.FC<InputSearchProps> = ({id, placeholder}) => {
-
+const InputSearch: React.FC<InputSearchProps> = ({ id, placeholder, value, onChange, onKeyDown }) => {
     const [isFocused, setIsFocused] = useState(false);
 
     const handleFocus = () => {
-      setIsFocused(true);
+        setIsFocused(true);
     };
-  
+
     const handleBlur = () => {
-      setIsFocused(false);
+        setIsFocused(false);
     };
 
     return (
-        <div className='w-full max-w-144 relative  ' >
+        <div className='w-full max-w-144 relative'>
             <input 
                 type="search" 
                 name={id} 
                 id={id} 
-                className='text-black md:border border-black border-opacity-30  focus:border-blue-1 bg-white text-sm px-2 outline-none w-full py-1 md:text-base md:px-5 '
+                className='text-black md:border border-black border-opacity-30 focus:border-blue-1 bg-white text-sm px-2 outline-none w-full py-1 md:text-base md:px-5'
                 placeholder={placeholder}
+                value={value}
+                onChange={onChange}
                 onFocus={handleFocus}
                 onBlur={handleBlur}
+                onKeyDown={onKeyDown}
             />
             <IoSearch  
                 className={`absolute top-1/4 right-5 ${
@@ -35,7 +40,7 @@ const InputSearch:React.FC<InputSearchProps> = ({id, placeholder}) => {
                 }`} 
             />
         </div>
-    )
+    );
 }
 
 export default InputSearch;
