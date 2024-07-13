@@ -92,7 +92,7 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent, color, is
   const fetchContentsBySubject = async () => {
     setShowLoading(true);
     try {
-        const response = await axiosInstance.get(`course/content/?content_subject=${formData.noteSubject}`, {
+        const response = await axiosInstance.get(`course/content/?content_subject__subject_name=${formData.noteSubject}`, {
             headers: {
                 'Authorization': `Token ${user.token}`,
             },
@@ -100,6 +100,8 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent, color, is
         setShowLoading(false);
         if (response.status === 200) {
           let dict_contents = listObjectsToComboBox(response.data.results, 'content_name');
+          
+          console.log(dict_contents);
           setContents(dict_contents);
         }else{
           handleShowError("Resposta inesperada.")

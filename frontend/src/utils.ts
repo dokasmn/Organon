@@ -41,6 +41,8 @@ import philosophyRedSquare from './assets/images/subjects_image/philosophy-red-s
 import physicsPurplePinkSquare from './assets/images/subjects_image/physics-purple-pink-square.png'
 import sociologyRedPinkSquare from './assets/images/subjects_image/sociology-red-pink-square.png'
 
+
+
 export const subjects: string[] = [
     "Matemática", "Gramática", "Filosofia", "Inglês",
     "Sociologia", "História", "Física", "Química",
@@ -94,7 +96,7 @@ export const setColorSubject = (title: string): string => {
         return subjectColors[index]
     }
 
-    return ""
+    return "bg-gray-1 bg-opacity-30"
 }
 
 export function getImageSubject(subject: string, size: "small" | "medium" | "big" | "square" = "small"): string|null{

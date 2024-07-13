@@ -49,10 +49,10 @@ const Subject:React.FC = () => {
     ]) 
 
     const route: string[] = getRoute();
-    const subject: string = route[route.length-1].toLocaleUpperCase()
+    const subject: string = route[route.length-1]
 
-    const decodeSubject = decodeStringUrl(subject).toUpperCase();
-    const imageSubject = getImageSubject(decodeSubject)
+    const decodeSubject = decodeStringUrl(subject)
+    const imageSubject = getImageSubject(decodeSubject.toUpperCase())
     const imageSubjectMedium = getImageSubject(decodeSubject, "medium")
 
     const pages = [1,2,4,5,6,7,8,9]
@@ -72,7 +72,8 @@ const Subject:React.FC = () => {
     const fetchData = async () => {
         setShowLoading(true);
         try {
-            const response = await axiosInstance.get(`home/content/?content_subject=${decodeSubject}`, {
+            console.log(decodeSubject)
+            const response = await axiosInstance.get(`home/content/?content_subject__subject_name=${decodeSubject}`, {
                 headers: {
                     'Authorization': `Token ${user.token}`,
                 },
