@@ -14,7 +14,7 @@ const PopupLog: React.FC = () => {
   if (!showPopup) return null;
 
   return (
-    <div className={`fixed inset-0 z-100 flex items-start justify-center mt-4 ${showPopup ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
+    <div className={`fixed inset-0 z-110 flex items-start justify-center mt-4 ${showPopup ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
       <div className="fixed inset-0 bg-black opacity-50" onClick={handleClosePopup}></div>
       <div className={`relative border-l-4 p-4 rounded shadow-lg transform ${showPopup ? 'scale-100' : 'scale-90'} ${popupStyle} transition-transform duration-300`} role="alert">
         <div className="flex justify-between items-center">

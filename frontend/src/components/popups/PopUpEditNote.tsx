@@ -36,10 +36,10 @@ const PopUpEditNote: React.FC<PopUpEditNoteProps> = ({ color, noteTitle, noteTex
   const { handleShowError, handleShowSuccess } = usePopupLog();
   const { formData , handleChange, handleSubmit} = useForm(
     { noteTitle: noteTitle, noteText: noteText},
-      (data) => {  
+        (data) => {  
         
-      fetchData({'noteTitle': data.noteTitle, 'noteText': data.noteText, 'noteId': noteId });
-      onClose();
+        updateNote({'noteTitle': data.noteTitle, 'noteText': data.noteText, 'noteId': noteId });
+        onClose();
     }
   );
 
@@ -47,7 +47,7 @@ const PopUpEditNote: React.FC<PopUpEditNoteProps> = ({ color, noteTitle, noteTex
     setIsVisible(true);
   }, []);
 
-  const fetchData = async (data: { 
+  const updateNote = async (data: { 
     noteTitle: string,
     noteText: string,
     noteId: string,
@@ -66,6 +66,31 @@ const PopUpEditNote: React.FC<PopUpEditNoteProps> = ({ color, noteTitle, noteTex
 
       if (response.status === 200) {
         handleShowSuccess("Anotação criada com sucesso")
+        window.location.reload();
+      }else{
+        handleShowError(`Resposta inesperada - ${response.status}`)
+        console.error('Unexpected response status:', response.status);
+      }
+    } catch (error: any) {
+      setShowLoading(false);
+      if(error.response?.data?.detail){
+        handleShowError(error.response.data.detail);
+      }
+      handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`);
+      console.error('Error:', error.message);
+    }
+  };
+
+  const removeNote = async () => {
+    
+    try {
+      const response = await axiosInstance.delete(`perfil/note/${noteId}/`, {
+        headers: {
+          'Authorization': `Token ${user.token}`,
+        },
+      });
+      if (response.status === 204) {
+        window.location.reload();
       }else{
         handleShowError(`Resposta inesperada - ${response.status}`)
         console.error('Unexpected response status:', response.status);
@@ -81,7 +106,7 @@ const PopUpEditNote: React.FC<PopUpEditNoteProps> = ({ color, noteTitle, noteTex
   };
 
   return (
-    <PopUpBase onSave={handleSubmit} secondButton={{text: "Cancelar", onClick: onClose}} onClose={onClose} title={
+    <PopUpBase onSave={handleSubmit} secondButton={{text: "Deletar", onClick: removeNote}} onClose={onClose} title={
       <HorizontalLine style={`w-full mb-0 rounded py-1 ${color}`}/>
     } isVisible={isVisible}>
       

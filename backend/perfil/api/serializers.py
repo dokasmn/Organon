@@ -7,6 +7,12 @@ class NoteSerializer(serializers.ModelSerializer):
     class Meta():
         model=Note
         fields=['note_title','note_text','note_content']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        
+        if self.context['request'].method in ['PUT', 'DELETE']:
+            self.fields.pop('note_content')
         
     def to_representation(self, instance):
         representation = super().to_representation(instance)

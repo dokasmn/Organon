@@ -72,7 +72,11 @@ class NoteViewSet(viewsets.ModelViewSet):
     
     
     def update(self, request, *args, **kwargs):
+        print("AAAAAAAAAAAAAAAAAA")
         instance = self.get_object()
+        print(f"Updating note: {instance.id}")
+        print(f"Request data: {request.data}")
+
         if instance.note_user != request.user:
             return Response({'detail': 'Not authorized to update this note.'}, status=status.HTTP_403_FORBIDDEN)
         
