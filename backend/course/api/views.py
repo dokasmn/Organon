@@ -147,7 +147,6 @@ class ContentViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
     
     
-    
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
@@ -159,7 +158,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         else:
             return Content.objects.filter(fk_user=user.id)
 
-    
     permission_classes = [IsAuthenticated]  
 
     def create(self, request, *args, **kwargs):
@@ -175,6 +173,7 @@ class CommentViewSet(viewsets.ModelViewSet):
             print(e)
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
@@ -185,7 +184,6 @@ class CommentViewSet(viewsets.ModelViewSet):
             user_id = item['fk_user']
             user = get_object_or_404(CustomUser, id=user_id)
             item['fk_user'] = user.username
-        
         
         return Response(data)
         
