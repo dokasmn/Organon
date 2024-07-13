@@ -1,42 +1,42 @@
-  import "slick-carousel/slick/slick.css";
-  import "slick-carousel/slick/slick-theme.css";
-  import React, {useEffect} from 'react';
-  import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-  import Responsive from "./components/items/section/Responsive.tsx";
+    import "slick-carousel/slick/slick.css";
+    import "slick-carousel/slick/slick-theme.css";
+    import React from 'react';
+    import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+    import Responsive from "./components/items/section/Responsive.tsx";
 
-  // PAGES
-  import Contents from './pages/Contents.tsx';
-  import Notes from './pages/Notes.tsx';
-  import Login from './pages/Login.tsx';
-  import SecurityAccount from './pages/SecurityAccount.tsx';
-  import Home from './pages/Home.tsx';
-  import CreateContent from "./pages/CreateContent.tsx";
-  import Register from "./pages/Register.tsx";
-  import Profile from "./pages/Profile.tsx";
-  import CloseAccount from "./pages/CloseAccount.tsx";
-  import Welcome from "./pages/Welcome.tsx";
-  import Class from "./pages/Class.tsx";
-  import Subject from "./pages/Subject.tsx";
-  import SideBar from "./components/layout/SideBar.tsx";
-  
-  import Header from './components/layout/Header.tsx';
-  import PopupLog from "./components/popups/PopUpLog.tsx";
-  import PrivateRoute from "./components/configs/PrivateRoute.tsx";
+    // PAGES
+    import Contents from './pages/Contents.tsx';
+    import Notes from './pages/Notes.tsx';
+    import Login from './pages/Login.tsx';
+    import SecurityAccount from './pages/SecurityAccount.tsx';
+    import Home from './pages/Home.tsx';
+    import CreateContent from "./pages/CreateContent.tsx";
+    import Register from "./pages/Register.tsx";
+    import Profile from "./pages/Profile.tsx";
+    import CloseAccount from "./pages/CloseAccount.tsx";
+    import Welcome from "./pages/Welcome.tsx";
+    import Class from "./pages/Class.tsx";
+    import Subject from "./pages/Subject.tsx";
+    import SideBar from "./components/layout/SideBar.tsx";
+    
+    import Header from './components/layout/Header.tsx';
+    import PopupLog from "./components/popups/PopUpLog.tsx";
+    import PrivateRoute from "./components/configs/PrivateRoute.tsx";
 
-  // COMPONENTS
-  import Loading from "./components/items/utils/Loading.tsx";
-  import AddTeacher from "./pages/AddTeacher.tsx";
+    // COMPONENTS
+    import Loading from "./components/items/utils/Loading.tsx";
+    import AddTeacher from "./pages/AddTeacher.tsx";
 
-  // CONTEXTS
-  import { LoadingProvider } from "./contexts/LoadingContext.tsx";
-  import { PopupLogProvider } from "./contexts/PopUpLogContext.tsx";
-  import { AuthProvider } from "./contexts/AuthContext.tsx";
+    // CONTEXTS
+    import { LoadingProvider } from "./contexts/LoadingContext.tsx";
+    import { PopupLogProvider } from "./contexts/PopUpLogContext.tsx";
+    import { AuthProvider } from "./contexts/AuthContext.tsx";
 
-  const App = () => {
-    return (
-      <AuthProvider>
-        <LoadingProvider>
-          <PopupLogProvider>
+    const App = () => { 
+      return (
+        <AuthProvider>
+          <LoadingProvider>
+            <PopupLogProvider>      
               <PopupLog/>
               <Loading/>
               <Router>
@@ -46,7 +46,7 @@
                     <SideBar/>
                     <Responsive style="w-full md:relative overflow-hidden md:mx-5 md:block">
                       <Routes>
-                      <Route path="/" element={<PrivateRoute component={Home}/>}/>
+                        <Route path="/" element={<PrivateRoute component={Home}/>}/>
                         <Route path="/home" element={<PrivateRoute component={Home}/>}/>
                         <Route path="/perfil/conteudo" element={<PrivateRoute component={Contents}/>}/>
                         <Route path="/login" element={<Login />} />
@@ -65,10 +65,10 @@
                   </section>
                 </Responsive>
               </Router>
-          </PopupLogProvider>
-        </LoadingProvider>
-      </AuthProvider>
-    );
-  }
+            </PopupLogProvider>
+          </LoadingProvider>
+        </AuthProvider>
+      );
+    }
 
-  export default App;
+    export default App;

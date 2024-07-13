@@ -9,12 +9,26 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
     
+
+class CustomPagination(PageNumberPagination):
+    page_size = 20
+    page_size_query_param = 'page_size'
+    max_page_size = 100 
+
+
 # Note classes
 class NoteViewSet(viewsets.ModelViewSet):
     queryset = Note.objects.all()
     serializer_class = NoteSerializer
     permission_classes = [IsAuthenticated]
+
+
+    def list(self, serializer, *args, **kwargs):
+        newQuerySet = Note.objects.filter(fk_user=request.user)
+
+        return Response(newQuerySet)
 
 
     def perform_create(self, serializer):
@@ -23,10 +37,6 @@ class NoteViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         try:
-            print("-----------------------------------")
-            print(request.data['note_content'])
-            print(request.user.fk_school)
-            print("-----------------------------------")
             try:
                 print(request.data['note_content'])
                 obj_content = Content.objects.get(content_name=request.data['note_content'], fk_school=request.user.fk_school.id)

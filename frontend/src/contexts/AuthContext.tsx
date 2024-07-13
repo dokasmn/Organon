@@ -6,7 +6,7 @@ interface AuthContextType {
   logout: () => void;
   isSchool: boolean;
   isProfessor: boolean;
-  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string, id:string};
+  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string};
   loading: boolean;
 }
 
@@ -24,7 +24,7 @@ type userType = {
   username: string
 }
 
-export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [isProfessor, setIsProfessor] = useState<boolean>(false);
     const [isSchool, setIsSchool] = useState<boolean>(false);
@@ -39,17 +39,11 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
         const data = JSON.parse(storedUser);
         setIsAuthenticated(true);
         setUser(data);
-        console.log(user)
-        if (data.is_professor) {
-          setIsProfessor(true);
-        }
-
-        if (data.is_school_user) {
-          setIsSchool(true);
-        }
+        setIsProfessor(data.is_professor);
+        setIsSchool(data.is_school_user);
       }
       setLoading(false);
-    }, []);
+    }, [localStorage.getItem('user')]);
     
     const login = (data: userType) => {
       setIsAuthenticated(true);
@@ -77,7 +71,7 @@ export const AuthProvider: FC<AuthProviderProps> = ({ children }) => {
             {children}
         </AuthContext.Provider>
     );
-};
+});
 
 export const useAuth = (): AuthContextType => {
     const context = useContext(AuthContext);

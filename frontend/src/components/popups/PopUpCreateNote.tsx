@@ -25,11 +25,11 @@ import { subjectsDict, listObjectsToComboBox } from '../../utils';
 interface PopUpCreateNoteProps {
   noteContent: string;
   color?: string;
-  subject?: boolean;
+  isCreateFromNote?: boolean;
   onClose: () => void;
 }
 
-const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent, color, subject, onClose}) => {
+const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent, color, isCreateFromNote, onClose}) => {
   const { setShowLoading } = useLoading();
   const { user } = useAuth()
   const [isVisible, setIsVisible] = useState<boolean>(true);
@@ -38,7 +38,7 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent, color, su
     { noteTitle: '', noteText: '', noteSubject: '' , noteContent: ''},
       (data) => {  
       
-      const content = subject ? data.noteContent : noteContent
+      const content = isCreateFromNote ? data.noteContent : noteContent
         
       fetchData({'noteTitle': data.noteTitle, 'noteText': data.noteText, 'noteContent': content});
       onClose();
@@ -157,7 +157,7 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent, color, su
         />
       </div>
 
-      {subject && 
+      {isCreateFromNote && 
         <>
           <ComboBox
             id= "selectSubject"

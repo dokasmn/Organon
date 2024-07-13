@@ -4,13 +4,20 @@ from course.models import Subject
 from django.shortcuts import get_object_or_404
         
 class NoteSerializer(serializers.ModelSerializer):
-
     class Meta():
         model=Note
         fields=['note_title','note_text','note_content']
         
     def to_representation(self, instance):
         representation = super().to_representation(instance)
+
+        note_content_id = serializers.PrimaryKeyRelatedField(
+            source='note_content', queryset=Content.objects.all(), write_only=True
+        )
+
+        if 'request' in self.context and self.context['request'].method == 'GET':
+            representation['id'] = instance.id
+
         if instance.note_content and instance.note_content.content_subject_id:
             subject = Subject.objects.filter(id=instance.note_content.content_subject_id).first()
             representation['note_content'] = {
