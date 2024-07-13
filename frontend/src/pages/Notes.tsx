@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import axiosInstance from '../axiosConfig';
 
@@ -13,29 +13,25 @@ import PopUpCreateNote from '../components/popups/PopUpCreateNote';
 import PopUpEditNote from '../components/popups/PopUpEditNote';
 
 // HOOKS
-import { usePopupLog } from '../contexts/PopUpLogContext';
 import { useLoading } from '../contexts/LoadingContext';
 import { useAuth } from '../contexts/AuthContext';
+import useShowError from '../hooks/useShowError';
 
 // UTILS
 import { subjects } from '../utils';
 
+// IMAGES
 import { IoAddCircleOutline } from 'react-icons/io5';
 
-// Tipos
-type NoteContent = {
-  id: string,
-  note_content: { note_content: string; subject: string };
-  note_text: string;
-  note_title: string;
-};
+// TYPES
+import { noteContent } from '../types';
 
 const Notes: React.FC = () => {
+  const { showError, showUnespectedResponse } = useShowError();
   const [showCreateNotePopup, setShowCreateNotePopup] = useState<boolean>(false);
   const [showEditNotePopUp, setshowEditNotePopUp] = useState<boolean>(false);
   const { user } = useAuth();
   const { setShowLoading } = useLoading();
-  const { handleShowError } = usePopupLog();
   const [currentNote, setCurrentNote] = useState({
     id: '',
     color: '',
@@ -44,16 +40,20 @@ const Notes: React.FC = () => {
     subject: '',
     isCreateFromNote: false,
   });
-  const [notesOfUser, setNotesOfUser] = useState<NoteContent[]>([]);
+
+  const [notesOfUser, setNotesOfUser] = useState<noteContent[]>([]);
   const [page, setPage] = useState<number>(1);
   const [maxPage, setMaxPage] = useState<number>(2);
   const [fetchMore, setFetchMore] = useState<boolean>(true);
+  const [subjectFilter, setSubjectFilter] = useState<string>('default')
 
   useEffect(() => {
+    
+    console.log(subjectFilter)
     const fetchDataNotes = async () => {
       try {
         setShowLoading(true);
-        const response = await axiosInstance.get(`perfil/note/?page=${page}`, {
+        const response = await axiosInstance.get(`perfil/note/?page=${page}${subjectFilter != 'default' && subjectFilter != 'sem filtro' ? `&note_content__content_subject=${subjectFilter}`:''}`, {
           headers: {
             Authorization: `Token ${user.token}`,
           },
@@ -61,18 +61,22 @@ const Notes: React.FC = () => {
         setShowLoading(false);
 
         if (response.status === 200) {
-          const notesList: NoteContent[] = response.data.results;
+          const notesList: noteContent[] = response.data.results;
           const count = response.data.count;
           const totalPages = Math.ceil(count / 10);
+          console.log(response.data.results)
           setMaxPage(totalPages);
-          
-          if (page <= totalPages) {
-            console.log(notesList)
+
+          if(subjectFilter != 'default'){
+            setNotesOfUser(notesList);
+          }
+          else if (page <= totalPages ) {
+            
             setNotesOfUser((prevNotes) => {
               const newNotes = notesList.filter(newNote => (
-                !prevNotes.some(existingNote => existingNote.note_title === newNote.note_title)
+                !prevNotes.some(existingNote => existingNote.id === newNote.id)
               ));
-              
+
               return [...prevNotes, ...newNotes];
             });
 
@@ -83,25 +87,17 @@ const Notes: React.FC = () => {
             }
           }
         } else {
-          handleShowError('Resposta inesperada.');
-          console.error('Unexpected response status:', response.status);
+          showUnespectedResponse(response);
         }
       } catch (error: any) {
-        setShowLoading(false);
-        if (error.response?.data?.detail) {
-          handleShowError(error.response.data.detail);
-        }
-        handleShowError(`Algo deu errado ${error.response ? `- ${error.response.status}` : ''}`);
-        console.error('Error:', error.message);
+        showError(error);
       }
     };
 
-    if (fetchMore && page <= maxPage) {
+    if ((fetchMore && page <= maxPage) || subjectFilter != 'default' ) {
       fetchDataNotes();
     }
-  }, [page]);
-
-  
+  }, [page, fetchMore, subjectFilter]);
 
   const createNote = (note: any) => {
     setShowCreateNotePopup(true);
@@ -115,7 +111,7 @@ const Notes: React.FC = () => {
     });
   };
 
-  const editNote = (note: NoteContent, id: string) => {
+  const editNote = (note: noteContent, id: string) => {
     setCurrentNote({
       id: id,
       color: note.note_content.subject,
@@ -125,8 +121,7 @@ const Notes: React.FC = () => {
       isCreateFromNote: false,
     });
     setshowEditNotePopUp(true);
-  }
-  
+  };
 
   return (
     <div className="sm:flex justify-center">
@@ -151,7 +146,7 @@ const Notes: React.FC = () => {
           <TitleSection title="CONTENTS" />
         </section>
         <div className="md:px-5">
-          <SliderSubjectNotes slides={subjects} />
+          <SliderSubjectNotes returnSubjectId={(id: string) => {setSubjectFilter(id)}}/>
           <HorizontalLine style="hidden md:block mt-7 max-w-160 md:max-w-6xl mb-5" />
         </div>
 

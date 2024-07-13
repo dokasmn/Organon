@@ -27,7 +27,9 @@ class NoteSerializer(serializers.ModelSerializer):
         if instance.note_content and instance.note_content.content_subject_id:
             subject = Subject.objects.filter(id=instance.note_content.content_subject_id).first()
             representation['note_content'] = {
+                
                 "note_content": instance.note_content.content_name,
+                "subject_id":subject.id,
                 "subject": subject.subject_name if subject else None
             }
         return representation

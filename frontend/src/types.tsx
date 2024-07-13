@@ -22,3 +22,10 @@ export type slidesContent = {
     "contentDate": string,
     "contentImage": any
 }
+
+export type noteContent = {
+    "id": string,
+    "note_content": { note_content: string; subject_id: string, subject: string };
+    "note_text": string;
+    "note_title": string;
+  };

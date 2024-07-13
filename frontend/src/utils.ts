@@ -109,7 +109,7 @@ export const setColorSubject = (title: string): string => {
         return subjectColors[index]
     }
 
-    return ""
+    return "bg-gray-1 bg-opacity-30"
 }
 
 export function getSubjectImage(subject:string): any {

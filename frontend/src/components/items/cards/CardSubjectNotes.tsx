@@ -7,14 +7,15 @@ import { setColorSubject } from '../../../utils'
 interface CardSubjectNoteProps {
     title: string,
     key: string,
+    onClick: () => void,
 }
 
-const CardSubjectNote:React.FC<CardSubjectNoteProps> = ({title, key}) => {
+const CardSubjectNote:React.FC<CardSubjectNoteProps> = ({title, key, onClick}) => {
     
     let color: string = setColorSubject(title);
 
     return (
-        <div className={`rounded md:rounded-none md:shadow-lg w-32 md:w-40 h-12 font-semibold flex justify-center items-center ${color}`} >        
+        <div onClick={onClick} className={`rounded md:rounded-none shadow-lg cursor-pointer opacity-85 hover:opacity-100 w-32 md:w-40 h-12 font-semibold flex justify-center items-center ${color}`} >        
             <p 
                 key={key}
             >
