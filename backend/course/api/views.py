@@ -43,6 +43,7 @@ class ContentViewSet(viewsets.ModelViewSet):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
 
+
     #Filtros de pesquisa
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = [
@@ -110,8 +111,8 @@ class ContentViewSet(viewsets.ModelViewSet):
    
     def create(self, request, *args, **kwargs):
         try:
-            print(request.data)
             serializer = self.get_serializer(data=request.data)
+            print(serializer)
             serializer.is_valid(raise_exception=True)
 
             content = self.perform_create(serializer)
@@ -146,6 +147,14 @@ class ContentViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_superuser:
+            return Content.objects.all()
+        else:
+            return Content.objects.filter(fk_user=user.id)
+
     
     def create(self, request, *args, **kwargs):
         try:

@@ -10,6 +10,7 @@ const UploadFile: React.FC<UploadFileProps> = ({ text, id, onChange }) => {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files.length > 0) {
+            console.log("mudou aeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
             onChange(event);
         }
     }

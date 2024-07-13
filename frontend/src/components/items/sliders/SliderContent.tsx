@@ -32,10 +32,10 @@ const SliderContent: React.FC<SliderContentProps> = ({slides}) => {
           {slides.map((item, __) => (
             <div key={uuidv4()} className='w-full  flex-shrink-0 flex justify-center items-center' >
               <CardNewContent
-                subject={item.subject}
-                content={item.content}
-                date={item.date}
-                image={item.image}
+                subject={item.contentSubject}
+                content={item.contentName}
+                date={item.contentDate}
+                image={item.contentImage}
               />
             </div>
           ))}
