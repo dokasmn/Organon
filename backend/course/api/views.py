@@ -151,9 +151,9 @@ class CommentViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         user = self.request.user
         if user.is_superuser:
-            return Content.objects.all()
+            return Comment.objects.all()
         else:
-            return Content.objects.filter(fk_user=user.id)
+            return Comment.objects.filter(fk_user_id=user.id)
 
     
     def create(self, request, *args, **kwargs):
