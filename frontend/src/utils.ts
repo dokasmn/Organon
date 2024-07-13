@@ -41,7 +41,20 @@ import philosophyRedSquare from './assets/images/subjects_image/philosophy-red-s
 import physicsPurplePinkSquare from './assets/images/subjects_image/physics-purple-pink-square.png'
 import sociologyRedPinkSquare from './assets/images/subjects_image/sociology-red-pink-square.png'
 
+// SMALL SUBJECT IMAGES
 
+import GeographySmall from "./assets/images/subjects_image/geography-small.png";
+import PhysicsSmall from "./assets/images/subjects_image/physics-small.png"
+import MathmaticsSmall from "./assets/images/subjects_image/mathematics-small.png"
+import HistorySmall from "./assets/images/subjects_image/history-small.png"
+import PhilosophySmall from "./assets/images/subjects_image/philosophy-small.png"
+import GrammarSmall from "./assets/images/subjects_image/grammar-small.png"
+import LiteratureSmall from "./assets/images/subjects_image/literature-small.png"
+import EnglishSmall from "./assets/images/subjects_image/english-small.png"
+import ChemicalSmall from "./assets/images/subjects_image/chemical-small.png"
+import SociologySmall from "./assets/images/subjects_image/sociology-small.png"
+import ArtsSmall from "./assets/images/subjects_image/arts-small.png"
+import BiologySmall from "./assets/images/subjects_image/biology-small.png"
 
 export const subjects: string[] = [
     "Matemática", "Gramática", "Filosofia", "Inglês",
@@ -97,6 +110,45 @@ export const setColorSubject = (title: string): string => {
     }
 
     return "bg-gray-1 bg-opacity-30"
+}
+
+export function getSubjectImage(subject:string): any {
+    if (subject == "Geografia"){
+        return GeographySmall
+    }
+    if (subject == "Física"){
+        return PhysicsSmall
+    }
+    if (subject == "Matemática"){
+        return MathmaticsSmall
+    }
+    if (subject == "Biologia"){
+        return BiologySmall
+    }
+    if (subject == "Literatura"){
+        return LiteratureSmall
+    }
+    if (subject == "Gramática"){
+        return GrammarSmall
+    }
+    if (subject == "Artes"){
+        return ArtsSmall
+    }
+    if (subject == "Inglês"){
+        return EnglishSmall
+    }
+    if (subject == "História"){
+        return HistorySmall
+    }
+    if (subject == "Sociologia"){
+        return SociologySmall
+    }
+    if (subject == "Filosofia"){
+        return PhilosophySmall
+    }
+    if (subject == "Quimica"){
+        return ChemicalSmall
+    }
 }
 
 export function getImageSubject(subject: string, size: "small" | "medium" | "big" | "square" = "small"): string|null{

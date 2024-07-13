@@ -33,7 +33,6 @@ const CreateContent:React.FC = () => {
     const { user } = useAuth()
     const { setShowLoading } = useLoading();
     const { handleShowError, handleShowSuccess } = usePopupLog();
-    console.log(user.token)
 
     const { formData, handleChangeSelect , handleSubmit, handleChange, handleFileChange} = useForm(
         { 
@@ -45,6 +44,7 @@ const CreateContent:React.FC = () => {
             descriptionContent: '',
         },
         (data) => {
+            console.log(data)
             fetchData(data);
         }
     );
@@ -79,7 +79,6 @@ const CreateContent:React.FC = () => {
         console.log(formData);
 
         try {
-            console.log(user.token)
             const response = await axiosInstance.post('home/content/', formData, {
                 headers: {
        

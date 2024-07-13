@@ -20,6 +20,7 @@ class Subject(models.Model):
 class Content(models.Model):
     content_name = models.CharField(max_length=70, verbose_name="Nome do conteúdo")
     content_description = models.TextField(null=True, blank=True)
+    content_date = models.DateTimeField(auto_now_add=True, blank=True)
     content_pdf = CloudinaryField('pdf')
     content_video = CloudinaryField('video')
     content_subject = models.ForeignKey(Subject, on_delete=models.CASCADE, verbose_name="Matéria do conteúdo")
@@ -54,7 +55,7 @@ class Content(models.Model):
         
     
     class Meta:
-        ordering = ["content_subject"]
+        ordering = ["content_date"]
         verbose_name = 'Conteúdo'
         verbose_name_plural = 'Conteúdos'
       

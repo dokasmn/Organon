@@ -1,4 +1,4 @@
-// React
+// REACT
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../axiosConfig';
 
@@ -7,7 +7,6 @@ import NavigationSubject from '../components/items/sliders/NavigationSubject';
 import SubTitle from "../components/items/texts/SubTitle";
 import CardNewContent from "../components/items/cards/CardNewContent";
 import SliderContent from '../components/items/sliders/SliderContent';
-import GeoGraphySmall from "../assets/images/subjects_image/geography-small.png";
 import NoticeCard from '../components/items/cards/NoticeCard';
 import Footer from '../components/layout/Footer';
 import HeaderHome from '../components/layout/HeaderHome';
@@ -20,7 +19,7 @@ import "./Home.css";
 import { SliderContentInterface } from "../types"
 
 // IMAGES 
-import  highSchoolImage from "../assets/images/high_school.png"
+import highSchoolImage from "../assets/images/high_school.png"
 
 // HOOKS
 import { useAuth } from '../contexts/AuthContext';
@@ -28,21 +27,15 @@ import { useAuth } from '../contexts/AuthContext';
 // TYPES
 import { slidesContent } from '../types';
 
-const Home:React.FC = () => {
+// UTILS
+import { getSubjectImage } from '../utils';
+
+const Home: React.FC = () => {
     const { user } = useAuth();
-    const [slides, setSlides] = useState<slidesContent[]>([{
-        content_description:"",
-        content_id:1,
-        content_name:"",
-        content_pdf:"",
-        content_position:1,
-        content_professor_user:"",
-        content_subject: "",
-        content_video: "",
-    }])
+    const [slides, setSlides] = useState<slidesContent[]>([])
     
     const [searchQuery, setSearchQuery] = useState('');
-    const [filteredSlides, setFilteredSlides] = useState(slides);
+    const [filteredSlides, setFilteredSlides] = useState<slidesContent[]>([]);
 
     const fetchData = async () => {
         try {
@@ -53,17 +46,29 @@ const Home:React.FC = () => {
                 },
             });
             if (response.status === 200) {
-                let contents:any = response.data.results;
-                setSlides(contents)
-                console.log(contents)
-                // contents.map((obj:slideContent) => {
-                //     setSlides({subject: obj.content_subject, content: obj.content_name, date:"12/04/2024", image:GeoGraphySmall}) 
-                // })
+                let objContents: any = response.data.results;
+                let cont: number = 0;
+                let objContentCard: slidesContent[] = [];
+                if (objContents.length != 0) {
+                    for (let content of objContents) {
+                        objContentCard.push({
+                            contentSubject: content.content_subject,
+                            contentName: content.content_name,
+                            contentDate: "13/07/2024",
+                            contentImage: getSubjectImage(content.content_subject)
+                        });
+                        cont++;
+                        if (cont === 8) {
+                            break;
+                        }
+                    }
+                    setSlides(objContentCard);
+                }
             }
         } catch (error: any) {
-            if(error.response?.data?.detail){    
+            if (error.response?.data?.detail) {
                 console.log(error.response.data.detail)
-            }else{
+            } else {
                 console.log(`Algo deu errado - ${error.response.status}`)
             }
         }
@@ -71,16 +76,19 @@ const Home:React.FC = () => {
 
     useEffect(() => {
         fetchData();
+    }, []);
+
+    useEffect(() => {
         if (searchQuery) {
-            setFilteredSlides(slides.filter(slide => 
-                slide.content_subject.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                slide.content_name.toLowerCase().includes(searchQuery.toLowerCase())
+            setFilteredSlides(slides.filter(slide =>
+                slide.contentSubject.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                slide.contentName.toLowerCase().includes(searchQuery.toLowerCase())
             ));
         } else {
             setFilteredSlides(slides);
         }
-    }, [searchQuery])
-    
+    }, [searchQuery, slides]);
+
     return (
         <>
             <div className='xl:flex xl:flex-col xl:items-center'>
@@ -100,27 +108,23 @@ const Home:React.FC = () => {
                         </div>
                         <div className='welcome-container-home h-full w-full'></div>
                     </section>
-                    <section>
+                    {filteredSlides.length > 0 && (
                         <section className='py-10' >
                             <SubTitle text="O que há de novo?" />
-                            <SliderContent slides={slides} />
-                            <SliderContent slides={slides} />
-                            <SliderContent slides={slides} />
+                            <SliderContent slides={filteredSlides} />
                         </section>
-                        <section>
-                            <div className='flex justify-center' >
-                                <SubTitle text="Últimas Notícias?" />
-                            </div>
-
-                            <div className='flex justify-center'>
-
-                                <NoticeCard 
-                                    title="Novo ensino médio revogado" 
-                                    description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada.' 
-                                    image={highSchoolImage}
-                                />          
-                            </div>
-                        </section>
+                    )}
+                    <section className={filteredSlides.length > 0 ? 'my-0' : 'my-20'}>
+                        <div className='flex justify-center' >
+                            <SubTitle text="Últimas Notícias?" />
+                        </div>
+                        <div className='flex justify-center'>
+                            <NoticeCard 
+                                title="Novo ensino médio revogado" 
+                                description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eget ligula eu lectus lobortis condimentum. Aliquam nonummy auctor massa. Pellentesque habitant morbi tristique senectus et netus et malesuada.' 
+                                image={highSchoolImage}
+                            />          
+                        </div>
                     </section>
                 </main>
             </div>
