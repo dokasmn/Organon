@@ -7,6 +7,7 @@ interface VideoProps {
 const Video:React.FC<VideoProps> = ({path}) => {
   const linkVideo = path.split("/videos/");
 
+  console.log(linkVideo)
   return (
     <div  >
       <video width="600" controls className='w-full ' >

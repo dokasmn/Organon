@@ -38,8 +38,12 @@ class ContentSerializer(serializers.ModelSerializer):
     
     
 class CommentSerializer(serializers.ModelSerializer):
-    fk_user = serializers.SerializerMethodField()
 
     class Meta():
         model=Comment
-        fields=('comment_text','fk_content','fk_user_id')    
+        fields=('comment_text','fk_content', 'fk_user')    
+
+    
+
+
+    

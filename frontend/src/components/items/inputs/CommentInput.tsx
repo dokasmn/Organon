@@ -8,6 +8,7 @@ import Button from '../buttons/Button';
 import useForm from '../../../hooks/useForm';
 import { useLoading } from '../../../contexts/LoadingContext';
 import { usePopupLog } from '../../../contexts/PopUpLogContext';
+import useShowError from '../../../hooks/useShowError';
 
 // IMAGES
 import { IoSendOutline } from "react-icons/io5";
@@ -23,8 +24,8 @@ interface CommentInputProps{
 
 const CommentInput: React.FC<CommentInputProps> = ({contentSubjectId}) => {
 
+    const { showError, showUnespectedResponse  } = useShowError();
     const { setShowLoading } = useLoading();
-    const { handleShowError, handleShowSuccess } = usePopupLog();
     const { user } = useAuth()
     const { formData, handleChange, handleSubmit } = useForm(
         { comment: '' },
@@ -38,7 +39,6 @@ const CommentInput: React.FC<CommentInputProps> = ({contentSubjectId}) => {
         try {
             const response = await axiosInstance.post('course/comment/', {
                 comment_text: data.comment,
-                fk_user: user.id,
                 fk_content: contentSubjectId
             }, {
                 headers: {
@@ -53,19 +53,12 @@ const CommentInput: React.FC<CommentInputProps> = ({contentSubjectId}) => {
             localStorage.setItem('authToken', token);
             
             if  (response.status !== 201) {
-                handleShowError("Resposta inesperada.");
-                console.error('Unexpected response status:', response.status);
+                showUnespectedResponse
             }else{
-                handleShowSuccess("SUCCESS!");
+                window.location.reload();
             }
         } catch (error: any) {
-            setShowLoading(false);
-            if(error.response?.data?.detail){    
-                handleShowError(error.response.data.detail)
-                return 
-            }
-            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`)
-            console.error('Error:', error.message);
+            showError(error);
         }
     };
 
