@@ -174,6 +174,7 @@ const CreateContent:React.FC = () => {
                                 text="Upload Vídeo" 
                                 id="uploadVideo" 
                                 onChange={handleFileChange}
+                                accept=".mp4"
                             />
                         </div>
                         <div >
@@ -182,6 +183,7 @@ const CreateContent:React.FC = () => {
                                 text="Upload Conteúdo"
                                 id="uploadImage"
                                 onChange={handleFileChange}
+                                accept=".pdf"
                             />
                         </div>
                         <div className='mb-5' >

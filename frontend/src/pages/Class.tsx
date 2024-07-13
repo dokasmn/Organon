@@ -11,6 +11,7 @@ import CommentInput from '../components/items/inputs/CommentInput.tsx';
 import Button from '../components/items/buttons/Button.tsx';
 import Link from '../components/items/buttons/Link.tsx';
 import PopUpCreateNote from '../components/popups/PopUpCreateNote.tsx';
+import Download from '../components/items/buttons/Download.tsx';
 
 // IMAGES
 import { MdArrowRight, MdArrowLeft } from "react-icons/md";
@@ -79,8 +80,9 @@ const Class:React.FC = () => {
             })
             setShowLoading(false);
             if (response.status === 200) {
-                setContentData(response.data.results[0])
-                console.log(response.data.results)
+                let content = response.data.results[0];
+                content.content_pdf = content.content_pdf.split("image/upload/")[1]
+                setContentData(content);
                 fetchComments();
             }else{
                 handleShowError("Resposta inesperada.")
@@ -107,8 +109,8 @@ const Class:React.FC = () => {
             })
             setShowLoading(false);
             if (response.status === 200) {
-                setComments(response.data.results)
-                console.log(response.data.results)
+                setComments(response.data);
+                // console.log(response.data.results)
             }else{
                 handleShowError("Resposta inesperada.")
                 console.error('Resposta inesperada:', response.status);
@@ -188,9 +190,11 @@ const Class:React.FC = () => {
                         </div>
                         <div className='flex md:block flex-col items-center'>
                             <h2 className=' font-semibold text-lg w-full pb-5'>Conteúdo do livro em PDF:</h2>
-                            <Button 
-                                text='Download' 
-                                style='bg-orange-1 hover:bg-orange-1-dark max-w-104 md:max-w-44' 
+                            <Download
+                                text="Download"
+                                file={`http://res.cloudinary.com/du7qknrlm/image/upload/v1720892926/content_organon/pdfs/e94d6lsu4wlu9qdwy7d2.pdf`}
+                                download='Conteúdo.pdf'
+                                style='bg-orange-1 text-center hover:bg-orange-1-dark max-w-104 md:max-w-44 text-white w-full rounded md:shadow-md md:rounded-none cursor-pointer font-semibold px-5 py-2' 
                             />
                         </div>    
                     </section>
@@ -211,7 +215,7 @@ const Class:React.FC = () => {
                             }
                         </section>
                     </section>
-                    <section className='px-3 pt-5 pb-5 md:flex justify-center' >
+                    <section className='px-3 md:px-0 pt-5 pb-5 md:flex justify-center' >
                         <CommentInput 
                             contentSubjectId={contentData.content_id}
                         />

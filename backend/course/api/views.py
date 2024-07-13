@@ -63,6 +63,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             self.permission_classes = [IsAuthenticated]
         return super(ContentViewSet, self).get_permissions()
     
+
     def get_queryset(self):
         user = self.request.user
         if user.is_superuser:
@@ -108,6 +109,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             print(e)
             raise serializers.ValidationError("Houve algo errado com a requisição")
    
+
     def create(self, request, *args, **kwargs):
         try:
             print(request.data)
@@ -119,6 +121,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             return Response(self.get_serializer(content).data, status=status.HTTP_201_CREATED, headers=headers)
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
 
     def update(self, request, *args, **kwargs):
         try:
@@ -134,6 +137,7 @@ class ContentViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({"detail":str(e)})
 
+
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
         if instance.content_professor_user.professor_auth_user != request.user:
@@ -146,10 +150,11 @@ class ContentViewSet(viewsets.ModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-    
+    permission_classes = [IsAuthenticated]  
+
     def create(self, request, *args, **kwargs):
         try:
-            data = {"comment_text":request.data['coment_text'],"fk_content":request.data['fk_content'],"fk_user_id":request.user}
+            data = {"comment_text":request.data['comment_text'],"fk_content":request.data['fk_content'],"fk_user":request.user.id}
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
 
@@ -157,8 +162,23 @@ class CommentViewSet(viewsets.ModelViewSet):
             headers = self.get_success_headers(serializer.data)
             return Response(self.get_serializer(comment).data, status=status.HTTP_201_CREATED, headers=headers)
         except Exception as e:
+            print(e)
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        data = serializer.data
+
+        # Modificando o campo fk_user para retornar o username
+        for item in data:
+            user_id = item['fk_user']
+            user = get_object_or_404(CustomUser, id=user_id)
+            item['fk_user'] = user.username
+        
+        
+        return Response(data)
+        
     
     def update(self, request, *args, **kwargs):
         try:
