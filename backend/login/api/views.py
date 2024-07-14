@@ -65,13 +65,9 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             return Response({"detail": "não foi encontrada nenhuma escola com essas características"}, status=status.HTTP_400_BAD_REQUEST)
         
         try:
-            search_user = CustomUser.objects.get(
-                username=data['username'],
+            user = CustomUser.objects.get(
                 email=data['email'],
-                fk_school=school.id,
-                password=data['password']
             )
-
             confirmation_code = ConfirmationCode(user=user, purpose='password_reset')
             confirmation_code.generate_code()
             send_mail(
@@ -82,7 +78,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                 fail_silently=False,
             )
             return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
-        except:
+        except Exception as e:
             atribute = {
                 'username':data['username'],
                 'email':data['email'],
@@ -104,8 +100,8 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                     )
                     return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
                 except Exception as e:
-                    return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                    return Response({"detail": "O email de verificação não foi enviado"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response({"detail": "Verifique se os campos estão preenchidos corretamente"}, status=status.HTTP_400_BAD_REQUEST)
 
 
     @action(detail=False, methods=['post'])
@@ -140,13 +136,18 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'])
     def resend_code(self, request):
-        user = request.user
-        code = ConfirmationCode(user_id=user)
-        code.generate_confirmation_code()
-        code.save()
+        serializer = ReConfirmationCodeSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        print(request.data)
+
+        user = CustomUser.objects.get(email=request.data["email"])
+        confirmation_code = ConfirmationCode(user_id=user.id)
+        confirmation_code.generate_code()
+        confirmation_code.save()
         send_mail(
             'Novo Código de Confirmação',
-            f'Seu novo código de confirmação é: {user.confirmation_code}',
+            f'Seu novo código de confirmação é: {confirmation_code}',
             settings.DEFAULT_FROM_EMAIL,
             [user.email],
             fail_silently=False,

@@ -78,6 +78,11 @@ class UserSerializer(BaseUserSerializer):
 class ConfirmationSerializer(serializers.Serializer):
     email = serializers.EmailField()
     confirmation_code = serializers.CharField(max_length=6)
+
+class ReConfirmationCodeSerializer(serializers.Serializer):
+    class Meta:
+        model = CustomUser
+        fields = ('email')
     
     
 class UserCreatePasswordRetypeSerializer(BaseUserCreatePasswordRetypeSerializer):
