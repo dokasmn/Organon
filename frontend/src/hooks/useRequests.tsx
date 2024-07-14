@@ -15,7 +15,7 @@ const useRequests = () => {
             const detail = error.response.data.detail;
             if(detail === "Token inválido."){
                 logout();
-                return
+                return                
             }
             handleShowError(error.response.data.detail);
             return

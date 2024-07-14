@@ -24,6 +24,29 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
+    # def send_email():
+    #     confirmation_code = ConfirmationCode(user=request.user, purpose='email_confirmation')
+    #     confirmation_code.generate_code()
+        
+    #     send_mail(
+    #         'Código de confirmação',
+    #         f'Seu código de confirmação é: {confirmation_code.code}',
+    #         settings.DEFAULT_FROM_EMAIL,
+    #         [console.log(serializer.data["email"])],
+    #         fail_silently=False,
+    #     )
+    
+
+    def update(self, request, *args, **kwargs):
+        super().update(request, *args, **kwargs)
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.data)
+
+
     def get_permissions(self):
         if self.action in ['register', 'login', 'confirm_email', 'resend_code']:
             self.permission_classes = [AllowAny]
@@ -90,6 +113,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         serializer = CustomLoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         data = serializer.save()
+        
         return Response(data, status=status.HTTP_200_OK)
 
 
@@ -143,6 +167,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                 [user.email],
                 fail_silently=False,
             )
+            
             return Response({"success": "Um código de confirmação foi enviado para o seu e-mail"}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -175,14 +200,13 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             return Response({"success": "Usuário deslogado com sucesso"}, status=status.HTTP_200_OK)
         except Token.DoesNotExist:
             return Response({"error": "Usuário não está logado"}, status=status.HTTP_400_BAD_REQUEST)
-
-        
         
         
 class ProfessorViewSet(viewsets.ModelViewSet):
     queryset = Professor_user.objects.all()
     serializer_class = ProfessorCreateSerializer
     permission_classes = [IsAuthenticated, IsProfessorOwner, IsSchoolAdmin]
+
 
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
@@ -192,10 +216,12 @@ class ProfessorViewSet(viewsets.ModelViewSet):
         else:
             permission_classes = [IsSchoolAdmin]
         return [permission() for permission in permission_classes]
-    
+
+
     def perform_create(self, serializer):
         serializer.save()
     
+
     def create(self, request, *args, **kwargs):
         if not self.get_permissions()[0].has_permission(request, self):
             return Response({"detail": "Permissão negada"}, status=status.HTTP_403_FORBIDDEN)

@@ -21,7 +21,7 @@ const PopUpConfirmCode: React.FC<PopUpConfirmCodeProps> = ({ onSave, onClose }) 
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [confirmCode, setConfirmCode] = useState<string>('');
     const { handleShowError } = usePopupLog();
-    const { showLoading, setShowLoading } = useLoading()
+    const { setShowLoading } = useLoading()
 
     useEffect(() => {
         setIsVisible(true);
@@ -61,7 +61,7 @@ const PopUpConfirmCode: React.FC<PopUpConfirmCodeProps> = ({ onSave, onClose }) 
     };
 
     return (
-        <PopUpBase secondButton={{'text': 'Reenviar', onClick: () => {resendData()}}} onClose={handleClose} onSave={handleSave} title="Confirmar código" isVisible={isVisible} >
+        <PopUpBase secondButton={{'text': 'Reenviar', onClick: () => {resendData()}}} onClose={handleClose} onSave={(handleSave)} title="Confirmar código" isVisible={isVisible} >
             <div className="mb-4">
             <label className="block font-medium text-gray-700 mb-1">Token:</label>
             <Input

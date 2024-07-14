@@ -28,8 +28,13 @@ const PopUpBase: React.FC<PopUpBaseProps> = (
   }
 ) => {
 
+  const handleSave = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onSave(event);
+  }
+
   return (
-    <form onSubmit={onSave} className={`fixed  inset-0 z-100 ${isVisible ? 'flex' : 'hidden' } items-start justify-center mt-4 ${isVisible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
+    <form onSubmit={handleSave} className={`fixed  inset-0 z-100 ${isVisible ? 'flex' : 'hidden' } items-start justify-center mt-4 ${isVisible ? 'opacity-100' : 'opacity-0'} transition-opacity duration-300`}>
       <div className="fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
       <div className={`relative md:w-96 border-l-4 p-6 rounded md:rounded-none shadow-lg transform ${isVisible ? 'scale-100' : 'scale-90'} bg-white transition-transform duration-300`} role="alert">
         <div className="flex justify-between items-center mb-5">

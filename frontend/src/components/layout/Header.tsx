@@ -33,8 +33,8 @@ const Header:React.FC = () => {
             {
                 location.pathname !== "/login" && location.pathname !== "/registrar" && location.pathname !== "/bem-vindo" ?
                 <>
-                    <header className='bg-blue-5 py-3 text-white sm:px-14 md:hidden xs:px-14 md:pt-32 md:px-10 '>
-                        <div className='flex items-center px-5' >
+                    <header className={`bg-blue-5 py-3 text-white md:hidden sm:px-14`}>
+                        <div className='flex w-full justify-between items-center px-5' >
                             {
                                 location.pathname === "/home" || location.pathname === "/" ? 
                                     <div className={' w-24 cursor-pointer '}>
@@ -66,7 +66,7 @@ const Header:React.FC = () => {
                     </header>
                     {
                         navBar ? 
-                        <NavMenuHamburguer/>
+                        <NavMenuHamburguer setVisibility={handleClick} />
                         :
                         false
                     }

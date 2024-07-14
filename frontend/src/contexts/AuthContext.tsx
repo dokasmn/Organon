@@ -18,6 +18,7 @@ interface AuthProviderProps {
 }
 
 type userType = {
+  user_id:string,
   email: string, 
   is_professor: boolean, 
   is_school_user: boolean, 
@@ -30,12 +31,13 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
     const [isProfessor, setIsProfessor] = useState<boolean>(false);
     const [isSchool, setIsSchool] = useState<boolean>(false);
     const [user, setUser] = useState<userType>(
-      {email: "", is_professor: false, is_school_user: false, token: "", username: ""}
+      {user_id:"", email: "", is_professor: false, is_school_user: false, token: "", username: ""}
     );
     const [loading, setLoading] = useState<boolean>(true);
     
     useEffect(() => {
       const storedUser = localStorage.getItem('user');
+      console.log(storedUser)
       if (storedUser) {
         const data = JSON.parse(storedUser);
         setIsAuthenticated(true);
@@ -65,7 +67,7 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
       setIsAuthenticated(false);
       setIsProfessor(false);
       setIsSchool(false);
-      setUser({email: "", is_professor: false, is_school_user: false, token: "", username: ""});
+      setUser({user_id:"", email: "", is_professor: false, is_school_user: false, token: "", username: ""});
       localStorage.removeItem('user');
       localStorage.removeItem('token');
     };

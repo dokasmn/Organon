@@ -25,12 +25,6 @@ import { RiLockPasswordLine } from "react-icons/ri";
 // AXIOS
 import axiosInstance from '../axiosConfig.ts';
 
-// type resetDatas = {
-//     emailReset: string, 
-//     passwordReset: string, 
-//     confirmPassowrdReset: string,
-// }
-
 const SecurityAccount:React.FC = () => {
     const { user, changeEmail } = useAuth();
     const { setShowLoading } = useLoading();
@@ -48,9 +42,9 @@ const SecurityAccount:React.FC = () => {
 
     const updateEmail = async (emailReset: string) => {
         setShowLoading(true);
-        console.log(emailReset)
+        
         try {
-            const response = await axiosInstance.put(`login/user/1/`, {email: emailReset, username: user.username}, 
+            const response = await axiosInstance.put(`login/user/${user.user_id}/`, {email: emailReset, username: user.username}, 
             {
                 headers: headersJsonToken,
             });
@@ -107,7 +101,7 @@ const SecurityAccount:React.FC = () => {
                         <HorizontalLine style='w-full mb-5'/>
                         <form onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="password-reset" className=' font-semibold ' >Password:</label>
+                                <label htmlFor="password-reset" className='font-semibold'>Password:</label>
                                 <InputIcon 
                                     placeholder="Digite uma nova senha"
                                     name="passwordReset"

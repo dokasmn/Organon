@@ -14,9 +14,9 @@ import ComboBox from '../components/items/inputs/ComboBox';
 // HOOKS
 import useForm from '../hooks/useForm';
 import useValidateFields from '../hooks/useValidateFields';
-import { usePopupLog } from '../contexts/PopUpLogContext';
 import { useAuth } from '../contexts/AuthContext';
 import { useLoading } from '../contexts/LoadingContext';
+import useRequests from '../hooks/useRequests';
 
 // IMAGES
 import registerArt from '../assets/images/svg/register-art.svg';
@@ -27,11 +27,11 @@ import { states } from '../utils';
 const Register: React.FC = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
-    const { handleShowError } = usePopupLog();
-    const {showLoading, setShowLoading} = useLoading();
+    const { setShowLoading } = useLoading();
+    const { showError, showUnespectedResponse } = useRequests();
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
-
+    
     const {
         passwordIsValid,
         passwordError,
@@ -69,15 +69,11 @@ const Register: React.FC = () => {
             if (response.status === 201) {
                 setShowConfirmCodePopup(true);
                 setConfirmEmail(data.email);
+            }else{
+                showUnespectedResponse(response);
             }
         } catch (error: any) {
-            setShowLoading(false);
-            if(error.response?.data?.detail){
-                handleShowError(error.response.data.detail);
-            }
-            
-            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`);
-            console.error('Error:', error.message);
+            showError(error);
         }
     };
 
@@ -100,33 +96,49 @@ const Register: React.FC = () => {
     };
 
     const confirmData = async (data: { email: string, confirmationCode: string }): Promise<void> => {
+        setShowLoading(true);
         try {
             const response = await axiosInstance.post('login/user/confirm_email/', {
                 email: data.email,
                 confirmation_code: data.confirmationCode,
             });
-
+            setShowLoading(false);
             if (response.status === 200) {
                 login(response.data);                
                 navigate('/home');
             } else {
-                handleShowError("Resposta inesperada.");
-                console.error('Unexpected response status:', response.status);
+                showUnespectedResponse(response);
             }
         } catch (error: any) {
             setShowLoading(false);
-            if(error.response?.data?.detail){
-                handleShowError(error.response.data.detail);
-            }
-            
-            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`);
-            console.error('Error:', error.message);
+            showError(error);
         }
     };
 
     const handleSaveConfirmCode = (code: string): void => {
+        
         confirmData({ email: confirmEmail, confirmationCode: code });
     };
+
+    // const getSchools = async (): Promise<void> => {
+    //     setShowLoading(true);
+    //     try {
+    //         const response = await axiosInstance.get('login/user/confirm_email/', {
+    //             email: data.email,
+    //             confirmation_code: data.confirmationCode,
+    //         });
+    //         setShowLoading(false);
+    //         if (response.status === 200) {
+    //             login(response.data);                
+    //             navigate('/home');
+    //         } else {
+    //             showUnespectedResponse(response);
+    //         }
+    //     } catch (error: any) {
+    //         setShowLoading(false);
+    //         showError(error);
+    //     }
+    // };
 
     return (
         <div className="bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
@@ -138,6 +150,7 @@ const Register: React.FC = () => {
                     />
                 )
             }
+
             <main className="min-h-screen px-7 relative flex justify-center items-center py-0 2xl:px-32" style={{ maxWidth: `2000px` }}>
                 <div className='hidden w-2/4 2xl:flex justify-center ' >
                     <img src={registerArt} alt="Arte da página de registro"/>
