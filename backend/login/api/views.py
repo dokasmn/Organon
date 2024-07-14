@@ -24,19 +24,6 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
-    # def send_email():
-    #     confirmation_code = ConfirmationCode(user=request.user, purpose='email_confirmation')
-    #     confirmation_code.generate_code()
-        
-    #     send_mail(
-    #         'Código de confirmação',
-    #         f'Seu código de confirmação é: {confirmation_code.code}',
-    #         settings.DEFAULT_FROM_EMAIL,
-    #         [console.log(serializer.data["email"])],
-    #         fail_silently=False,
-    #     )
-    
-
     def update(self, request, *args, **kwargs):
         super().update(request, *args, **kwargs)
         partial = kwargs.pop('partial', False)
@@ -261,3 +248,8 @@ class ProfessorViewSet(viewsets.ModelViewSet):
                 return Response(professor_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProfessionViewSet(viewsets.ModelViewSet):
+    queryset = Profession.objects.all()
+    serializer_class = ProfessionSerializer
