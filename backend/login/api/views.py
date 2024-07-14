@@ -7,6 +7,7 @@ from ..permissions import IsSchoolAdmin, IsProfessorOwner
 from django.core.mail import send_mail
 from django.conf import settings
 from django.utils import timezone
+from django.shortcuts import get_object_or_404
 
 # rest_framework
 from rest_framework import status
@@ -22,6 +23,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
+
     def get_permissions(self):
         if self.action in ['register', 'login', 'confirm_email', 'resend_code']:
             self.permission_classes = [AllowAny]
@@ -29,6 +31,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             self.permission_classes = [IsAuthenticated]
         return [permission() for permission in self.permission_classes]
 
+  
     @action(detail=False, methods=['post'])
     def register(self, request):
         data = request.data
@@ -81,12 +84,14 @@ class CustomUserViewSet(viewsets.ModelViewSet):
                     return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
     @action(detail=False, methods=['post'])
     def login(self, request):
         serializer = CustomLoginSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         data = serializer.save()
         return Response(data, status=status.HTTP_200_OK)
+
 
     @action(detail=False, methods=['post'])
     def confirm_email(self, request):
@@ -108,6 +113,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         except CustomUser.DoesNotExist:
             return Response({'detail': 'Código inválido ou e-mail não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
 
+
     @action(detail=False, methods=['post'])
     def resend_code(self, request):
         user = request.user
@@ -122,6 +128,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             fail_silently=False,
         )
         return Response({'success': 'Um novo código foi enviado para seu e-mail.'}, status=status.HTTP_200_OK)
+
 
     @action(detail=True, methods=['post','put'])
     def invite_update_password_auth(self, request, pk=None):
@@ -140,6 +147,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+   
     @action(detail=True, methods=['post','put'])
     def set_password(self, request, pk=None):
         user = self.get_object()
@@ -158,6 +166,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         except ConfirmationCode.DoesNotExist:
             return Response({'detail': 'Código de confirmação inválido.'}, status=status.HTTP_400_BAD_REQUEST)
         
+
     @action(detail=False, methods=['post'])
     def logout(self, request):
         try:

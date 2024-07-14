@@ -7,11 +7,10 @@ import TextArea from '../items/inputs/TextArea';
 import PopUpBase from './PopUpBase';
 
 // HOOKS
-import { usePopupLog } from '../../contexts/PopUpLogContext';
 import { useAuth } from '../../contexts/AuthContext';
 import useForm from '../../hooks/useForm';
 import { useLoading } from '../../contexts/LoadingContext';
-import useShowError from '../../hooks/useShowError';
+import useShowError from '../../hooks/useRequests';
 
 // AXIOS
 import axiosInstance from '../../axiosConfig';
@@ -32,7 +31,6 @@ const PopUpEditNote: React.FC<PopUpEditNoteProps> = ({ color, noteTitle, noteTex
     const { setShowLoading } = useLoading();
     const { user } = useAuth()
     const [isVisible, setIsVisible] = useState<boolean>(true);
-    const { handleShowError } = usePopupLog();
     const { formData , handleChange, handleSubmit} = useForm(
         { noteTitle: noteTitle, noteText: noteText},
             (data) => {  

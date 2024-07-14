@@ -15,7 +15,7 @@ import PopUpEditNote from '../components/popups/PopUpEditNote';
 // HOOKS
 import { useLoading } from '../contexts/LoadingContext';
 import { useAuth } from '../contexts/AuthContext';
-import useShowError from '../hooks/useShowError';
+import useShowError from '../hooks/useRequests';
 
 // UTILS
 import { subjects } from '../utils';

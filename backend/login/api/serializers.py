@@ -41,8 +41,8 @@ class CustomLoginSerializer(serializers.Serializer):
             "username":user.username
         }
         
-        return response
-    
+        return response    
+
 
 class UserCreateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -68,7 +68,8 @@ class UserSerializer(BaseUserSerializer):
     class Meta(BaseUserSerializer.Meta):
         model = CustomUser
         fields = ('id', 'email', 'username')
-        
+        read_only_fields = ['id']
+
 
 class ConfirmationSerializer(serializers.Serializer):
     email = serializers.EmailField()

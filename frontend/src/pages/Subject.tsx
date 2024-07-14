@@ -17,6 +17,7 @@ import useSliderArrow from '../hooks/useSliderArrow.tsx';
 import { useAuth } from '../contexts/AuthContext.tsx';
 import { usePopupLog } from '../contexts/PopUpLogContext.tsx';
 import { useLoading } from '../contexts/LoadingContext.tsx';
+import useShowError from '../hooks/useRequests.tsx';
 
 // IMAGES
 import { MdArrowRight, MdArrowLeft } from "react-icons/md";
@@ -41,7 +42,7 @@ const Subject: React.FC = () => {
     const { setShowLoading } = useLoading();
     const { handleShowError } = usePopupLog();
     const { user } = useAuth();
-    
+    const { showError, showUnespectedResponse } = useShowError();
     const [contents, setContents] = useState<contentsInterface[]>([]);
 
     const route: string[] = getRoute();
@@ -76,19 +77,10 @@ const Subject: React.FC = () => {
                 const ordenedList: contentsInterface[] = quickSort(response.data.results, "content_position");
                 setContents(ordenedList);
             } else {
-                handleShowError("Resposta inesperada.");
-                console.error('Unexpected response status:', response.status);
+                showUnespectedResponse(response);
             }
         } catch (error: any) {
-            setShowLoading(false);
-            if (error.response.status !== 404) {
-                if (error.response?.data?.detail) {
-                    handleShowError(error.response.data.detail);
-                } else {
-                    handleShowError(`Algo deu errado ${error.response ? `- ${error.response.status}` : ''}`);
-                }
-                console.error('Error:', error.message);
-            }
+            showError(error);
         }
     };
 

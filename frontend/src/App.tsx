@@ -21,7 +21,7 @@ import SideBar from "./components/layout/SideBar.tsx";
 
 import Header from './components/layout/Header.tsx';
 import PopupLog from "./components/popups/PopUpLog.tsx";
-import PrivateRoute from "./components/configs/PrivateRoute.tsx";
+import PrivateRoute from "./components/routes/PrivateRoute.tsx";
 
 // COMPONENTS
 import Loading from "./components/items/utils/Loading.tsx";

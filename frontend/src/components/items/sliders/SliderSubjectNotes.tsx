@@ -12,7 +12,7 @@ import PrevArrow from '../buttons/PrevArrow';
 
 // HOOKS
 import { useLoading } from '../../../contexts/LoadingContext';
-import useShowError from '../../../hooks/useShowError';
+import useShowError from '../../../hooks/useRequests';
 import { useAuth } from '../../../contexts/AuthContext';
 
 // AXIOS

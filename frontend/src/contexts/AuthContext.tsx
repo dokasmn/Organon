@@ -2,12 +2,13 @@ import React, { createContext, useContext, useState, ReactNode, FC, useEffect } 
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (data: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string}) => void;
-  logout: () => void;
-  isSchool: boolean;
-  isProfessor: boolean;
-  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string};
-  loading: boolean;
+  login: (data: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string}) => void,
+  logout: () => void,
+  isSchool: boolean,
+  isProfessor: boolean,
+  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string},
+  loading: boolean,
+  changeEmail: (newEmail: string) => void,
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,7 +22,7 @@ type userType = {
   is_professor: boolean, 
   is_school_user: boolean, 
   token: string, 
-  username: string
+  username: string,
 }
 
 export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => {
@@ -61,13 +62,25 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
     };
 
     const logout = () => {
-        setIsAuthenticated(false);
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
+      setIsAuthenticated(false);
+      setIsProfessor(false);
+      setIsSchool(false);
+      setUser({email: "", is_professor: false, is_school_user: false, token: "", username: ""});
+      localStorage.removeItem('user');
+      localStorage.removeItem('token');
     };
 
+    const changeEmail = (newEmail: string) => {
+      const storedUser = localStorage.getItem('user');
+      if(storedUser){
+        const data = JSON.parse(storedUser);
+        data.email = newEmail
+        localStorage.setItem('user', JSON.stringify(data));
+      }
+    }
+
     return (
-        <AuthContext.Provider value={{ isAuthenticated, login, logout, isSchool, isProfessor, user, loading }}>
+        <AuthContext.Provider value={{ isAuthenticated, login, logout, isSchool, isProfessor, user, loading, changeEmail }}>
             {children}
         </AuthContext.Provider>
     );
