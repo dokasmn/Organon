@@ -2,11 +2,11 @@ import React, { createContext, useContext, useState, ReactNode, FC, useEffect } 
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (data: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string}) => void,
+  login: (data: {id:"" ,email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string}) => void,
   logout: () => void,
   isSchool: boolean,
   isProfessor: boolean,
-  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string},
+  user: {id: string, email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string},
   loading: boolean,
   changeEmail: (newEmail: string) => void,
 }
@@ -18,7 +18,7 @@ interface AuthProviderProps {
 }
 
 type userType = {
-  user_id:string,
+  id:string,
   email: string, 
   is_professor: boolean, 
   is_school_user: boolean, 
@@ -31,7 +31,7 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
     const [isProfessor, setIsProfessor] = useState<boolean>(false);
     const [isSchool, setIsSchool] = useState<boolean>(false);
     const [user, setUser] = useState<userType>(
-      {user_id:"", email: "", is_professor: false, is_school_user: false, token: "", username: ""}
+      {id:"" , email: "", is_professor: false, is_school_user: false, token: "", username: ""}
     );
     const [loading, setLoading] = useState<boolean>(true);
     
@@ -52,8 +52,7 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
       localStorage.setItem('user', JSON.stringify(data));
       setUser(data);
       localStorage.setItem('token', data.token);
-      console.log(data)
-      console.log(user)
+
       if(data.is_professor){
         setIsProfessor(true);
       }
@@ -67,7 +66,7 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
       setIsAuthenticated(false);
       setIsProfessor(false);
       setIsSchool(false);
-      setUser({user_id:"", email: "", is_professor: false, is_school_user: false, token: "", username: ""});
+      setUser({id:"", email: "", is_professor: false, is_school_user: false, token: "", username: ""});
       localStorage.removeItem('user');
       localStorage.removeItem('token');
     };

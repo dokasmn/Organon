@@ -112,7 +112,7 @@ const Register: React.FC = () => {
                     is_professor: false, 
                     is_school_user: false, 
                     token: dataConfirm.token, 
-                    user_id: dataConfirm.user_id, 
+                    id: dataConfirm.id, 
                     username: dataUser.username, 
                 });
 
