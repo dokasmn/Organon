@@ -50,7 +50,7 @@ const Home: React.FC = () => {
                 let cont: number = 0;
                 let objContentCard: slidesContent[] = [];
                 if (objContents.length != 0) {
-                    for (let content of objContents) {
+                    for (let content of objContents.reverse()) {
                         objContentCard.push({
                             contentSubject: content.content_subject,
                             contentName: content.content_name,

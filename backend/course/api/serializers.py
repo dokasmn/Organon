@@ -12,6 +12,7 @@ class ContentSerializer(serializers.ModelSerializer):
     content_subject = serializers.SlugRelatedField(slug_field='subject_name', queryset=Subject.objects.all())
     content_professor_user = serializers.SerializerMethodField()
     content_id = serializers.SerializerMethodField()
+    content_finished = serializers.SerializerMethodField()
     
     class Meta():
         model=Content
@@ -24,7 +25,8 @@ class ContentSerializer(serializers.ModelSerializer):
             'content_pdf',
             'content_video',
             'content_professor_user',
-            'content_position'
+            'content_position',
+            'content_finished'
         )
     
 
@@ -34,6 +36,9 @@ class ContentSerializer(serializers.ModelSerializer):
 
     def get_content_id(self, obj):
         return obj.id if obj else None
+    
+    def get_content_finished(self, obj):
+        return obj.content_finished if obj else None
     
     
     

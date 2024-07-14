@@ -7,7 +7,7 @@ import NextArrow from '../buttons/NextArrow';
 import PrevArrow from '../buttons/PrevArrow';
 
 interface SliderSubjectsProgressProps {
-  slides: {subject:string, lastContent:string, progress:string, image:string}[],
+  slides: {subject:string, lastContent:string, progress:number, image:string}[],
 } 
 
 const SliderSubjectsProgress:React.FC<SliderSubjectsProgressProps> = ({ slides }) => {

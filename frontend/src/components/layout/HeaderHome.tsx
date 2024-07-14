@@ -35,7 +35,6 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
                         acc[content.content_name] = content.content_subject;
                         return acc;
                     }, {});
-                    console.log(contents)
                     setAllContents(contents);
                 } else {
                     console.error('Resposta inválida da API:', response.data);
@@ -56,7 +55,6 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
             const filteredSuggestions = Object.keys(allContents).filter(contentName =>
                 contentName.toLowerCase().includes(query.toLowerCase())
             );
-            console.log(filteredSuggestions)
             setSuggestions(filteredSuggestions);
         } else {
             setSuggestions([]);

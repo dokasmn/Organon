@@ -7,7 +7,7 @@ import ProgressBar from '../inputs/ProgressBar';
 interface SubjectProgressCardProps {
     subject: string,
     lastContent: string,
-    progress: string,
+    progress: number,
     image: string,
 }
 

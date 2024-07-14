@@ -27,6 +27,7 @@ class Content(models.Model):
     content_professor_user = models.ForeignKey('login.Professor_user', on_delete=models.CASCADE, verbose_name="Professor do conteúdo")
     content_user = models.ManyToManyField(CustomUser, through='perfil.Note')
     content_position = models.IntegerField()
+    content_finished = models.BooleanField(blank=True, default=False)
     fk_school = models.ForeignKey(School, on_delete=models.CASCADE, verbose_name="Escola")
 
 

@@ -1,5 +1,5 @@
 from ..models import *
-from login.permissions import IsProfessorOwner
+from login.permissions import IsProfessorByContent
 from ..permissions import IsSuperUser
 from .serializers import *
 from login.models import Professor_user
@@ -10,7 +10,8 @@ from rest_framework import status, viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import PermissionDenied
+from rest_framework.exceptions import PermissionDenied, NotAuthenticated
+from rest_framework.decorators import action
 
 
 class SubjectViewSet(viewsets.ModelViewSet):
@@ -43,8 +44,6 @@ class ContentViewSet(viewsets.ModelViewSet):
     queryset = Content.objects.all()
     serializer_class = ContentSerializer
 
-
-    #Filtros de pesquisa
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = [
         'content_professor_user', 
@@ -53,17 +52,13 @@ class ContentViewSet(viewsets.ModelViewSet):
         'content_subject__subject_name', 
         'content_name'
     ]
-    # search_fields = ['campo1', 'campo3']
-    # ordering_fields = ['campo1', 'campo4']
-    
-    
+
     def get_permissions(self):
-        if self.action in ['create','update','delete']:
-            self.permission_classes = [IsProfessorOwner]
+        if self.action in ['create', 'update', 'delete', 'finished']:
+            self.permission_classes = [IsProfessorByContent]
         else:
             self.permission_classes = [IsAuthenticated]
         return super(ContentViewSet, self).get_permissions()
-    
 
     def get_queryset(self):
         user = self.request.user
@@ -72,7 +67,6 @@ class ContentViewSet(viewsets.ModelViewSet):
         else:
             return Content.objects.filter(fk_school=user.fk_school)
 
-  
     def perform_create(self, serializer):
         try:
             pdf_file = self.request.FILES.get('content_pdf')
@@ -109,20 +103,16 @@ class ContentViewSet(viewsets.ModelViewSet):
         except Exception as e:
             print(e)
             raise serializers.ValidationError("Houve algo errado com a requisição")
-   
 
     def create(self, request, *args, **kwargs):
         try:
             serializer = self.get_serializer(data=request.data)
-            print(serializer)
             serializer.is_valid(raise_exception=True)
-
             content = self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(self.get_serializer(content).data, status=status.HTTP_201_CREATED, headers=headers)
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
 
     def update(self, request, *args, **kwargs):
         try:
@@ -136,8 +126,7 @@ class ContentViewSet(viewsets.ModelViewSet):
             self.perform_update(serializer)
             return Response({"success": serializer.data}, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response({"detail":str(e)})
-
+            return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
@@ -145,6 +134,20 @@ class ContentViewSet(viewsets.ModelViewSet):
             raise PermissionDenied("Você não tem permissão para deletar este conteúdo.")
         self.perform_destroy(instance)
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    @action(detail=True, methods=['post'])
+    def finished(self, request, pk=None):
+        content = self.get_object()
+        try:
+            finished = request.data.get('finished', False) 
+            content.content_finished = finished
+            content.save()
+            if finished:
+                return Response({"success": "Conteúdo marcado como terminado"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"success": "Conteúdo marcado como não terminado"}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     
 class CommentViewSet(viewsets.ModelViewSet):
@@ -179,7 +182,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         data = serializer.data
 
-        # Modificando o campo fk_user para retornar o username
         for item in data:
             user_id = item['fk_user']
             user = get_object_or_404(CustomUser, id=user_id)

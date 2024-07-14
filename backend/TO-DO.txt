@@ -2,7 +2,7 @@ funções para fazer:
 
 change e-mail
 calcular o progresso no curso
-função de pesquisa na home
+delete e update em conteudo
 
 
 SCRIPTS:
