@@ -208,41 +208,38 @@ class ProfessorViewSet(viewsets.ModelViewSet):
     serializer_class = ProfessorCreateSerializer
     permission_classes = [IsAuthenticated, IsProfessorOwner, IsSchoolAdmin]
 
-
     def get_permissions(self):
         if self.action in ['list', 'retrieve']:
             permission_classes = [IsAuthenticated]
-        elif self.action in ['update', 'partial update']:
+        elif self.action in ['update', 'partial_update']:
             permission_classes = [IsProfessorOwner]
         else:
             permission_classes = [IsSchoolAdmin]
         return [permission() for permission in permission_classes]
 
-
-    def perform_create(self, serializer):
-        serializer.save()
-
     def create(self, request, *args, **kwargs):
         if not self.get_permissions()[0].has_permission(request, self):
             return Response({"detail": "Permissão negada"}, status=status.HTTP_403_FORBIDDEN)
-        data = request.data
+        
+        user_data = request.data.pop('user')
+        professor_data = request.data
+        
         try:
-            school = School.objects.get(school_state=data['state'], school_name=data['school'])
+            school = School.objects.get(school_state=user_data['state'], school_name=user_data['school'])
         except School.DoesNotExist:
             return Response({"detail": "Não foi encontrada nenhuma escola com essas características"}, status=status.HTTP_400_BAD_REQUEST)
         
-        atribute = {
-            'fk_academic_education_id': data['fk_academic_education_id'],
-            'fk_professional_history': data['fk_professional_history'],
-            'password': data['password'],
-            'fk_school': school.id
-        }
+        user_data['fk_school'] = school.id
+        user_serializer = UserCreateSerializer(data=user_data)
         
-        serializer = ProfessorCreateSerializer(data=atribute)
-        if serializer.is_valid():
-            try:
-                professor = serializer.save()
-                user = CustomUser.objects.get(id=professor.professor_auth_user_id)
+        if user_serializer.is_valid():
+            user = user_serializer.save()
+            professor_data['professor_auth_user'] = user.id
+            
+            professor_serializer = ProfessorCreateSerializer(data=professor_data)
+            if professor_serializer.is_valid():
+                professor = professor_serializer.save()
+                
                 token, created = Token.objects.get_or_create(user=user)
                 confirmation_code = ConfirmationCode(user=user, purpose='2af')
                 confirmation_code.generate_code()
@@ -254,8 +251,13 @@ class ProfessorViewSet(viewsets.ModelViewSet):
                     [user.email],
                     fail_silently=False,
                 )
-                return Response({"success": "Usuário registrado com sucesso"}, status=status.HTTP_201_CREATED)
-            except Exception as e:
-                print(e)
-                return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+                
+                return Response({
+                    "professor": ProfessorCreateSerializer(professor).data,
+                    "detail": "Professor criado com sucesso. Por favor, verifique seu e-mail para confirmar a conta."
+                }, status=status.HTTP_201_CREATED)
+            else:
+                user.delete()
+                return Response(professor_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response(user_serializer.errors, status=status.HTTP_400_BAD_REQUEST)

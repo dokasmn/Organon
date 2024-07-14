@@ -62,16 +62,29 @@ const AddTeacher:React.FC = () => {
     );
     const degreeTrainingList = ["Doutorado", "Mestrado", "Graduação", "Ensino técnico"];
 
-    
+    const professorData = {
+        user: {
+            username: 'novo_professor',
+            email: 'novo.professor@exemplo.com',
+            password: 'Senha_segura123',
+            school: 'Escola Exemplo',
+            state: 'SP'
+        },
+        fk_academic_education: {
+            degree: 'Doutorado',
+            training_name: 'Ciências da Computação'
+        },
+        fk_professional_history: {
+            company: 'Companhia Exemplo',
+            fk_profession: 1
+        }
+    };
 
     const fetchData = async (data: teacherFormInterface) => {
         setShowLoading(true);
         
         try {
-            const response = await axiosInstance.post('home/content/', 
-            {
-                
-            }, {
+            const response = await axiosInstance.post('login/professor/', professorData, {
                 headers: headersJsonToken,
             });
             setShowLoading(false);
