@@ -2,11 +2,11 @@ import React, { createContext, useContext, useState, ReactNode, FC, useEffect } 
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (data: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string, id: number}) => void,
+  login: (data: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string}) => void,
   logout: () => void,
   isSchool: boolean,
   isProfessor: boolean,
-  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string, id: number},
+  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string},
   loading: boolean,
   changeEmail: (newEmail: string) => void,
 }
@@ -18,12 +18,12 @@ interface AuthProviderProps {
 }
 
 type userType = {
+  user_id:string,
   email: string, 
   is_professor: boolean, 
   is_school_user: boolean, 
   token: string, 
   username: string,
-  id: number,
 }
 
 export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => {
@@ -31,7 +31,7 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
     const [isProfessor, setIsProfessor] = useState<boolean>(false);
     const [isSchool, setIsSchool] = useState<boolean>(false);
     const [user, setUser] = useState<userType>(
-      {email: "", is_professor: false, is_school_user: false, token: "", username: "", id: 0}
+      {user_id:"", email: "", is_professor: false, is_school_user: false, token: "", username: ""}
     );
     const [loading, setLoading] = useState<boolean>(true);
     
@@ -52,13 +52,14 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
       localStorage.setItem('user', JSON.stringify(data));
       setUser(data);
       localStorage.setItem('token', data.token);
-
+      console.log(data)
+      console.log(user)
       if(data.is_professor){
-          setIsProfessor(true);
+        setIsProfessor(true);
       }
 
       if(data.is_school_user){
-          setIsSchool(true);
+        setIsSchool(true);
       }
     };
 
@@ -66,7 +67,7 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
       setIsAuthenticated(false);
       setIsProfessor(false);
       setIsSchool(false);
-      setUser({email: "", is_professor: false, is_school_user: false, token: "", username: "", id: 0});
+      setUser({user_id:"", email: "", is_professor: false, is_school_user: false, token: "", username: ""});
       localStorage.removeItem('user');
       localStorage.removeItem('token');
     };
@@ -92,5 +93,6 @@ export const useAuth = (): AuthContextType => {
     if (!context) {
         throw new Error('useAuth must be used within an AuthProvider');
     }
+    console.log(context)
     return context;
 };

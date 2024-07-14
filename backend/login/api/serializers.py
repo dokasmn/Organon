@@ -9,9 +9,11 @@ from djoser.serializers import TokenSerializer
 from django.contrib.auth import authenticate
 from djoser.serializers import UserCreatePasswordRetypeSerializer as BaseUserCreatePasswordRetypeSerializer
 
+
 class CustomLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
+
 
     def validate(self, data):
         email = data.get('email')
@@ -27,6 +29,7 @@ class CustomLoginSerializer(serializers.Serializer):
             raise serializers.ValidationError('Must include "email" and "password".')
         return data
 
+
     def create(self, validated_data):
         user = validated_data['user']
         token, created = Token.objects.get_or_create(user=user)
@@ -34,6 +37,7 @@ class CustomLoginSerializer(serializers.Serializer):
         is_school_user = SchoolUser.objects.filter(school_auth_user=user).exists()
 
         response =  {
+            'user_id': user.id,
             'token': token.key, 
             'is_professor': is_professor, 
             'is_school_user':is_school_user, 
@@ -75,6 +79,11 @@ class UserSerializer(BaseUserSerializer):
 class ConfirmationSerializer(serializers.Serializer):
     email = serializers.EmailField()
     confirmation_code = serializers.CharField(max_length=6)
+
+class ReConfirmationCodeSerializer(serializers.Serializer):
+    class Meta:
+        model = CustomUser
+        fields = ('email')
     
     
 class UserCreatePasswordRetypeSerializer(BaseUserCreatePasswordRetypeSerializer):

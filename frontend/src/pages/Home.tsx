@@ -10,29 +10,27 @@ import SliderContent from '../components/items/sliders/SliderContent';
 import NoticeCard from '../components/items/cards/NoticeCard';
 import Footer from '../components/layout/Footer';
 import HeaderHome from '../components/layout/HeaderHome';
-import PopupLog from '../components/popups/PopUpLog';
 
 // CSS
 import "./Home.css";
 
 // TYPES
-import { SliderContentInterface } from "../types"
+import { slidesContent } from '../types';
 
 // IMAGES 
 import highSchoolImage from "../assets/images/high_school.png"
 
 // HOOKS
 import { useAuth } from '../contexts/AuthContext';
-
-// TYPES
-import { slidesContent } from '../types';
+import useRequests from '../hooks/useRequests';
 
 // UTILS
 import { getSubjectImage } from '../utils';
 
 const Home: React.FC = () => {
     const { user } = useAuth();
-    const [slides, setSlides] = useState<slidesContent[]>([])
+    const { showError, showUnespectedResponse, headersJsonToken } = useRequests();
+    const [slides, setSlides] = useState<slidesContent[]>([]);
     
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredSlides, setFilteredSlides] = useState<slidesContent[]>([]);
@@ -40,10 +38,7 @@ const Home: React.FC = () => {
     const fetchData = async () => {
         try {
             const response = await axiosInstance.get('course/content/', {
-                headers: {
-                    'Authorization': `Token ${user.token}`,
-                    'Content-Type': 'multipart/form-data',
-                },
+                headers: headersJsonToken,
             });
             if (response.status === 200) {
                 let objContents: any = response.data.results;
@@ -64,13 +59,11 @@ const Home: React.FC = () => {
                     }
                     setSlides(objContentCard);
                 }
+            }else{
+                showUnespectedResponse(response);
             }
         } catch (error: any) {
-            if (error.response?.data?.detail) {
-                console.log(error.response.data.detail)
-            } else {
-                console.log(`Algo deu errado - ${error.response.status}`)
-            }
+            showError(error);
         }
     };
 

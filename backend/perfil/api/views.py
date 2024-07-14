@@ -16,8 +16,10 @@ class NoteViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['note_content__content_subject']
 
+
     def perform_create(self, serializer):
         return serializer.save(note_user=self.request.user)
+
 
     def create(self, request, *args, **kwargs):
         try:
@@ -46,6 +48,7 @@ class NoteViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
+
     def update(self, request, *args, **kwargs):
         instance = self.get_object()
 
@@ -57,6 +60,7 @@ class NoteViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

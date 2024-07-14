@@ -14,10 +14,12 @@ import { IoPersonOutline, IoHomeOutline, IoExitOutline, IoAddCircleOutline  } fr
 
 // HOOKS
 import { useAuth } from '../../contexts/AuthContext';
+import useRequests from '../../hooks/useRequests';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { user } = useAuth()
+  const { user } = useAuth();
+  const { showError, showUnespectedResponse, headersJsonToken } = useRequests();
   const navigate = useNavigate();
 
   const toggleSidebar = () => {
@@ -27,28 +29,16 @@ const Sidebar = () => {
   const fetchDataLogout = async () => {
     try {
       const response = await axiosInstance.post('login/user/logout/', {}, {
-        headers: {
-          'Authorization': `Token ${user.token}`,
-          'Content-Type': 'application/json'
-        },
+        headers: headersJsonToken,
       });
       if (response.status === 200) {
         console.log("SAIDA")
         navigate("/login")
       }else{
-        console.error('Unexpected response status:', response.status);
+        showUnespectedResponse(response);
       }
     } catch (error: any) {
-      try{
-        if(error.response.data && error.response.data.detail){    
-            console.error(error.response.data.detail)
-        }else{
-            console.error(`Algo deu errado - ${error.response.status}`)    
-        }
-      }catch{
-          console.error(`Algo deu errado - ${error.response.status}`)
-      }
-      console.error('Error:', error.message);
+      showError(error);
     }
   };
 
@@ -110,8 +100,9 @@ const Sidebar = () => {
         </div>
         <div className='absolute bottom-5 w-9/12'>
           <HorizontalLine style='w-full bg-white h-px mb-5'/>
-          <button className={`rounded p-3 flex hover:bg-blue-1-opacity ${isOpen ? 'w-full justify-start' : 'justify-center w-full'}`}  onClick={fetchDataLogout}>
+          <button className={`rounded p-3 text-white flex items-center hover:bg-blue-1-opacity ${isOpen ? 'w-full justify-start' : 'justify-center w-full'}`}  onClick={fetchDataLogout}>
             <IoExitOutline className='text-white text-2xl' />
+            <span className={`transition-all duration-500 min-w-24 ${!isOpen && 'invisible opacity-0 absolute'}`}>LogOut</span>
           </button>
         </div>
       </div>

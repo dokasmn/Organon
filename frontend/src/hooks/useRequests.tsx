@@ -15,7 +15,7 @@ const useRequests = () => {
             const detail = error.response.data.detail;
             if(detail === "Token inválido."){
                 logout();
-                return
+                return                
             }
             handleShowError(error.response.data.detail);
             return
@@ -34,10 +34,15 @@ const useRequests = () => {
         'Content-Type': 'application/json'
     }
 
+    const headersToken = {
+        'Authorization': `Token ${user.token}`,
+    }
+
     return {
         showError,
         showUnespectedResponse,
-        headersJsonToken
+        headersJsonToken,
+        headersToken
     }
 };
 
