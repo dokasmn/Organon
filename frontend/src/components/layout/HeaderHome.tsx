@@ -11,10 +11,14 @@ interface HeaderHomeProps {
     setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
+interface Content {
+    [key: string]: string; // content_name: content_subject
+}
+
 const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) => {
     const navigate = useNavigate();
     const { user } = useAuth();
-    const [allContents, setAllContents] = useState<string[]>([]);
+    const [allContents, setAllContents] = useState<Content>({});
     const [suggestions, setSuggestions] = useState<string[]>([]);
 
     useEffect(() => {
@@ -26,8 +30,16 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
                         'Content-Type': 'multipart/form-data',
                     },
                 });
-                console.log(response.data.results)
-                setAllContents(response.data.results.content_name,response.data.content_subject);
+                if (Array.isArray(response.data.results)) {
+                    const contents = response.data.results.reduce((acc: Content, content: any) => {
+                        acc[content.content_name] = content.content_subject;
+                        return acc;
+                    }, {});
+                    console.log(contents)
+                    setAllContents(contents);
+                } else {
+                    console.error('Resposta inválida da API:', response.data);
+                }
             } catch (error) {
                 console.error('Erro ao buscar conteúdos:', error);
             }
@@ -40,10 +52,11 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
         const query = event.target.value;
         setSearchQuery(query);
 
-        if (query && Array.isArray(allContents)) {
-            const filteredSuggestions = allContents.filter(content =>
-                content.toLowerCase().includes(query.toLowerCase())
+        if (query && Object.keys(allContents).length > 0) {
+            const filteredSuggestions = Object.keys(allContents).filter(contentName =>
+                contentName.toLowerCase().includes(query.toLowerCase())
             );
+            console.log(filteredSuggestions)
             setSuggestions(filteredSuggestions);
         } else {
             setSuggestions([]);
@@ -51,8 +64,8 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
     };
 
     const handleSearchSubmit = () => {
-        if (searchQuery) {
-            navigate(`/materia/${subject}/${searchQuery}`);
+        if (searchQuery && allContents[searchQuery]) {
+            navigate(`/materia/${allContents[searchQuery]}/${searchQuery}`);
         }
     };
 
@@ -78,16 +91,18 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
                         onKeyDown={handleKeyDown}
                     />
                     {suggestions.length > 0 && (
-                        <div className='absolute bg-white shadow-md w-full mt-2 rounded'>
-                            {suggestions.map((suggestion, index) => (
-                                <div key={index} className='p-2 border-b cursor-pointer' onClick={() => {
-                                    setSearchQuery(suggestion);
-                                    handleSearchSubmit();
-                                }}>
-                                    {suggestion}
-                                </div>
-                            ))}
-                        </div>
+                       <div className='absolute w-8/12 bg-white mt-9 z-50 md:border border-black border-opacity-30'>
+                       {suggestions.map((suggestion, index) => (
+                           <div key={index} className='p-2 border-b cursor-pointer text-black' onClick={() => {
+                               setSearchQuery(suggestion);
+                               handleSearchSubmit();
+                           }}>
+                               <p>{suggestion}</p>
+                           </div>
+                       ))}
+                   </div>
+                   
+                   
                     )}
                 </div>
 

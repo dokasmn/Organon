@@ -11,6 +11,8 @@ import { useLoading } from '../contexts/LoadingContext';
 import { useAuth } from '../contexts/AuthContext';
 import axiosInstance from '../axiosConfig';
 import { getImageSubject } from '../utils';
+import Link from '../components/items/buttons/Link.tsx';
+import Title from '../components/items/texts/Title.tsx';
 
 interface ContentInterface {
     content_name: string;
@@ -56,28 +58,51 @@ const Contents: React.FC = () => {
         }
     };
 
-    return (
-        <>
-            <TopNavigationBar />
-            <main className="max-w-7xl mx-auto mt-2">
-                <section className="my-2">
-                    <TitleSection title="Conteúdos" />
-                    <HorizontalLine style="mb-3" />
-                    <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-                        {contents.map(content => (
-                            <ContentCrud
-                                key={uuidv4()}
-                                content={content.content_name}
-                                subject={content.content_subject}
-                                image={getImageSubject(content.content_subject) || ''} // Converte null para string vazia
-                            />
-                        ))}
-                    </div>
-                </section>
-            </main>
-            <BottomNavigationBar />
-        </>
-    );
-};
+        return (
+            <div className='sm:flex justify-center'>  
+                <TopNavigationBar/>
+                <div className=''>
+                    <main className={'px-5 xs:px-14 md:pt-40 md:px-10 max-w-160 sm:min-w-160'} >
+                        <section className='pb-5 md:pb-0'>
+                            <TitleSection title="CONTENTS"/>
+                            <div className='hidden md:block'>
+                                <Title text="Conteúdos"/>
+                            </div>
+                            <HorizontalLine style='w-full p-0 hidden md:block my-5'/>
+                        </section>
+                        <section>
+                            {contents.length > 0  && contents[0].content_name != "default"  ? 
+                                contents.map((content) => (
+                                    <ContentCrud
+                                        key={uuidv4()}
+                                        content={content.content_name}
+                                        subject={content.content_subject}
+                                        image={getImageSubject(content.content_subject, "square") || ''} 
+                                    />
+                                ))
+                                :
+                                <div className='pb-5' >
+                                    <section className='px-5 xs:px-0 mb-5 md:mb-0 md:px-0'>
+                                        <TitleSection title="CONTENTS" />
+                                    </section>
+                                    <section className='bg-white-2 px-5 py-10 md:shadow-md' >
+                                        <h3 className='text-xl'>Você não possui conteúdos ainda!</h3>
+                                    </section>
+                                </div>
+                            }
+                        </section>
+                        <HorizontalLine style='w-full mb-5'/>
+                        <Link
+                            text="Add Content"
+                            style='flex justify-center md:bg-blue-5 md:text-white md:hover:bg-blue-5-dark md:shadow-md w-full text-black bg-white-2 hover:bg-white-2-dark rounded md:rounded-none font-semibold py-3'
+                            to='/perfil/conteudo/criar-conteudo'
+                        />
+                    </main>
+                    <BottomNavigationBar/>
+                </div>
+            </div>
+        );
+    }
+
 
 export default Contents;

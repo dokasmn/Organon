@@ -25,11 +25,17 @@ import { MdArrowRight, MdArrowLeft } from "react-icons/md";
 import axiosInstance from '../axiosConfig.ts';
 
 interface contentsInterface {
-    content_professor_user:string, 
-    content_name:string, 
-    finished:string, 
-    imagePerfil:string
+    content_description: string,
+    content_name: string,
+    content_pdf: string,
+    content_position: number,
+    content_professor_user: string,
+    content_subject: string,
+    content_video: string,
+    finished: string,
+    imagePerfil: string,
 }
+
 
 const Subject:React.FC = () => {
     const { setShowLoading } = useLoading();
@@ -44,7 +50,9 @@ const Subject:React.FC = () => {
             content_position: 0,
             content_professor_user: "default",
             content_subject: "default",
-            content_video: "default"
+            content_video: "default",
+            finished: "",
+            imagePerfil: "",
         }
     ]) 
 
