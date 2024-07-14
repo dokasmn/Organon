@@ -26,7 +26,7 @@ import { PiPasswordLight } from "react-icons/pi";
 import { RiLockPasswordLine } from "react-icons/ri";
 
 // UTILS
-import { professions } from '../utils';
+import { listObjectsToDict } from '../utils';
 
 interface teacherFormInterface {
     nameTeacher: string,
@@ -41,10 +41,14 @@ interface teacherFormInterface {
 const AddTeacher:React.FC = () => {
     const { setShowLoading } = useLoading();
     const { handleShowSuccess } = usePopupLog();
-    const { showError, showUnespectedResponse, headersJsonToken } = useRequests();
+    const { showError, showUnespectedResponse, headersJsonToken, headersToken } = useRequests();
     
+    const [professions, setProfessions] = useState<{id:string, profession_name: string}[]>([{id:"", profession_name:""}])
+    const [professionsName, setProfessionsName] = useState<string[]>([""])
     const [searchQuery, setSearchQuery] = useState('');
     const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [idProfession, setIdProfession] = useState<string>("1")
+    const degreeTrainingList = ["Doutorado", "Mestrado", "Graduação", "Ensino técnico"];
 
     const { formData, handleChangeSelect , handleSubmit, handleChange} = useForm(
         { 
@@ -53,40 +57,37 @@ const AddTeacher:React.FC = () => {
             passwordTeacher: '',
             confirmPasswordTeacher: '',
             courseTraining: '',
-            degreeTraining: '',
+            degreeTraining: degreeTrainingList[0],
             companyJob: '',
         },
         (data) => {
-            fetchData(data);
+            fetchData();
         }
     );
-    const degreeTrainingList = ["Doutorado", "Mestrado", "Graduação", "Ensino técnico"];
 
     const professorData = {
         user: {
-            username: 'novo_professor',
-            email: 'novo.professor@exemplo.com',
-            password: 'Senha_segura123',
+            username: formData.nameTeacher,
+            email: formData.emailTeacher,
+            password: formData.passwordTeacher,
             school: 'Escola Exemplo',
             state: 'SP'
         },
         fk_academic_education: {
-            degree: 'Doutorado',
-            training_name: 'Ciências da Computação'
+            degree: formData.degreeTraining,
+            training_name: formData.courseTraining
         },
         fk_professional_history: {
-            company: 'Companhia Exemplo',
-            fk_profession: 1
+            company: formData.companyJob,
+            fk_profession: idProfession
         }
     };
 
-    const fetchData = async (data: teacherFormInterface) => {
+    const fetchData = async () => {
         setShowLoading(true);
-        
+        console.log(professorData)
         try {
-            const response = await axiosInstance.post('login/professor/', professorData, {
-                headers: headersJsonToken,
-            });
+            const response = await axiosInstance.post('login/professor/', professorData, {headers: headersJsonToken,});
             setShowLoading(false);
             if (response.status === 201) {
                 handleShowSuccess("Conteúdo criado com sucesso")
@@ -98,15 +99,42 @@ const AddTeacher:React.FC = () => {
         }
     };
 
+    useEffect(() => {
+        const getProfession = async () => {
+            setShowLoading(true);
+            try {
+                const response = await axiosInstance.get('login/professions/', {headers: headersToken,});
+                setShowLoading(false);
+                if (response.status === 200) {
+                    setProfessions(response.data.results);
+                    
+                    const listProfessionName: string[] = [""]
+                    response.data.results.map((value: {id: string, profession_name: string}, index: Number) => {
+                        listProfessionName.push(value.profession_name);
+                    })
+                    setProfessionsName(listProfessionName);
+
+                }else{
+                    showUnespectedResponse(response);
+                }
+            } catch (error: any) {
+                showError(error);
+            }
+        };
+        getProfession();
+    }, [])
 
     const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const query = event.target.value;
         setSearchQuery(query);
 
-        if (query && Object.keys(professions).length > 0) {
-            const filteredSuggestions = Object.keys(professions).filter(contentName =>
-                contentName.toLowerCase().includes(query.toLowerCase())
+        console.log(professionsName);
+        if (query && professionsName.length > 0) {
+            const filteredSuggestions = professionsName.filter(professionName =>
+                professionName.toLowerCase().includes(query.toLowerCase())
             );
+            
+            console.log(filteredSuggestions)
             setSuggestions(filteredSuggestions);
         } else {
             setSuggestions([]);
@@ -114,7 +142,12 @@ const AddTeacher:React.FC = () => {
     };
 
     const handleSubmitQuery = (value: string) => {
-        setSearchQuery(value)
+        const filteredIndex = professions.find(profession =>
+            profession.profession_name.toLowerCase().includes(value.toLowerCase())
+        );
+        setSearchQuery(value);
+        
+        filteredIndex ? setIdProfession(filteredIndex.id) : false
         setSuggestions([]);
     }
     
@@ -128,7 +161,7 @@ const AddTeacher:React.FC = () => {
                     </section>
                     <section className='bg-white-2 px-5 py-10 md:shadow-md' >
                         <h3 className=' font-bold text-xl mb-2'>Adicionar Professor</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.!</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit!</p>
                     </section>
                     <form className='w-full p-5 xs:px-0 sm:px-0 md:px-0 flex flex-col' onSubmit={handleSubmit} >
                         <div className='w-full' >
@@ -246,7 +279,7 @@ const AddTeacher:React.FC = () => {
                                     value={searchQuery} 
                                     onChange={handleSearchChange}
                                     list={suggestions}
-                                    handleSearchSubmit={handleSubmitQuery}
+                                    handleSearchSubmit={handleSubmitQuery}  
                                 />
                             </div>
                         </div>
