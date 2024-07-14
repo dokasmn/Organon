@@ -38,7 +38,8 @@ class CustomLoginSerializer(serializers.Serializer):
             'is_professor': is_professor, 
             'is_school_user':is_school_user, 
             'email': user.email, 
-            "username":user.username
+            "username":user.username,
+            "id":user.id
         }
         
         return response    

@@ -27,10 +27,10 @@ const SliderContent: React.FC<SliderContentProps> = ({slides}) => {
   );
 
   return (
-    <div className="relative w-full rounded overflow-hidden py-10 px-14 sm:px-36 bs:px-44 05xl:px-56 xl:px-72">  
+    <div className="relative w-full rounded py-10 px-14 sm:px-36 bs:px-44 05xl:px-56 xl:px-72">  
       <div className="flex duration-700 transition-transform" style={{ transform: `translateX(-${currentSlide * 100}%)`}}>
           {slides.map((item, __) => (
-            <div key={uuidv4()} className='w-full  flex-shrink-0 flex justify-center items-center' >
+            <div key={uuidv4()} className='w-full flex-shrink-0 flex justify-center items-center' >
               <CardNewContent
                 subject={item.contentSubject}
                 content={item.contentName}

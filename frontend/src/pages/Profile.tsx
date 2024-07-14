@@ -63,7 +63,6 @@ const Profile: React.FC = () => {
                 if (response.status === 200) {
                     const contents = response.data.results;
                     const finalizedContents = contents.filter((content: any) => content.content_finished == true);
-                    console.log(`conteudos finalizados: ${finalizedContents.length}`)
                     return finalizedContents.length / contents.length * 100;
                 } else {
                     return 0;
@@ -100,12 +99,13 @@ const Profile: React.FC = () => {
         { subject: "Geografia", lastContent: "Conteúdo Atual", progress: subjectProgress["Geografia"] || 0, image: geographyYellowSmall },
     ];
 
+
     return (
         <section className='flex justify-center'>
             <TopNavigationBar />
             <main className={'px-5 xs:px-14 md:px-10 md:pt-40 md:max-w-6xl min-w-5 max-w-160 sm:min-w-160'}>
                 <div className='flex flex-col'>
-                    <SectionEditProfile username={user.username} useremail={user.email} userphoto={profilePicture} />
+                    <SectionEditProfile username={user.username} useremail={user.email} userphoto={profilePicture} userPk={user.id}/>
                     <section className='py-10 flex items-center'>
                         <div className="w-20 h-2 bg-dotted-line bg-repeat-x"></div>
                         <img src={markerStudent} alt="" className='w-12 lg:w-14' />

@@ -2,11 +2,11 @@ import React, { createContext, useContext, useState, ReactNode, FC, useEffect } 
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (data: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string}) => void,
+  login: (data: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string, id: number}) => void,
   logout: () => void,
   isSchool: boolean,
   isProfessor: boolean,
-  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string},
+  user: {email: string, is_professor: boolean, is_school_user: boolean, token: string, username: string, id: number},
   loading: boolean,
   changeEmail: (newEmail: string) => void,
 }
@@ -23,6 +23,7 @@ type userType = {
   is_school_user: boolean, 
   token: string, 
   username: string,
+  id: number,
 }
 
 export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => {
@@ -30,7 +31,7 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
     const [isProfessor, setIsProfessor] = useState<boolean>(false);
     const [isSchool, setIsSchool] = useState<boolean>(false);
     const [user, setUser] = useState<userType>(
-      {email: "", is_professor: false, is_school_user: false, token: "", username: ""}
+      {email: "", is_professor: false, is_school_user: false, token: "", username: "", id: 0}
     );
     const [loading, setLoading] = useState<boolean>(true);
     
@@ -65,7 +66,7 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
       setIsAuthenticated(false);
       setIsProfessor(false);
       setIsSchool(false);
-      setUser({email: "", is_professor: false, is_school_user: false, token: "", username: ""});
+      setUser({email: "", is_professor: false, is_school_user: false, token: "", username: "", id: 0});
       localStorage.removeItem('user');
       localStorage.removeItem('token');
     };
