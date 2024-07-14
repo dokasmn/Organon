@@ -1,10 +1,20 @@
+// REACT
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+// IMAGES
 import flagBrasilDesktop from '../../assets/images/flag_brasil_desktop.png';
 import flagSantaCatarinaDesktop from '../../assets/images/flag_santa_catarina_desktop.png';
+
+// AXIOS
 import axiosInstance from '../../axiosConfig';
+
+// COMPONENTES
 import InputSearch from '../items/inputs/InputSearch';
+
+// HOOKS
 import { useAuth } from '../../contexts/AuthContext';
+import useRequests from '../../hooks/useRequests';
 
 interface HeaderHomeProps {
     searchQuery: string;
@@ -12,23 +22,22 @@ interface HeaderHomeProps {
 }
 
 interface Content {
-    [key: string]: string; // content_name: content_subject
+    [key: string]: string;
 }
 
 const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) => {
     const navigate = useNavigate();
     const { user } = useAuth();
+    const { showError, showUnespectedResponse, headersToken } = useRequests();
     const [allContents, setAllContents] = useState<Content>({});
     const [suggestions, setSuggestions] = useState<string[]>([]);
+    
 
     useEffect(() => {
         const fetchContents = async () => {
             try {
                 const response = await axiosInstance.get('course/content/', {
-                    headers: {
-                        'Authorization': `Token ${user.token}`,
-                        'Content-Type': 'multipart/form-data',
-                    },
+                    headers: headersToken,
                 });
                 if (Array.isArray(response.data.results)) {
                     const contents = response.data.results.reduce((acc: Content, content: any) => {
@@ -37,10 +46,10 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
                     }, {});
                     setAllContents(contents);
                 } else {
-                    console.error('Resposta inválida da API:', response.data);
+                    showUnespectedResponse(response);
                 }
-            } catch (error) {
-                console.error('Erro ao buscar conteúdos:', error);
+            } catch (error: any) {
+                showError(error);
             }
         };
 
@@ -73,6 +82,11 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
         }
     };
 
+    const handleSubmitQuery = (value: string) => {
+        setSearchQuery(value);
+        handleSearchSubmit();
+    }
+
     return (
         <>
             <header className='hidden h-16 items-center text-white md:flex my-1 w-full max-w-7xl'>
@@ -87,23 +101,10 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
                         value={searchQuery} 
                         onChange={handleSearchChange}
                         onKeyDown={handleKeyDown}
+                        list={suggestions}
+                        handleSearchSubmit={handleSubmitQuery}
                     />
-                    {suggestions.length > 0 && (
-                       <div className='absolute w-8/12 bg-white mt-9 z-50 md:border border-black border-opacity-30'>
-                       {suggestions.map((suggestion, index) => (
-                           <div key={index} className='p-2 border-b cursor-pointer text-black' onClick={() => {
-                               setSearchQuery(suggestion);
-                               handleSearchSubmit();
-                           }}>
-                               <p>{suggestion}</p>
-                           </div>
-                       ))}
-                   </div>
-                   
-                   
-                    )}
                 </div>
-
                 <div className='w-2/12 flex justify-end'>
                     <img src={flagBrasilDesktop} alt="" className='w-16' />
                 </div>
@@ -113,3 +114,5 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
 }
 
 export default HeaderHome;
+
+
