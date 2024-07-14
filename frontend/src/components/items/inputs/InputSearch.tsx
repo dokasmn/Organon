@@ -6,51 +6,53 @@ interface InputSearchProps {
     placeholder: string,
     value: string,
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void,
-    onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void,
+    onKeyDown?: (event: React.KeyboardEvent<HTMLInputElement>) => void,
     list: string[],
     handleSearchSubmit: (value: string) => void,
+    style?: string,
+    icon?: boolean,
 }
 
-const InputSearch: React.FC<InputSearchProps> = ({ id, placeholder, value, onChange, onKeyDown, list, handleSearchSubmit }) => {
-    const [isFocused, setIsFocused] = useState(false);
+const InputSearch: React.FC<InputSearchProps> = ({ id, placeholder, value, onChange, list, handleSearchSubmit, style, icon }) => {
 
-    const handleFocus = () => {
-        setIsFocused(true);
-    };
+    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter') {
 
-    const handleBlur = () => {
-        setIsFocused(false);
+            const input = event.target as HTMLInputElement;
+            handleSearchSubmit(input.value);
+        }
     };
 
     return (
-        <>
-            <div className='w-full max-w-144 relative'>
+        <div className='relative w-full max-w-144' >
+            <div className='w-full relative'>
                 <input 
                     type="search" 
                     name={id} 
                     id={id} 
-                    className='text-black md:border border-black border-opacity-30 focus:border-blue-1 bg-white text-sm px-2 outline-none w-full py-1 md:text-base md:px-5'
                     placeholder={placeholder}
                     value={value}
                     onChange={onChange}
-                    onFocus={handleFocus}
-                    onBlur={handleBlur}
-                    onKeyDown={onKeyDown}
+                    onKeyDown={handleKeyDown}
+                    className={`text-black border border-gray-1 px-2 outline-none w-full py-2 md:text-base md:px-5 ${style}`}
                 />
-                <IoSearch  
-                    className={`absolute top-1/4 right-5 ${
-                        isFocused ? 'text-blue-1' : 'text-gray-400'
-                    }`} 
-                />
+                {
+                    icon && 
+                        <IoSearch  
+                            className={`absolute top-1/3 right-5 ${
+                                'text-gray-400'
+                            }`} 
+                        />
+                }
 
                 
             </div>
             {list && list.length > 0 && (
-                <div className='absolute text-black max-w-144 w-8/12 bg-white mt-10 z-50 md:border border-gray-1 border-opacity-30'>
+                <div className='absolute text-black w-full max-w-144 bg-white mt-2 z-50 md:border border-gray-1 border-opacity-30'>
                     {list.map((value, index) => (
                         <div 
                             key={index} 
-                            className='p-2 shadow-lg cursor-pointer border-gray-1' 
+                            className='p-2 border-b cursor-pointer border-gray-1 border-opacity-30 hover:bg-white-1' 
                             onClick={() => handleSearchSubmit(value)}
                         >
                         <p>{value}</p>
@@ -58,7 +60,7 @@ const InputSearch: React.FC<InputSearchProps> = ({ id, placeholder, value, onCha
                     ))}
                 </div>
             )} 
-        </>
+        </div>
     );
 }
 

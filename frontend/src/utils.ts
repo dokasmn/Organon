@@ -256,7 +256,7 @@ export const listObjectsToComboBox = (list: any[], field: string) => {
     return dict;
 }   
 
-const positions = {
+export const professions = {
 'adm': 'Administrador',
 'adv': 'Advogado',
 'agr': 'Agrônomo',

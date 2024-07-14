@@ -28,7 +28,6 @@ import useRequests from '../hooks/useRequests';
 import { getSubjectImage } from '../utils';
 
 const Home: React.FC = () => {
-    const { user } = useAuth();
     const { showError, showUnespectedResponse, headersJsonToken } = useRequests();
     const [slides, setSlides] = useState<slidesContent[]>([]);
     
