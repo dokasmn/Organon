@@ -13,7 +13,7 @@ import TitleSection from '../components/layout/TitleSection.tsx';
 import { getImageSubject, setColorSubject, getRoute, decodeStringUrl, quickSort } from '../utils.ts';
 
 // HOOKS
-import useSliderArrow from '../../../hooks/useSliderArrow.tsx';
+import useSliderArrow from '../hooks/useSliderArrow.tsx';
 import { useAuth } from '../contexts/AuthContext.tsx';
 import { usePopupLog } from '../contexts/PopUpLogContext.tsx';
 import { useLoading } from '../contexts/LoadingContext.tsx';
