@@ -6,22 +6,21 @@ import Input from '../items/inputs/Input';
 import PopUpBase from './PopUpBase';
 
 // HOOKS
-import { useLoading } from '../../contexts/LoadingContext';
-import { usePopupLog } from '../../contexts/PopUpLogContext';
+import useRequests from '../../hooks/useRequests';
 
 // AXIOS
 import axiosInstance from '../../axiosConfig';
 
 interface PopUpConfirmCodeProps {
-  onSave: (confirmCode: string) => void;
-  onClose: () => void;
+  onSave: (confirmCode: string) => void,
+  onClose: () => void,
+  userEmail: string,
 }
 
-const PopUpConfirmCode: React.FC<PopUpConfirmCodeProps> = ({ onSave, onClose }) => {
+const PopUpConfirmCode: React.FC<PopUpConfirmCodeProps> = ({ onSave, onClose, userEmail }) => {
+    const { showError, showUnespectedResponse } = useRequests();
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [confirmCode, setConfirmCode] = useState<string>('');
-    const { handleShowError } = usePopupLog();
-    const { setShowLoading } = useLoading()
 
     useEffect(() => {
         setIsVisible(true);
@@ -41,22 +40,18 @@ const PopUpConfirmCode: React.FC<PopUpConfirmCodeProps> = ({ onSave, onClose }) 
     };
 
     const resendData = async (): Promise<void> => {
+        console.log(userEmail)
         try {
-            const response = await axiosInstance.post('login/user/resend_code/');
+            const response = await axiosInstance.post('login/user/resend_code/', {
+                email: `${userEmail}`
+            });
             if (response.status === 200) {
-                return
+                console.log(response)
             } else {
-                handleShowError("Resposta inesperada.");
-                console.error('Unexpected response status:', response.status);
+                showUnespectedResponse(response);
             }
         } catch (error: any) {
-            setShowLoading(false);
-            if(error.response?.data?.detail){
-                handleShowError(error.response.data.detail);
-            }
-            
-            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`);
-            console.error('Error:', error.message);
+            showError(error);
         }
     };
 

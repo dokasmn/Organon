@@ -31,7 +31,7 @@ const Register: React.FC = () => {
     const { showError, showUnespectedResponse, headersToken } = useRequests();
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
-    const [dataUserName, setDataUserName] = useState<string>(); 
+    const [dataUser, setDataUser] = useState<{email: string, username: string}>({email: "", username: ""}); 
     
     const {
         passwordIsValid,
@@ -70,7 +70,7 @@ const Register: React.FC = () => {
             if (response.status === 201) {
                 setShowConfirmCodePopup(true);
                 setConfirmEmail(data.email);
-                setDataUserName(data.name);
+                setDataUser({email: data.email, username:data.name});
             }else{
                 showUnespectedResponse(response);
             }
@@ -113,7 +113,7 @@ const Register: React.FC = () => {
                     is_school_user: false, 
                     token: dataConfirm.token, 
                     user_id: dataConfirm.user_id, 
-                    username: dataUserName, 
+                    username: dataUser.username, 
                 });
 
                 console.log(response.data)
@@ -128,28 +128,27 @@ const Register: React.FC = () => {
     };
 
     const handleSaveConfirmCode = (code: string): void => {
-        
         confirmData({ email: confirmEmail, confirmationCode: code });
     };
 
-    const getSchools = async (): Promise<void> => {
-        setShowLoading(true);
-        try {
-            const response = await axiosInstance.get('login/user/confirm_email/',
-                {
-                    headers: headersToken,
-                }
-            );
-            setShowLoading(false);
-            if (response.status === 200) {
-                console.log(response.data)
-            } else {
-                showUnespectedResponse(response);
-            }
-        } catch (error: any) {
-            showError(error);
-        }
-    };
+    // const getSchools = async (): Promise<void> => {
+    //     setShowLoading(true);
+    //     try {
+    //         const response = await axiosInstance.get('login/user/confirm_email/',
+    //             {
+    //                 headers: headersToken,
+    //             }
+    //         );
+    //         setShowLoading(false);
+    //         if (response.status === 200) {
+    //             console.log(response.data)
+    //         } else {
+    //             showUnespectedResponse(response);
+    //         }
+    //     } catch (error: any) {
+    //         showError(error);
+    //     }
+    // };
 
     return (
         <div className="bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
@@ -158,6 +157,7 @@ const Register: React.FC = () => {
                     <PopUpConfirmCode
                         onSave={handleSaveConfirmCode}
                         onClose={() => setShowConfirmCodePopup(false)}
+                        userEmail={dataUser.email}
                     />
                 )
             }

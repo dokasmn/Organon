@@ -15,7 +15,7 @@ const NavMenuHamburguer:React.FC<NavMenuHamburguerProps> = ({setVisibility}) => 
 
     return (
         
-        <nav className=' bg-blue-5 py-7  ' >
+        <nav className=' bg-blue-5 py-7 md:hidden  ' >
             <ul>
                 <li onClick={setVisibility} >
                     <Link
