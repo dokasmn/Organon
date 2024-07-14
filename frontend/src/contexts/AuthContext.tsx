@@ -37,7 +37,6 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
     
     useEffect(() => {
       const storedUser = localStorage.getItem('user');
-      console.log(storedUser)
       if (storedUser) {
         const data = JSON.parse(storedUser);
         setIsAuthenticated(true);
@@ -53,13 +52,14 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
       localStorage.setItem('user', JSON.stringify(data));
       setUser(data);
       localStorage.setItem('token', data.token);
-
+      console.log(data)
+      console.log(user)
       if(data.is_professor){
-          setIsProfessor(true);
+        setIsProfessor(true);
       }
 
       if(data.is_school_user){
-          setIsSchool(true);
+        setIsSchool(true);
       }
     };
 

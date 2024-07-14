@@ -34,10 +34,15 @@ const useRequests = () => {
         'Content-Type': 'application/json'
     }
 
+    const headersToken = {
+        'Authorization': `Token ${user.token}`,
+    }
+
     return {
         showError,
         showUnespectedResponse,
-        headersJsonToken
+        headersJsonToken,
+        headersToken
     }
 };
 

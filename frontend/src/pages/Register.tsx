@@ -28,9 +28,10 @@ const Register: React.FC = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
     const { setShowLoading } = useLoading();
-    const { showError, showUnespectedResponse } = useRequests();
+    const { showError, showUnespectedResponse, headersToken } = useRequests();
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
+    const [dataUserName, setDataUserName] = useState<string>(); 
     
     const {
         passwordIsValid,
@@ -69,6 +70,7 @@ const Register: React.FC = () => {
             if (response.status === 201) {
                 setShowConfirmCodePopup(true);
                 setConfirmEmail(data.email);
+                setDataUserName(data.name);
             }else{
                 showUnespectedResponse(response);
             }
@@ -104,7 +106,17 @@ const Register: React.FC = () => {
             });
             setShowLoading(false);
             if (response.status === 200) {
-                login(response.data);                
+                const dataConfirm = response.data.success
+                login({
+                    email: dataConfirm.email, 
+                    is_professor: false, 
+                    is_school_user: false, 
+                    token: dataConfirm.token, 
+                    user_id: dataConfirm.user_id, 
+                    username: dataUserName, 
+                });
+
+                console.log(response.data)
                 navigate('/home');
             } else {
                 showUnespectedResponse(response);
@@ -120,25 +132,24 @@ const Register: React.FC = () => {
         confirmData({ email: confirmEmail, confirmationCode: code });
     };
 
-    // const getSchools = async (): Promise<void> => {
-    //     setShowLoading(true);
-    //     try {
-    //         const response = await axiosInstance.get('login/user/confirm_email/', {
-    //             email: data.email,
-    //             confirmation_code: data.confirmationCode,
-    //         });
-    //         setShowLoading(false);
-    //         if (response.status === 200) {
-    //             login(response.data);                
-    //             navigate('/home');
-    //         } else {
-    //             showUnespectedResponse(response);
-    //         }
-    //     } catch (error: any) {
-    //         setShowLoading(false);
-    //         showError(error);
-    //     }
-    // };
+    const getSchools = async (): Promise<void> => {
+        setShowLoading(true);
+        try {
+            const response = await axiosInstance.get('login/user/confirm_email/',
+                {
+                    headers: headersToken,
+                }
+            );
+            setShowLoading(false);
+            if (response.status === 200) {
+                console.log(response.data)
+            } else {
+                showUnespectedResponse(response);
+            }
+        } catch (error: any) {
+            showError(error);
+        }
+    };
 
     return (
         <div className="bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
