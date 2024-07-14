@@ -9,20 +9,24 @@ import HorizontalLine from '../components/items/texts/HorizontalLine';
 import BottomNavigationBar from '../components/layout/BottomNavigationBar';
 import TopNavigationBar from '../components/layout/TopNavigationBar';
 import Button from '../components/items/buttons/Button';
-import Input from '../components/items/inputs/Input';
 import InputIcon from '../components/items/inputs/InputIcon';
+import InputSearch from '../components/items/inputs/InputSearch';
 
 // HOOKS
 import { usePopupLog } from '../contexts/PopUpLogContext';
 import { useLoading } from '../contexts/LoadingContext';
 import useForm from '../hooks/useForm';
 import { useAuth } from '../contexts/AuthContext';
+import useRequests from '../hooks/useRequests';
 
 // IMAGES
 import { FiBookOpen } from "react-icons/fi";
 import { IoPricetagOutline, IoMailOutline, IoSchoolOutline, IoRibbonOutline, IoBusinessOutline  } from "react-icons/io5";
 import { PiPasswordLight } from "react-icons/pi";
 import { RiLockPasswordLine } from "react-icons/ri";
+
+// UTILS
+import { professions } from '../utils';
 
 interface teacherFormInterface {
     nameTeacher: string,
@@ -32,13 +36,15 @@ interface teacherFormInterface {
     courseTraining: string,
     degreeTraining: string,
     companyJob: string,
-    responsibilityJob: string,
 }
 
 const AddTeacher:React.FC = () => {
-    const { user } = useAuth()
     const { setShowLoading } = useLoading();
-    const { handleShowError, handleShowSuccess } = usePopupLog();
+    const { handleShowSuccess } = usePopupLog();
+    const { showError, showUnespectedResponse, headersJsonToken } = useRequests();
+    
+    const [searchQuery, setSearchQuery] = useState('');
+    const [suggestions, setSuggestions] = useState<string[]>([]);
 
     const { formData, handleChangeSelect , handleSubmit, handleChange} = useForm(
         { 
@@ -49,7 +55,6 @@ const AddTeacher:React.FC = () => {
             courseTraining: '',
             degreeTraining: '',
             companyJob: '',
-            responsibilityJob: '',
         },
         (data) => {
             fetchData(data);
@@ -57,34 +62,48 @@ const AddTeacher:React.FC = () => {
     );
     const degreeTrainingList = ["Doutorado", "Mestrado", "Graduação", "Ensino técnico"];
 
+    
+
     const fetchData = async (data: teacherFormInterface) => {
         setShowLoading(true);
-
+        
         try {
-            const response = await axiosInstance.post('home/content/', formData, {
-                headers: {
-                    'Authorization': `Token ${user.token}`,
-                    'Content-Type': 'application/json',
-                },
+            const response = await axiosInstance.post('home/content/', 
+            {
+                
+            }, {
+                headers: headersJsonToken,
             });
             setShowLoading(false);
             if (response.status === 201) {
                 handleShowSuccess("Conteúdo criado com sucesso")
             }else{
-                handleShowError("Resposta inesperada.")
-                console.error('Unexpected response status:', response.status);
+                showUnespectedResponse(response);
             }
         } catch (error: any) {
-            setShowLoading(false);
-            setShowLoading(false);
-            if(error.response?.data?.detail){    
-                handleShowError(error.response.data.detail)
-                return 
-            }
-            handleShowError(`Algo deu errado ${ error.response ? `- ${error.response.status}` : '' }`)
-            console.error('Error:', error.message);
+            showError(error);
         }
     };
+
+
+    const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const query = event.target.value;
+        setSearchQuery(query);
+
+        if (query && Object.keys(professions).length > 0) {
+            const filteredSuggestions = Object.keys(professions).filter(contentName =>
+                contentName.toLowerCase().includes(query.toLowerCase())
+            );
+            setSuggestions(filteredSuggestions);
+        } else {
+            setSuggestions([]);
+        }
+    };
+
+    const handleSubmitQuery = (value: string) => {
+        setSearchQuery(value)
+        setSuggestions([]);
+    }
     
     return (      
         <div className="sm:flex justify-center">
@@ -193,7 +212,7 @@ const AddTeacher:React.FC = () => {
                             </div>
                         </div>
                         <div className='sm:flex justify-between mb-5' >
-                            <div className='w-full sm:mb-0 sm:w-8/12 sm:mr-2' >
+                            <div className='w-full sm:mb-0 sm:w-6/12 sm:mr-2' >
                                 <label htmlFor="company-job" className='block font-semibold mb-5'>Empresa:</label>
                                 <InputIcon
                                     onChange={handleChange}
@@ -206,21 +225,16 @@ const AddTeacher:React.FC = () => {
                                     icon={IoBusinessOutline}
                                 />
                             </div>
-                            <div className='w-full sm:w-4/12 sm:ml-2'>
+                            <div className='w-full sm:w-6/12 sm:ml-2'>
                                 <label htmlFor="responsibility-job" className='block font-semibold mb-5'>Cargo:</label>
-                                <label htmlFor="responsibility-job" className='border border-gray-1 md:rounded-none flex h-10'>
-                                    <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center' >
-                                        <FiBookOpen/>
-                                    </div>
-                                    <select 
-                                        name="responsibilityJob" 
-                                        onChange={handleChangeSelect} 
-                                        value={formData.responsibilityJob} 
-                                        id="select-subject" 
-                                        className='p-0.5 px-3 bg-white rounded w-full outline-none'
-                                    >
-                                    </select>
-                                </label>
+                                <InputSearch 
+                                    id="search-content" 
+                                    placeholder="Informar cargo" 
+                                    value={searchQuery} 
+                                    onChange={handleSearchChange}
+                                    list={suggestions}
+                                    handleSearchSubmit={handleSubmitQuery}
+                                />
                             </div>
                         </div>
                         <HorizontalLine style='w-full mb-5'/>

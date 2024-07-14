@@ -221,7 +221,6 @@ class ProfessorViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save()
-    
 
     def create(self, request, *args, **kwargs):
         if not self.get_permissions()[0].has_permission(request, self):

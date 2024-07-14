@@ -31,7 +31,6 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
     const { showError, showUnespectedResponse, headersToken } = useRequests();
     const [allContents, setAllContents] = useState<Content>({});
     const [suggestions, setSuggestions] = useState<string[]>([]);
-    
 
     useEffect(() => {
         const fetchContents = async () => {
@@ -76,11 +75,11 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
         }
     };
 
-    const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            handleSearchSubmit();
-        }
-    };
+    // const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    //     if (event.key === 'Enter') {
+    //         handleSearchSubmit();
+    //     }
+    // };
 
     const handleSubmitQuery = (value: string) => {
         setSearchQuery(value);
@@ -100,9 +99,10 @@ const HeaderHome: React.FC<HeaderHomeProps> = ({ searchQuery, setSearchQuery }) 
                         placeholder="Pesquisar" 
                         value={searchQuery} 
                         onChange={handleSearchChange}
-                        onKeyDown={handleKeyDown}
                         list={suggestions}
                         handleSearchSubmit={handleSubmitQuery}
+                        style='focus:border-blue-1 bg-white text-sm'
+                        icon={true}
                     />
                 </div>
                 <div className='w-2/12 flex justify-end'>
