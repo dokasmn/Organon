@@ -248,9 +248,19 @@ export const states = {
 
 export const listObjectsToComboBox = (list: any[], field: string) => {
     let dict: {[key: string]: string} = {};
-    
+
     list.map((item) => {
         dict[`${item[`${field}`]}`] = item[`${field}`];
+    })
+
+    return dict;
+}   
+
+export const listObjectsToDict = (list: any[], field: string, id: string) => {
+    let dict: {[key: string]: string} = {};
+    
+    list.map((item) => {
+        dict[item[`${id}`]] = item[`${field}`];
     })
 
     return dict;

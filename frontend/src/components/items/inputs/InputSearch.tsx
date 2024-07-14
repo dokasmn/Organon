@@ -44,9 +44,8 @@ const InputSearch: React.FC<InputSearchProps> = ({ id, placeholder, value, onCha
                             }`} 
                         />
                 }
-
-                
             </div>
+            
             {list && list.length > 0 && (
                 <div className='absolute text-black w-full max-w-144 bg-white mt-2 z-50 md:border border-gray-1 border-opacity-30'>
                     {list.map((value, index) => (

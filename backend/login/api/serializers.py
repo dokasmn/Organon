@@ -134,3 +134,9 @@ class ProfessorCreateSerializer(serializers.ModelSerializer):
         )
         
         return professor
+
+
+class ProfessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profession
+        fields = ['id', 'profession_name']
