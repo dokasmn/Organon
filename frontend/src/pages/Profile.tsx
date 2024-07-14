@@ -62,7 +62,6 @@ const Profile: React.FC = () => {
                 });
                 if (response.status === 200) {
                     const contents = response.data.results;
-                    console.log(contents)
                     const finalizedContents = contents.filter((content: any) => content.content_finished == true);
                     console.log(`conteudos finalizados: ${finalizedContents.length}`)
                     return finalizedContents.length / contents.length * 100;

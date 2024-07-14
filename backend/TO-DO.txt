@@ -1,7 +1,6 @@
 funções para fazer:
 
 change e-mail
-calcular o progresso no curso
 delete e update em conteudo
 
 
