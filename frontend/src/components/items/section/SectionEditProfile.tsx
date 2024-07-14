@@ -11,7 +11,7 @@ interface SectionEditProfileProps {
   username: string;
   useremail: string;
   userphoto: string;
-  userPk: number;
+  userPk: string;
 }
 
 const SectionEditProfile: React.FC<SectionEditProfileProps> = ({
@@ -23,14 +23,13 @@ const SectionEditProfile: React.FC<SectionEditProfileProps> = ({
   const [showEditPopup, setShowEditPopup] = useState<boolean>(false);
   const [usernameEdit, setUsernameEdit] = useState<string>(username);
   const [profilePic, setProfilePic] = useState<string>(userphoto);
-  const [pk, setUserPk] = useState<number>(userPk);
+  const [pk, setUserPk] = useState<string>(userPk);
 
-  const handleEditUser = (newUsername: string, newProfilePic: string, updatedUserPk:number) => {
+  const handleEditUser = (newUsername: string, newProfilePic: string, updatedUserPk:string) => {
     setUsernameEdit(newUsername);
     setProfilePic(newProfilePic);
     setUserPk(updatedUserPk);
   };
-
 
   return (
     <section className="flex gap-3 w-full">

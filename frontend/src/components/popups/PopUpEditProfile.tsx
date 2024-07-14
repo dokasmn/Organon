@@ -13,8 +13,8 @@ import axiosInstance from '../../axiosConfig.ts';
 interface PopUpEditProfileProps {
   initialUsername: string;
   initialProfilePic: string;
-  pk: number;
-  onSave: (username: string, profilePic: string, pk: number) => void;
+  pk: string;
+  onSave: (username: string, profilePic: string, pk: string) => void;
   onClose: () => void;
 }
 
@@ -29,10 +29,8 @@ const PopUpEditProfile: React.FC<PopUpEditProfileProps> = ({ initialUsername, in
     setIsVisible(true);
   }, []);
 
-
   const handleSave = async () => {
     try {
-      console.log("entrou")
       const response = await axiosInstance.patch(`login/user/${pk}/`,
         {
           username: username,
@@ -43,16 +41,13 @@ const PopUpEditProfile: React.FC<PopUpEditProfileProps> = ({ initialUsername, in
           },
         }
       );
-      console.log(`username alterado ${username}`);
       let data = response.data.results
-      console.log(data)
       setIsVisible(false);
       setTimeout(() => {
         onSave(data.username, profilePic, pk);
         onClose();
       }, 300);
     } catch (error: any) {
-      console.log("deu erro")
       console.log(error.response.data);
     }
   };
