@@ -1,3 +1,4 @@
+// src/pages/Profile.tsx
 import React, { useState, useEffect } from 'react';
 
 // COMPONENTS
@@ -35,6 +36,8 @@ import { decodeStringUrl } from '../utils.ts';
 const Profile: React.FC = () => {
     const { user } = useAuth();
     const [subjectProgress, setSubjectProgress] = useState<{ [subject: string]: number }>({});
+    const [username, setUsername] = useState(user.username);
+    const [profilePic, setProfilePic] = useState(profilePicture);
 
     useEffect(() => {
         const subjects = [
@@ -99,12 +102,23 @@ const Profile: React.FC = () => {
         { subject: "Geografia", lastContent: "Conteúdo Atual", progress: subjectProgress["Geografia"] || 0, image: geographyYellowSmall },
     ];
 
+    const handleEditUser = (newUsername: string, newProfilePic: string) => {
+        setUsername(newUsername);
+        setProfilePic(newProfilePic);
+    };
+
     return (
         <section className='flex justify-center'>
             <TopNavigationBar />
             <main className={'px-5 xs:px-14 md:px-10 md:pt-40 md:max-w-6xl min-w-5 max-w-160 sm:min-w-160'}>
                 <div className='flex flex-col'>
-                    <SectionEditProfile username={user.username} useremail={user.email} userphoto={profilePicture} userPk={user.id}/>
+                    <SectionEditProfile 
+                        username={username} 
+                        useremail={user.email} 
+                        userphoto={profilePic} 
+                        userPk={user.id}
+                        onSave={handleEditUser} 
+                    />
                     <section className='py-10 flex items-center'>
                         <div className="w-20 h-2 bg-dotted-line bg-repeat-x"></div>
                         <img src={markerStudent} alt="" className='w-12 lg:w-14' />

@@ -1,7 +1,7 @@
+// src/popups/PopUpEditProfile.tsx
 import React, { useEffect, useState } from 'react';
 import Input from '../items/inputs/Input';
 import UploadFile from '../items/inputs/UploadFile';
-import Button from '../items/buttons/Button';
 import PopUpBase from './PopUpBase';
 
 // HOOKS
@@ -41,7 +41,8 @@ const PopUpEditProfile: React.FC<PopUpEditProfileProps> = ({ initialUsername, in
           },
         }
       );
-      let data = response.data.results
+      let data = response.data;
+      console.log(data);
       setIsVisible(false);
       setTimeout(() => {
         onSave(data.username, profilePic, pk);

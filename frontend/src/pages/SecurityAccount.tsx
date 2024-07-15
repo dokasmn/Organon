@@ -44,7 +44,7 @@ const SecurityAccount:React.FC = () => {
         setShowLoading(true);
         
         try {
-            const response = await axiosInstance.put(`login/user/${user.user_id}/`, {email: emailReset, username: user.username}, 
+            const response = await axiosInstance.put(`login/user/${user.id}/`, {email: emailReset, username: user.username}, 
             {
                 headers: headersJsonToken,
             });

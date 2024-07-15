@@ -1,3 +1,4 @@
+// src/components/items/section/SectionEditProfile.tsx
 import React, { useState } from "react";
 
 // IMAGES
@@ -12,6 +13,7 @@ interface SectionEditProfileProps {
   useremail: string;
   userphoto: string;
   userPk: string;
+  onSave: (newUsername: string, newProfilePic: string) => void;
 }
 
 const SectionEditProfile: React.FC<SectionEditProfileProps> = ({
@@ -19,16 +21,16 @@ const SectionEditProfile: React.FC<SectionEditProfileProps> = ({
   useremail,
   userphoto,
   userPk,
+  onSave,
 }) => {
   const [showEditPopup, setShowEditPopup] = useState<boolean>(false);
   const [usernameEdit, setUsernameEdit] = useState<string>(username);
   const [profilePic, setProfilePic] = useState<string>(userphoto);
-  const [pk, setUserPk] = useState<string>(userPk);
 
-  const handleEditUser = (newUsername: string, newProfilePic: string, updatedUserPk:string) => {
+  const handleEditUser = (newUsername: string, newProfilePic: string) => {
     setUsernameEdit(newUsername);
     setProfilePic(newProfilePic);
-    setUserPk(updatedUserPk);
+    onSave(newUsername, newProfilePic);
   };
 
   return (
@@ -39,19 +41,19 @@ const SectionEditProfile: React.FC<SectionEditProfileProps> = ({
           initialProfilePic={profilePic}
           onSave={handleEditUser}
           onClose={() => setShowEditPopup(false)}
-          pk={pk}
+          pk={userPk}
         />
       )}
       <div className="w-7/12 flex lg:border lg:bg-white lg:shadow-md border-black border-opacity-30 lg:py-3 lg:px-5">
         <div className="flex items-center pr-3 md:pr-7">
           <img
-            src={userphoto}
+            src={profilePic}
             alt="Photo of user"
             className="rounded-full border border-black border-opacity-50 max-w-16 min-w-16 lg:rounded-lg"
           />
         </div>
         <div className="">
-          <h3 className="text-lg font-semibold">{username}</h3>
+          <h3 className="text-lg font-semibold">{usernameEdit}</h3>
           <p>{useremail}</p>
         </div>
       </div>
