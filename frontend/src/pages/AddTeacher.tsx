@@ -16,8 +16,8 @@ import InputSearch from '../components/items/inputs/InputSearch';
 import { usePopupLog } from '../contexts/PopUpLogContext';
 import { useLoading } from '../contexts/LoadingContext';
 import useForm from '../hooks/useForm';
-import { useAuth } from '../contexts/AuthContext';
 import useRequests from '../hooks/useRequests';
+import useValidateFields from '../hooks/useValidateFields';
 
 // IMAGES
 import { FiBookOpen } from "react-icons/fi";
@@ -28,15 +28,15 @@ import { RiLockPasswordLine } from "react-icons/ri";
 // UTILS
 import { listObjectsToDict } from '../utils';
 
-interface teacherFormInterface {
-    nameTeacher: string,
-    emailTeacher: string,
-    passwordTeacher: string,
-    confirmPasswordTeacher: string,
-    courseTraining: string,
-    degreeTraining: string,
-    companyJob: string,
-}
+// interface teacherFormInterface {
+//     nameTeacher: string,
+//     emailTeacher: string,
+//     passwordTeacher: string,
+//     confirmPasswordTeacher: string,
+//     courseTraining: string,
+//     degreeTraining: string,
+//     companyJob: string,
+// }
 
 const AddTeacher:React.FC = () => {
     const { setShowLoading } = useLoading();
@@ -50,7 +50,23 @@ const AddTeacher:React.FC = () => {
     const [idProfession, setIdProfession] = useState<string>("1")
     const degreeTrainingList = ["Doutorado", "Mestrado", "Graduação", "Ensino técnico"];
 
-    const { formData, handleChangeSelect , handleSubmit, handleChange} = useForm(
+    const {
+        passwordIsValid,
+        passwordError,
+        emailError,
+        emailIsvalid,
+        validateEmail,
+        validatePassword,
+        confirmPasswordError,
+        validateConfirmPassword
+    } = useValidateFields();
+
+    const { 
+        formData, 
+        handleChangeSelect , 
+        handleSubmit, 
+        handleChange, 
+    } = useForm(
         { 
             nameTeacher: '',
             emailTeacher: '',
@@ -93,10 +109,29 @@ const AddTeacher:React.FC = () => {
                 handleShowSuccess("Conteúdo criado com sucesso")
             }else{
                 showUnespectedResponse(response);
+                
             }
         } catch (error: any) {
             showError(error);
         }
+    };
+
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const { value } = event.target;
+        validateEmail(value);
+        handleChange(event);
+    };
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const { value } = event.target;
+        validatePassword(value);
+        handleChange(event);
+    };
+
+    const handleConfirmPassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const { value } = event.target;
+        validateConfirmPassword(value, formData.passwordTeacher);
+        handleChange(event);
     };
 
     useEffect(() => {
@@ -175,39 +210,47 @@ const AddTeacher:React.FC = () => {
                                 name='nameTeacher'
                                 style='h-full border-none bg-white'
                                 icon={IoPricetagOutline}
+                                maxLength={40}
+                                minLength={3}
                             />
                         </div>
                         <div>
                             <label htmlFor="email-teacher" className='block font-semibold mb-5'>Email:</label>
                             <InputIcon 
-                                onChange={handleChange}
                                 value={formData.emailTeacher}
+                                onChange={handleEmailChange}
+                                error={emailError}
                                 type='email' 
                                 id='email-teacher' 
                                 placeholder='Inserir email do professor' 
                                 name='emailTeacher'
                                 style='h-full border-none bg-white'
                                 icon={IoMailOutline}
+                                maxLength={254}
                             />
                         </div>
                         <div className='sm:flex justify-between'>
                             <div className='w-full sm:mb-0 sm:w-6/12 sm:mr-2' >
                                 <label htmlFor="password-teacher" className='block font-semibold mb-5'>Senha:</label>
                                 <InputIcon 
-                                    onChange={handleChange}
+                                    onChange={handlePasswordChange}
                                     value={formData.passwordTeacher}
+                                    error={passwordError}
                                     type='password' 
                                     id='password-teacher' 
                                     placeholder='Inserir senha' 
                                     name='passwordTeacher'
                                     style='h-full border-none bg-white'
                                     icon={PiPasswordLight}
+                                    maxLength={64}
+                                    minLength={8}
+                                    required
                                 />
                             </div>
                             <div className='w-full sm:w-6/12 sm:ml-2'>
                                 <label htmlFor="confirm-password-teacher" className='block font-semibold mb-5'>Confirmar Senha:</label>
                                 <InputIcon 
-                                    onChange={handleChange}
+                                    onChange={handleConfirmPassword}
                                     value={formData.confirmPasswordTeacher}
                                     type='password' 
                                     id='confirm-password-teacher' 
@@ -215,6 +258,9 @@ const AddTeacher:React.FC = () => {
                                     name='confirmPasswordTeacher'
                                     style='h-full border-none bg-white'
                                     icon={RiLockPasswordLine}
+                                    maxLength={64}
+                                    minLength={8}
+                                    required
                                 />
                             </div>
                         </div>
@@ -230,6 +276,9 @@ const AddTeacher:React.FC = () => {
                                     name='courseTraining'
                                     style='h-full border-none bg-white'
                                     icon={IoSchoolOutline}
+                                    maxLength={100}
+                                    minLength={4}
+                                    required
                                 />
                             </div>
                             <div className='w-full sm:w-4/12 sm:ml-2'>
@@ -269,6 +318,9 @@ const AddTeacher:React.FC = () => {
                                     name='companyJob'
                                     style='h-full border-none bg-white'
                                     icon={IoBusinessOutline}
+                                    maxLength={100}
+                                    minLength={1}
+                                    required
                                 />
                             </div>
                             <div className='w-full sm:w-6/12 sm:ml-2'>
@@ -279,7 +331,7 @@ const AddTeacher:React.FC = () => {
                                     value={searchQuery} 
                                     onChange={handleSearchChange}
                                     list={suggestions}
-                                    handleSearchSubmit={handleSubmitQuery}  
+                                    handleSearchSubmit={handleSubmitQuery}
                                 />
                             </div>
                         </div>

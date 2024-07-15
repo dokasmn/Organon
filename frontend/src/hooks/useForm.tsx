@@ -1,6 +1,15 @@
+// REACT
 import { useState } from 'react';
 
+// HOOKS
+import useValidateFields from './useValidateFields';
+
 const useForm = <T extends Record<string, any>>(initialState: T, onSubmit: (data: T) => void) => {
+    const {
+        validateEmail,
+        validatePassword,
+        validateConfirmPassword
+    } = useValidateFields();
     const [formData, setFormData] = useState<T>(initialState);
 
     const handleChangeSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {

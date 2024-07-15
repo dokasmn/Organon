@@ -28,7 +28,7 @@ const Register: React.FC = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
     const { setShowLoading } = useLoading();
-    const { showError, showUnespectedResponse, headersToken } = useRequests();
+    const { showError, showUnespectedResponse } = useRequests();
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
     const [dataUser, setDataUser] = useState<{email: string, username: string}>({email: "", username: ""}); 
@@ -38,13 +38,18 @@ const Register: React.FC = () => {
         passwordError,
         emailError,
         emailIsvalid,
+        confirmPasswordError,
         validateEmail,
         validatePassword,
-        confirmPasswordError,
-        validateConfirmPassword
+        validateConfirmPassword,
     } = useValidateFields();
 
-    const { formData, handleChange, handleSubmit, handleChangeSelect } = useForm(
+    const { 
+        formData, 
+        handleChange, 
+        handleSubmit, 
+        handleChangeSelect, 
+    } = useForm(
         { name: '', email: '', password: '', confirmPassword: '', state:'', school:'' },
         async (data) => {
             if (passwordIsValid && emailIsvalid) {
@@ -79,23 +84,7 @@ const Register: React.FC = () => {
         }
     };
 
-    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        validateEmail(value);
-        handleChange(event);
-    };
-
-    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        validatePassword(value);
-        handleChange(event);
-    };
-
-    const handleConfirmPassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { value } = event.target;
-        validateConfirmPassword(value, formData.password);
-        handleChange(event);
-    };
+    
 
     const confirmData = async (data: { email: string, confirmationCode: string }): Promise<void> => {
         setShowLoading(true);
@@ -150,6 +139,24 @@ const Register: React.FC = () => {
     //     }
     // };
 
+    const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const { value } = event.target;
+        validateEmail(value);
+        handleChange(event);
+    };
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const { value } = event.target;
+        validatePassword(value);
+        handleChange(event);
+    };
+
+    const handleConfirmPassword = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const { value } = event.target;
+        validateConfirmPassword(value, formData.password);
+        handleChange(event);
+    };
+
     return (
         <div className="bg-blue-5 sm:bg-gradient-blue-bottom 2xl:flex 2xl:justify-center">
             {
@@ -180,6 +187,7 @@ const Register: React.FC = () => {
                                     value={formData.name}
                                     required
                                     maxLength={40}
+                                    minLength={3}
                                     style='text-white bg-blue-5-opacity border-blue-1-opacity focus-within:border-blue-1'
                                 />
                                 <InputDark
