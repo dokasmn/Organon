@@ -133,9 +133,10 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         confirmation_code = ConfirmationCode(user_id=user.id)
         confirmation_code.generate_code()
         confirmation_code.save()
+        
         send_mail(
             'Novo Código de Confirmação',
-            f'Seu novo código de confirmação é: {confirmation_code}',
+            f'Seu novo código de confirmação é: {confirmation_code.code}',
             settings.DEFAULT_FROM_EMAIL,
             [user.email],
             fail_silently=False,
