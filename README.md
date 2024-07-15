@@ -21,7 +21,7 @@ Com o intuito de ser um sistema para facilitar a organização dos estudos nas e
 
   Backend: [Requirements.txt](backend/requirements.txt)
 
-  Frontend: [](caminho/para/o/arquivo.extensao)
+  Frontend: [Package.json](frontend/package.json)
 
   
 ## :inbox_tray: Instalação
