@@ -75,5 +75,7 @@ O sistema possui três níveis de usuário, sendo eles estudante, professor e es
 
 ## :shipit: Autores
 Daniel Lima - 
+
 Cauan de Souza Moreira - 
+
 Pedro Henrique Vittoreti - 
