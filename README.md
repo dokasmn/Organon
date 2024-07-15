@@ -23,9 +23,27 @@ Com o intuito de ser um sistema para facilitar a organização dos estudos nas e
 
   Frontend: [Package.json](frontend/package.json)
 
-  
-## :inbox_tray: Instalação
 ## :hammer: Desenvolvido com
+
+<table>
+    <tr>
+        <td>FrontEnd</td>
+        <td>Backend</td>
+    </tr>
+    <tr>
+        <td>React</td>
+        <td>Django Rest Framework</td>
+    </tr>
+    <tr>
+        <td>Typescript</td>
+        <td>Python</td>
+    </tr>
+    <tr>
+        <td>Axios</td>
+        <td></td>
+    </tr>
+</table>
+
 ## Tutorial de Utilização
 ## Licença
 ## :shipit: Autores
