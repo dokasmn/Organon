@@ -16,6 +16,7 @@ import Title from '../components/items/texts/Title.tsx';
 import PopUpEditContent from '../components/popups/PopUpEditContent.tsx';
 
 interface ContentInterface {
+    content_id: string
     content_name: string;
     content_subject: string;
     image: string | null;
@@ -48,6 +49,7 @@ const Contents: React.FC = () => {
             });
             setShowLoading(false);
             if (response.status === 200) {
+                console.log(response.data.results)
                 setContents(response.data.results);
             } else {
                 handleShowError("Resposta inesperada.");
@@ -83,10 +85,12 @@ const Contents: React.FC = () => {
                                             image={getImageSubject(content.content_subject, "square") || ''}
                                             onClick={() => {setShowEditContent({id:String(index), visibility:true})}} 
                                         />
-                                        { index == showEditContent.id && showEditContent.visibility && 
+                                        { String(index) === showEditContent.id && showEditContent.visibility && 
                                             <PopUpEditContent
-                                                contentId='1'
+                                                key={uuidv4()}
                                                 onClose={() => {setShowEditContent({id:String(index), visibility:false})}}
+                                                onDelete={() => {}}
+                                                contentId={String(content.content_id)}
                                             />
                                         }
                                     </div>
