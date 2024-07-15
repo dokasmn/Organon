@@ -9,10 +9,23 @@ Este projeto foi desenvolvido por alunos da instituição SESI SENAI para a SA(S
 Com o intuito de ser um sistema para facilitar a organização dos estudos nas escolas, o projeto Organon apresenta recursos para professores e estudantes interagirm de forma a disponibilizar conteúdos e atividades, de forma organizada, com links de rápido acesso.
 
 ## :clipboard: Pré-requisitos
-  Para a implementação do sistema, você deve possuir esses recursos instalados na sua máquina:
+  Para a implementação do sistema, você deve possuir esses recursos instalados na sua máquina
 
-  *  Python ===
+  *  git, bash ou desktop
+  *  Python, versão 3.11 ou maior
+  *  Pip
+  *  Node Js
+  *  Npm
 
+  ### Dependências do Projeto:
+
+  Backend:
+  [Arquivo das Dependências do Python](backend/requirements.txt)
+
+  Frontend:
+  [Arquivo das Dependências do Python](caminho/para/o/arquivo.extensao)
+
+  
 ## :inbox_tray: Instalação
 ## :hammer: Desenvolvido com
 ## Tutorial de Utilização
