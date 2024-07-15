@@ -48,7 +48,7 @@ const Home: React.FC = () => {
                         objContentCard.push({
                             contentSubject: content.content_subject,
                             contentName: content.content_name,
-                            contentDate: "13/07/2024",
+                            contentDate: content.content_date,
                             contentImage: getSubjectImage(content.content_subject)
                         });
                         cont++;

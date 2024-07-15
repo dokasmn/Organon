@@ -2,6 +2,7 @@ funções para fazer:
 
 change e-mail
 delete e update em conteudo
+admin portal
 
 
 SCRIPTS:

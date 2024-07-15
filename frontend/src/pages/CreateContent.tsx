@@ -77,7 +77,6 @@ const CreateContent:React.FC = () => {
         try {
             const response = await axiosInstance.post('home/content/', formData, {
                 headers: {
-       
                     'Authorization': `Token ${user.token}`,
                     'Content-Type': 'multipart/form-data',
                 },

@@ -35,12 +35,13 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
 
     def get_permissions(self):
+        print(self.action)
         if self.action in ['register', 'login', 'confirm_email', 'resend_code']:
             self.permission_classes = [AllowAny]
         else:
             self.permission_classes = [IsAuthenticated]
         return [permission() for permission in self.permission_classes]
-
+ 
   
     @action(detail=False, methods=['post'])
     def register(self, request):
@@ -142,7 +143,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         return Response({'success': 'Um novo código foi enviado para seu e-mail.'}, status=status.HTTP_200_OK)
 
 
-    @action(detail=True, methods=['post','put'])
+    @action(detail=True, methods=['post'])
     def invite_update_password_auth(self, request, pk=None):
         user = self.get_object()
         try:
@@ -161,7 +162,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
    
-    @action(detail=True, methods=['post','put'])
+    @action(detail=True, methods=['patch'])
     def set_password(self, request, pk=None):
         user = self.get_object()
         code = request.data.get('code')
