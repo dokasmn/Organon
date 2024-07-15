@@ -1,5 +1,5 @@
 // REACT
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from '../axiosConfig';
 
@@ -22,7 +22,7 @@ import useRequests from '../hooks/useRequests';
 import registerArt from '../assets/images/svg/register-art.svg';
 
 // UTILS
-import { states } from '../utils';
+import { states, listObjectsToComboBox } from '../utils';
 
 const Register: React.FC = () => {
     const navigate = useNavigate();
@@ -31,6 +31,8 @@ const Register: React.FC = () => {
     const { showError, showUnespectedResponse } = useRequests();
     const [showConfirmCodePopup, setShowConfirmCodePopup] = useState<boolean>(false);
     const [confirmEmail, setConfirmEmail] = useState<string>('');
+    const [listSchools, setListSchools] = useState<{[key: string]: string}>({'':''});
+    const [listStateSchools, setListStateSchools] = useState<{[key: string]: string}>({'':''});
     const [dataUser, setDataUser] = useState<{email: string, username: string}>({email: "", username: ""}); 
     
     const {
@@ -105,7 +107,6 @@ const Register: React.FC = () => {
                     username: dataUser.username, 
                 });
 
-                console.log(response.data)
                 navigate('/home');
             } else {
                 showUnespectedResponse(response);
@@ -120,24 +121,25 @@ const Register: React.FC = () => {
         confirmData({ email: confirmEmail, confirmationCode: code });
     };
 
-    // const getSchools = async (): Promise<void> => {
-    //     setShowLoading(true);
-    //     try {
-    //         const response = await axiosInstance.get('login/user/confirm_email/',
-    //             {
-    //                 headers: headersToken,
-    //             }
-    //         );
-    //         setShowLoading(false);
-    //         if (response.status === 200) {
-    //             console.log(response.data)
-    //         } else {
-    //             showUnespectedResponse(response);
-    //         }
-    //     } catch (error: any) {
-    //         showError(error);
-    //     }
-    // };
+    useEffect(()=>{
+        const getSchools = async (): Promise<void> => {
+            setShowLoading(true);
+            try {
+                const response = await axiosInstance.get('login/schools/');
+                setShowLoading(false);
+                if (response.status === 200) {
+                    const schoolObjects = response.data.results;
+                    setListStateSchools(listObjectsToComboBox(schoolObjects, "school_state"));
+                    setListSchools(listObjectsToComboBox(schoolObjects, "school_name"));
+                } else {
+                    showUnespectedResponse(response);
+                }
+            } catch (error: any) {
+                showError(error);
+            }
+        };
+        getSchools();
+    }, [])
 
     const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const { value } = event.target;
@@ -238,19 +240,18 @@ const Register: React.FC = () => {
                                         style='text-white bg-blue-5-opacity border-blue-1-opacity mb-5 border focus:border-blue-1 '
                                         styleOption='bg-white text-black rounded-none border-none outline-none'
                                         defaultOption="Estado"
-                                        list={states}
+                                        list={listStateSchools}
                                     />
-                                    <InputDark
-                                        placeholder="Escola"
+                                    <ComboBox
                                         name="school"
-                                        type="text"
-                                        id="school"
+                                        id="escola"
                                         value={formData.school}
                                         required
-                                        onChange={handleChange}
-                                        maxLength={100}
-                                        minLength={2}
-                                        style='text-white bg-blue-5-opacity border-blue-1-opacity focus-within:border-blue-1'
+                                        onChange={handleChangeSelect}
+                                        style='text-white bg-blue-5-opacity border-blue-1-opacity mb-5 border focus:border-blue-1 '
+                                        styleOption='bg-white text-black rounded-none border-none outline-none'
+                                        defaultOption="Estado"
+                                        list={listSchools}
                                     />
                                 </div>
                             </div>

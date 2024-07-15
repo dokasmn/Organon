@@ -50,6 +50,7 @@ export default {
         "gray-1":"#797979",
         "red-1":"#FDEAEC",
         "red-2":"#F63131",
+        "red-2-dark":"#CC2929",
         "purple-subject":"rgba(176, 108, 243, .7)",
         "red-subject":"rgba(243, 108, 108, .7)",
         "blue-subject":"rgba(108, 138, 243, .7)",

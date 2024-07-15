@@ -4,12 +4,13 @@ import { SlOptionsVertical } from "react-icons/sl";
 import Link from '../buttons/Link';
 
 interface ContentCrudProps {
-    content: string;
-    subject: string;
-    image: string;
+    content: string,
+    subject: string,
+    image: string,
+    onClick: () => void;
 }
 
-const ContentCrud: React.FC<ContentCrudProps> = ({ content, subject, image }) => {
+const ContentCrud: React.FC<ContentCrudProps> = ({ content, subject, image, onClick }) => {
     return (
         <div className="bg-white-2 md:bg-white md:border border-gray-300 py-3 px-2 flex items-center rounded md:rounded-none mb-5 md:shadow-md">
             <div className="w-2/4 flex items-center">
@@ -35,7 +36,7 @@ const ContentCrud: React.FC<ContentCrudProps> = ({ content, subject, image }) =>
                         to={`/materia/${subject}/${content}`}
                     />
                 </div>
-                <div className="w-1/6 flex items-center sm:ml-5 justify-center cursor-pointer hover:bg-gray-300 rounded px-1 py-2">
+                <div className="w-1/6 flex items-center sm:ml-5 justify-center cursor-pointer hover:bg-gray-300 rounded px-1 py-2" onClick={onClick}>
                     <SlOptionsVertical className="text-xl" />
                 </div>
             </div>
