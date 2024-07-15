@@ -23,7 +23,7 @@ Com o intuito de ser um sistema para facilitar a organização dos estudos nas e
 
   Frontend: [Package.json](frontend/package.json)
 
-## :hammer: Desenvolvido com 
+## :hammer: Técnologias Utilizadas 
 
 <table>
     <tr>
@@ -44,7 +44,7 @@ Com o intuito de ser um sistema para facilitar a organização dos estudos nas e
     </tr>
 </table>
 
-## Tutorial de Utilização
+## :mortar_board: Tutorial de Utilização
 O sistema possui três níveis de usuário, sendo eles estudante, professor e escola. Dito isto, algumas funcionalidades só podem ser acessadas por níveis de usuários específicos.
 
 ### Funcionalidades globais
