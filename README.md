@@ -19,11 +19,9 @@ Com o intuito de ser um sistema para facilitar a organização dos estudos nas e
 
   ### Dependências do Projeto:
 
-  Backend:
-  [Arquivo das Dependências do Python](backend/requirements.txt)
+  Backend: [Requirements.txt](backend/requirements.txt)
 
-  Frontend:
-  [Arquivo das Dependências do Python](caminho/para/o/arquivo.extensao)
+  Frontend: [](caminho/para/o/arquivo.extensao)
 
   
 ## :inbox_tray: Instalação
