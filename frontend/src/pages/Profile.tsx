@@ -11,6 +11,7 @@ import TopNavigationBar from '../components/layout/TopNavigationBar.tsx';
 // IMAGES
 import profilePicture from '../assets/images/profile-picture/profile-picture-2.png';
 import markerStudent from '../assets/images/marker-student.png';
+import markerTeacher from '../assets/images/marker-teacher.png';
 import philosophyRedSmall from '../assets/images/subjects_image/philosophy-red-small.png';
 import mathBlueSmall from '../assets/images/subjects_image/math-blue-small.png';
 import historyYellowOrangeSmall from '../assets/images/subjects_image/history-yellow-orange-small.png';
@@ -24,7 +25,7 @@ import physicsPurplePinkSmall from '../assets/images/subjects_image/physics-purp
 import sociologyRedPinkSmall from '../assets/images/subjects_image/sociology-red-pink-small.png';
 import biologyGreenBlueSmall from '../assets/images/subjects_image/biology-green-blue-small.png';
 
-// CONTEXT
+// HOOKS
 import { useAuth } from '../contexts/AuthContext.tsx';
 
 // AXIOS
@@ -121,7 +122,13 @@ const Profile: React.FC = () => {
                     />
                     <section className='py-10 flex items-center'>
                         <div className="w-20 h-2 bg-dotted-line bg-repeat-x"></div>
-                        <img src={markerStudent} alt="" className='w-12 lg:w-14' />
+                        
+                        {user.is_professor || user.is_school_user ?
+                            <img src={markerTeacher} alt="" className='w-12 lg:w-14' />
+                            :  
+                            <img src={markerStudent} alt="" className='w-12 lg:w-14' />
+                        }
+                        
                     </section>
                     <AnswersStudent answers={24} correctAnswers={16} incorrectAnswers={8} />
                 </div>

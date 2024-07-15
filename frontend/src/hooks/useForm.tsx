@@ -1,4 +1,7 @@
+// REACT
 import { useState } from 'react';
+
+// HOOKS
 
 const useForm = <T extends Record<string, any>>(initialState: T, onSubmit: (data: T) => void) => {
     const [formData, setFormData] = useState<T>(initialState);

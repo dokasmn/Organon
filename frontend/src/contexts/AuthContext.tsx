@@ -39,11 +39,13 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
         const data = JSON.parse(storedUser);
+        console.log(data)
         setIsAuthenticated(true);
         setUser(data);
         setIsProfessor(data.is_professor);
         setIsSchool(data.is_school_user);
       }
+      
       setLoading(false);
     }, [localStorage.getItem('user')]);
     
@@ -92,6 +94,5 @@ export const useAuth = (): AuthContextType => {
     if (!context) {
         throw new Error('useAuth must be used within an AuthProvider');
     }
-    console.log(context)
     return context;
 };

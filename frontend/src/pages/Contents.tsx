@@ -13,6 +13,7 @@ import axiosInstance from '../axiosConfig';
 import { getImageSubject } from '../utils';
 import Link from '../components/items/buttons/Link.tsx';
 import Title from '../components/items/texts/Title.tsx';
+import PopUpEditContent from '../components/popups/PopUpEditContent.tsx';
 
 interface ContentInterface {
     content_name: string;
@@ -27,6 +28,7 @@ const Contents: React.FC = () => {
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const query = searchParams.get('search') ?? '';
+    const [showEditContent, setShowEditContent] = useState<{id:string, visibility:boolean}>({id:"1", visibility:false});  
 
     const [contents, setContents] = useState<ContentInterface[]>([]);
 
@@ -72,13 +74,22 @@ const Contents: React.FC = () => {
                         </section>
                         <section>
                             {contents.length > 0  && contents[0].content_name != "default"  ? 
-                                contents.map((content) => (
-                                    <ContentCrud
-                                        key={uuidv4()}
-                                        content={content.content_name}
-                                        subject={content.content_subject}
-                                        image={getImageSubject(content.content_subject, "square") || ''} 
-                                    />
+                                contents.map((content, index) => (
+                                    <div className='relative' >
+                                        <ContentCrud
+                                            key={uuidv4()}
+                                            content={content.content_name}
+                                            subject={content.content_subject}
+                                            image={getImageSubject(content.content_subject, "square") || ''}
+                                            onClick={() => {setShowEditContent({id:String(index), visibility:true})}} 
+                                        />
+                                        { index == showEditContent.id && showEditContent.visibility && 
+                                            <PopUpEditContent
+                                                contentId='1'
+                                                onClose={() => {setShowEditContent({id:String(index), visibility:false})}}
+                                            />
+                                        }
+                                    </div>
                                 ))
                                 :
                                 <div className='pb-5' >
