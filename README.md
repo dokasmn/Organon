@@ -74,8 +74,8 @@ O sistema possui três níveis de usuário, sendo eles estudante, professor e es
 * Toda usuário "Escola" possuirá acesso há uma página própria para o cadastro de novos professores, sendo um formulário que incluí informações sobre o histórico profissional e estudantil.
 
 ## :shipit: Autores
-Daniel Lima - 
+Daniel Lima - @daniwells
 
-Cauan de Souza Moreira - 
+Cauan de Souza Moreira - @dokasmn
 
-Pedro Henrique Vittoreti - 
+Pedro Henrique Vittoreti - @PHV00
