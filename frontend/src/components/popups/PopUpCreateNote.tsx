@@ -100,8 +100,6 @@ const PopUpCreateNote: React.FC<PopUpCreateNoteProps> = ({noteContent, color, is
         setShowLoading(false);
         if (response.status === 200) {
           let dict_contents = listObjectsToComboBox(response.data.results, 'content_name');
-          
-          console.log(dict_contents);
           setContents(dict_contents);
         }else{
           handleShowError("Resposta inesperada.")

@@ -101,7 +101,6 @@ class ContentViewSet(viewsets.ModelViewSet):
             )
             return content
         except Exception as e:
-            print(e)
             raise serializers.ValidationError("Houve algo errado com a requisição")
 
     def create(self, request, *args, **kwargs):
@@ -173,7 +172,6 @@ class CommentViewSet(viewsets.ModelViewSet):
             headers = self.get_success_headers(serializer.data)
             return Response(self.get_serializer(comment).data, status=status.HTTP_201_CREATED, headers=headers)
         except Exception as e:
-            print(e)
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 

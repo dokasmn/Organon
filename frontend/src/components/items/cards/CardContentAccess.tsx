@@ -32,11 +32,8 @@ const CardContentAccess: React.FC<CardContentAccessProps> = ({ pk, to, teacher, 
                     'Content-Type': 'application/json',
                 },
             });
-            if (response.status === 200) {
-                console.log("Status do conteúdo atualizado no backend.");
-            }
         } catch (error: any) {
-            console.log(`Erro ao atualizar status do conteúdo: ${error}`);
+            return
         }
     };
 

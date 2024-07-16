@@ -84,7 +84,6 @@ const SecurityAccount: React.FC = () => {
     const sendConfirmationUpdatePassword = async () => {
         setShowLoading(true);
         try {
-            console.log(headersJsonToken)
             const response = await axiosInstance.post(`login/user/invite_update_password_auth/`, {user_id:user.id}, {
                 headers: headersJsonToken,
             });
@@ -111,9 +110,7 @@ const SecurityAccount: React.FC = () => {
                 headers: headersJsonToken,
             });
             setShowLoading(false);
-            if (response.status === 200) {
-                console.log(response.data.success);
-            } else {
+            if (response.status !== 200) {
                 showUnespectedResponse(response);
             }
         } catch (error: any) {

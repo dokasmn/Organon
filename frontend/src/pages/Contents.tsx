@@ -48,7 +48,6 @@ const Contents: React.FC = () => {
             });
             setShowLoading(false);
             if (response.status === 200) {
-                console.log(response.data.results)
                 setContents(response.data.results);
             } else {
                 handleShowError("Resposta inesperada.");

@@ -158,7 +158,6 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             except ConfirmationCode.DoesNotExist:
                 return Response({'detail': 'Código de confirmação inválido.'}, status=status.HTTP_400_BAD_REQUEST)
             except Exception as e:
-                print(e)
                 return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -172,13 +171,8 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         except Token.DoesNotExist:
             return Response({"detail": "Usuário não está logado"}, status=status.HTTP_400_BAD_REQUEST)
 
-
-    
-
-
     @action(detail=False, methods=['post'])
     def close_account(self, request):
-        print(request.user.username)
         token = Token.objects.get(user=request.user)
         token.delete()
 
@@ -187,7 +181,6 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
 
         request.user.save()
-        print(request.user.is_valid)
         return Response(serializer.data)    
 
         

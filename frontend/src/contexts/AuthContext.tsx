@@ -39,7 +39,6 @@ export const AuthProvider: FC<AuthProviderProps> = React.memo(({ children }) => 
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
         const data = JSON.parse(storedUser);
-        console.log(data)
         setIsAuthenticated(true);
         setUser(data);
         setIsProfessor(data.is_professor);

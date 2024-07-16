@@ -12,5 +12,4 @@ class IsProfessorByContent(permissions.BasePermission):
     
 class IsSchoolAdmin(permissions.BasePermission):
     def has_obj_permission(self, request, view, obj):
-        print(obj)
         return obj.school_auth_user == request.user

@@ -42,14 +42,13 @@ const PopUpEditProfile: React.FC<PopUpEditProfileProps> = ({ initialUsername, in
         }
       );
       let data = response.data;
-      console.log(data);
       setIsVisible(false);
       setTimeout(() => {
         onSave(data.username, profilePic, pk);
         onClose();
       }, 300);
-    } catch (error: any) {
-      console.log(error.response.data);
+    } catch {
+      return
     }
   };
 

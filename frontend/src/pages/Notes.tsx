@@ -49,7 +49,6 @@ const Notes: React.FC = () => {
 
   useEffect(() => {
     
-    console.log(subjectFilter)
     const fetchDataNotes = async () => {
       try {
         setShowLoading(true);
@@ -64,7 +63,6 @@ const Notes: React.FC = () => {
           const notesList: noteContent[] = response.data.results;
           const count = response.data.count;
           const totalPages = Math.ceil(count / 10);
-          console.log(response.data.results)
           setMaxPage(totalPages);
 
           if(subjectFilter != 'default'){

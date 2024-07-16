@@ -72,7 +72,6 @@ const Profile: React.FC = () => {
                     return 0;
                 }
             } catch (error: any) {
-                console.log(`Erro ao atualizar status do conteúdo: ${error}`);
                 return 0;
             }
         };

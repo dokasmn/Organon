@@ -44,9 +44,7 @@ const PopUpConfirmCode: React.FC<PopUpConfirmCodeProps> = ({ onSave, onClose, us
             const response = await axiosInstance.post('login/user/resend_code/', {
                 email: `${userEmail}`
             });
-            if (response.status === 200) {
-                console.log(response)
-            } else {
+            if (response.status !== 200) {
                 showUnespectedResponse(response);
             }
         } catch (error: any) {
