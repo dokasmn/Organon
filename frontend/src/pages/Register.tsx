@@ -240,7 +240,19 @@ const Register: React.FC = () => {
                                         defaultOption="Estado"
                                         list={listStateSchools}
                                     />
-                                    <ComboBox
+                                    <InputDark
+                                        placeholder="Escola"
+                                        name="school"
+                                        type="text"
+                                        id="school"
+                                        value={formData.school}
+                                        required
+                                        onChange={handleChange}
+                                        maxLength={64}
+                                        minLength={8}
+                                        style='text-white bg-blue-5-opacity border-blue-1-opacity focus-within:border-blue-1'
+                                    />
+                                    {/* <ComboBox
                                         name="school"
                                         id="escola"
                                         value={formData.school}
@@ -248,9 +260,9 @@ const Register: React.FC = () => {
                                         onChange={handleChangeSelect}
                                         style='text-white bg-blue-5-opacity border-blue-1-opacity mb-5 border focus:border-blue-1 '
                                         styleOption='bg-white text-black rounded-none border-none outline-none'
-                                        defaultOption="Estado"
+                                        defaultOption="Escola"
                                         list={listSchools}
-                                    />
+                                    /> */}
                                 </div>
                             </div>
                         </section>

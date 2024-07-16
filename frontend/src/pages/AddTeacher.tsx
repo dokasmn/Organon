@@ -20,23 +20,9 @@ import useRequests from '../hooks/useRequests';
 import useValidateFields from '../hooks/useValidateFields';
 
 // IMAGES
-import { FiBookOpen } from "react-icons/fi";
 import { IoPricetagOutline, IoMailOutline, IoSchoolOutline, IoRibbonOutline, IoBusinessOutline  } from "react-icons/io5";
 import { PiPasswordLight } from "react-icons/pi";
 import { RiLockPasswordLine } from "react-icons/ri";
-
-// UTILS
-import { listObjectsToDict } from '../utils';
-
-// interface teacherFormInterface {
-//     nameTeacher: string,
-//     emailTeacher: string,
-//     passwordTeacher: string,
-//     confirmPasswordTeacher: string,
-//     courseTraining: string,
-//     degreeTraining: string,
-//     companyJob: string,
-// }
 
 const AddTeacher:React.FC = () => {
     const { setShowLoading } = useLoading();
@@ -53,12 +39,16 @@ const AddTeacher:React.FC = () => {
     const {
         passwordIsValid,
         passwordError,
+        confirmPasswordIsValid,
         emailError,
         emailIsvalid,
         validateEmail,
         validatePassword,
         confirmPasswordError,
-        validateConfirmPassword
+        validateConfirmPassword,
+        validateNoSpecialNumber,
+        noSpecialNumberIsValid,
+        noSpecialNumberError,
     } = useValidateFields();
 
     const { 
@@ -77,7 +67,9 @@ const AddTeacher:React.FC = () => {
             companyJob: '',
         },
         (data) => {
-            fetchData();
+            if(emailIsvalid && passwordIsValid && confirmPasswordIsValid){
+                fetchData();
+            }
         }
     );
 
@@ -125,6 +117,13 @@ const AddTeacher:React.FC = () => {
     const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
         const { value } = event.target;
         validatePassword(value);
+        console.log(passwordIsValid)
+        handleChange(event);
+    };
+
+    const handleNoSpecialNumber = (event: React.ChangeEvent<HTMLInputElement>): void => {
+        const { value } = event.target;
+        validateNoSpecialNumber(value, event.target.name);
         handleChange(event);
     };
 
@@ -202,9 +201,10 @@ const AddTeacher:React.FC = () => {
                         <div className='w-full' >
                             <label htmlFor="name-teacher" className='block font-semibold mb-5'>Nome:</label>
                             <InputIcon 
-                                onChange={handleChange}
+                                onChange={handleNoSpecialNumber}
                                 value={formData.nameTeacher}
                                 type='text' 
+                                error={noSpecialNumberError["nameTeacher"]}
                                 id='name-teacher' 
                                 placeholder='Inserir nome do professor' 
                                 name='nameTeacher'
@@ -221,6 +221,7 @@ const AddTeacher:React.FC = () => {
                                 onChange={handleEmailChange}
                                 error={emailError}
                                 type='email' 
+                                required
                                 id='email-teacher' 
                                 placeholder='Inserir email do professor' 
                                 name='emailTeacher'
@@ -260,6 +261,7 @@ const AddTeacher:React.FC = () => {
                                     icon={RiLockPasswordLine}
                                     maxLength={64}
                                     minLength={8}
+                                    error={confirmPasswordError}
                                     required
                                 />
                             </div>
@@ -268,7 +270,7 @@ const AddTeacher:React.FC = () => {
                             <div className='w-full mb-5 sm:mb-0 sm:w-8/12 sm:mr-2  '>
                                 <label htmlFor="course-training" className='block font-semibold mb-5'>Curso:</label>
                                 <InputIcon 
-                                    onChange={handleChange}
+                                    error={noSpecialNumberError['courseTraining']}
                                     value={formData.courseTraining}
                                     type='text' 
                                     id='course-training' 
@@ -279,6 +281,7 @@ const AddTeacher:React.FC = () => {
                                     maxLength={100}
                                     minLength={4}
                                     required
+                                    onChange={handleNoSpecialNumber}
                                 />
                             </div>
                             <div className='w-full sm:w-4/12 sm:ml-2'>
@@ -310,7 +313,7 @@ const AddTeacher:React.FC = () => {
                             <div className='w-full sm:mb-0 sm:w-6/12 sm:mr-2' >
                                 <label htmlFor="company-job" className='block font-semibold mb-5'>Empresa:</label>
                                 <InputIcon
-                                    onChange={handleChange}
+                                    error={noSpecialNumberError['companyJob']}
                                     value={formData.companyJob}
                                     type='text' 
                                     id='company-job' 
@@ -321,6 +324,7 @@ const AddTeacher:React.FC = () => {
                                     maxLength={100}
                                     minLength={1}
                                     required
+                                    onChange={handleNoSpecialNumber}
                                 />
                             </div>
                             <div className='w-full sm:w-6/12 sm:ml-2'>

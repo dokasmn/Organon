@@ -1,5 +1,6 @@
 // REACT
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // COMPONENTS
 import TitleSection from '../components/layout/TitleSection';
@@ -9,23 +10,35 @@ import TopNavigationBar from '../components/layout/TopNavigationBar.tsx';
 import Title from '../components/items/texts/Title.tsx';
 import Button from '../components/items/buttons/Button.tsx';
 
+// AXIOS
+import axiosInstance from '../axiosConfig.ts';
+
 // HOOKS
-import useForm from '../hooks/useForm.tsx';
+import useRequests from '../hooks/useRequests.tsx';
 
 const CloseAccount:React.FC = () => {
+    let navigate = useNavigate(); 
 
-    // const { formData, handleChange, handleSubmit, resetForm } = useForm(
-    //     { email: '', password: '', rememberMe: false },
-    //     (data) => {
-    //         console.log(data);
-    //         // A requisição vai aqui
-    //     }
-    // );
+    const { showError, showUnespectedResponse, headersJsonToken } = useRequests();
+
+    const fetchDataCloseAccount = async () => {
+        try {
+          const response = await axiosInstance.post('login/user/close_account/', {}, {
+            headers: headersJsonToken,
+          });
+          if (response.status === 200) {
+            navigate("/login")
+          }else{
+            showUnespectedResponse(response);
+          }
+        } catch (error: any) {
+          showError(error);
+        }
+      };
 
     return (
         <div className='sm:flex justify-center'>
             <TopNavigationBar/>
-            {/* sm:flex w-full max-w-7xl */}
             <div className=''>
                 <main className='px-5 xs:px-14 md:pt-40 md:px-10 max-w-160 sm:min-w-160' >
                     <section className='pb-5 md:pb-0 ' >
@@ -37,13 +50,13 @@ const CloseAccount:React.FC = () => {
                     </section>
                     <section>
                         <div className='p-5 bg-red-100 md:shadow-md mb-5' >
-                            <p className='text-red-2 font-semibold pb-2' >ALERT</p>
-                            <p className=' text-gray-1 ' >Lorem ipsum dolor, sit amet consectetur adipisicing elit. Lorem ipsum dolor sit.</p>
+                            <p className='text-red-2 font-semibold pb-2' >Alerta</p>
+                            <p className=' text-gray-1 ' >A sua conta será desativada permanentemente.</p>
                         </div>
                         <HorizontalLine style='w-full mb-5'/>
                         <Button 
                             text='Desativar Conta'
-                            
+                            onClick={() => {fetchDataCloseAccount()}}
                         />
                     </section>
                 </main>

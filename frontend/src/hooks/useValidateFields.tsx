@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 
 const useValidateFields = () => {
     const [passwordIsValid, setPasswordIsValid] = useState<boolean>(false);
-    const [emailIsvalid, setEmailIsValid] = useState<boolean>(false)
+    const [emailIsvalid, setEmailIsValid] = useState<boolean>(false);
     const [confirmPasswordIsValid, setconfirmPasswordIsValid] = useState<boolean>(false);
+    const [noSpecialNumberIsValid, setNoSpecialNumberIsValid] = useState<{[key: string]: boolean}>({'':false});
     const [emailError, setEmailError] = useState<string>('');
     const [passwordError, setPasswordError] = useState<string>('');
     const [confirmPasswordError, setconfirmPasswordError] = useState<string>('');
+    const [noSpecialNumberError, setNoSpecialNumberError] = useState<{[key: string]: string}>({'':''});
 
     const validateEmail = (email: string) => {
         const emailRegex: RegExp = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -45,6 +47,31 @@ const useValidateFields = () => {
         }
     };
 
+    const validateNoSpecialNumber = (field: string, fieldName: string) => {
+        const fieldRegex = /^[a-zA-Z0-9_]*$/;
+        let regex = fieldRegex.test(field);
+        
+        if (!regex) {
+            setNoSpecialNumberError(prevState => ({
+                ...prevState,
+                [fieldName]: 'Este campo deve possuir apenas caracteres de texto.'
+            }));
+            setNoSpecialNumberIsValid(prevState => ({
+                ...prevState,
+                [fieldName]: false
+            }));
+        } else {
+            setNoSpecialNumberError(prevState => ({
+                ...prevState,
+                [fieldName]: ''
+            }));
+            setNoSpecialNumberIsValid(prevState => ({
+                ...prevState,
+                [fieldName]: true
+            }));
+        }
+    };
+
     return {
         passwordIsValid, 
         setPasswordIsValid,
@@ -56,7 +83,10 @@ const useValidateFields = () => {
         passwordError,
         emailError,
         confirmPasswordIsValid,
-        confirmPasswordError
+        confirmPasswordError,
+        validateNoSpecialNumber,
+        noSpecialNumberIsValid,
+        noSpecialNumberError
     };
 };
 

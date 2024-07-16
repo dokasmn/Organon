@@ -18,6 +18,11 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 
+
+def generate_random_string(tamanho):
+        caracteres = string.ascii_letters + string.digits + string.punctuation
+        return ''.join(random.choice(caracteres) for _ in range(tamanho))
+
             
 class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
@@ -160,8 +165,26 @@ class CustomUserViewSet(viewsets.ModelViewSet):
             token.delete()
             return Response({"success": "Usuário deslogado com sucesso"}, status=status.HTTP_200_OK)
         except Token.DoesNotExist:
-            return Response({"error": "Usuário não está logado"}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response({"detail": "Usuário não está logado"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+    
+
+
+    @action(detail=False, methods=['post'])
+    def close_account(self, request):
+        print(request.user.username)
+        token = Token.objects.get(user=request.user)
+        token.delete()
+
+        request.user.is_valid = False;
+        request.user.password = generate_random_string(12);
+
+
+        request.user.save()
+        print(request.user.is_valid)
+        return Response(serializer.data)    
+
         
 class ProfessorViewSet(viewsets.ModelViewSet):
     queryset = Professor_user.objects.all()

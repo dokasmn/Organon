@@ -53,6 +53,7 @@ const App = () => {
                     <Route path="/perfil/anotacoes" element={<PrivateRoute component={Notes}/>}/>
                     <Route path="/perfil/seguranca-conta" element={<PrivateRoute component={SecurityAccount}/>}/>
                     <Route path="/perfil/conteudo/criar-conteudo" element={<PrivateRoute component={CreateContent}/>} />
+                    <Route path="/perfil/conteudo/criar-conteudo/:conteudo" element={<PrivateRoute component={CreateContent}/>} />
                     <Route path="/registrar" element={<Register />} />
                     <Route path="/perfil" element={<PrivateRoute component={Profile}/>} />
                     <Route path="/perfil/desativar-conta" element={<PrivateRoute component={CloseAccount}/>} />

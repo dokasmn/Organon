@@ -15,11 +15,12 @@ import axiosInstance from '../../axiosConfig.ts';
 
 
 interface PopUpEditContentProps {
-    contentId: string;
-    onClose: () => void;
+    contentId: string,
+    onClose: () => void,
+    onDelete: () => void,
 }
 
-const PopUpEditContent: React.FC<PopUpEditContentProps> = ({ contentId, onClose }) => {
+const PopUpEditContent: React.FC<PopUpEditContentProps> = ({ onClose, contentId, onDelete }) => {
     const popupRef = useRef<HTMLDivElement | null>(null);
 
     const { setShowLoading } = useLoading();
@@ -62,11 +63,13 @@ const PopUpEditContent: React.FC<PopUpEditContentProps> = ({ contentId, onClose 
             className="absolute border border-gray-1 border-opacity-30 -top-16 -end-24 bg-white flex flex-col justify-center items-center text-white rounded-sm w-28 h-24 text-xs px-2 shadow-sm"
         >
             <Link
-                to="/"
+                to={`/perfil/conteudo/criar-conteudo/${contentId}`}
                 text="Editar"
-                style="bg-blue-1 hover:bg-blue-1-dark mb-2 flex items-center justify-center rounded md:rounded-none w-full py-2"
+                style="bg-gray-600 hover:bg-gray-700 mb-2 flex items-center justify-center rounded md:rounded-none w-full py-2"
+
             />
             <Button
+                onClick={onDelete}
                 text="Remover"
                 style="bg-red-2 bg-opacity-80 shadow-none hover:bg-red-2-dark rounded w-full px-0 py-0"
                 onClick={requestDeleteContent}
