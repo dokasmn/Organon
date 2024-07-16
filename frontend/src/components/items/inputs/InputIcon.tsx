@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Input from './Input';
 import { IconType } from 'react-icons';
 
@@ -21,20 +21,23 @@ interface InputIconProps {
 const InputIcon: React.FC<InputIconProps> = (props) => {
     
     return (
-        <label htmlFor={props.id} className='border border-gray-1 md:rounded-none flex h-10 my-5 '>
-            <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center' >
-                <props.icon/>
-            </div>
-            <Input 
-                onChange={props.onChange}
-                value={props.value}
-                type={props.type} 
-                id={props.id}
-                placeholder={props.placeholder} 
-                name={props.name}
-                style={`${props.style} h-full border-none bg-white`}
-            />
-        </label>
+        <div className='my-5'>
+            <label htmlFor={props.id} className='border border-gray-1 md:rounded-none flex h-10'>
+                <div className='bg-white-2 h-full w-10 min-w-8 rounded flex justify-center items-center' >
+                    <props.icon/>
+                </div>
+                <Input 
+                    onChange={props.onChange}
+                    value={props.value}
+                    type={props.type} 
+                    id={props.id}
+                    placeholder={props.placeholder} 
+                    name={props.name}
+                    style={`${props.style} h-full border-none bg-white`}
+                />
+            </label>
+            {props.error && <div className="text-red-500 mt-1 mb-2">{props.error}</div>}
+        </div>
     );
 };
 
