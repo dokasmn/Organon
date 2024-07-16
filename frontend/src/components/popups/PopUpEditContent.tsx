@@ -5,6 +5,15 @@ import React, { useEffect, useRef } from 'react';
 import Link from '../items/buttons/Link';
 import Button from '../items/buttons/Button';
 
+// HOOKS
+import useRequests from '../../hooks/useRequests.tsx';
+import { useLoading } from '../../contexts/LoadingContext.tsx';
+
+// AXIOS
+import axiosInstance from '../../axiosConfig.ts';
+
+
+
 interface PopUpEditContentProps {
     contentId: string;
     onClose: () => void;
@@ -12,6 +21,27 @@ interface PopUpEditContentProps {
 
 const PopUpEditContent: React.FC<PopUpEditContentProps> = ({ contentId, onClose }) => {
     const popupRef = useRef<HTMLDivElement | null>(null);
+
+    const { setShowLoading } = useLoading();
+    
+    const { showError, showUnespectedResponse, headersJsonToken } = useRequests();
+
+    const requestDeleteContent = async () => {
+        try {
+            const response = await axiosInstance.delete(`course/content/${contentId}`, {
+                headers: headersJsonToken
+            })
+            if (response.status === 204) {
+                window.location.reload();
+            } else {
+                showUnespectedResponse(response);
+            }
+        } catch (error: any) {
+            setShowLoading(false);
+            showError(error);
+        }
+
+    }
 
     const handleClickOutside = (event: MouseEvent) => {
         if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
@@ -39,6 +69,7 @@ const PopUpEditContent: React.FC<PopUpEditContentProps> = ({ contentId, onClose 
             <Button
                 text="Remover"
                 style="bg-red-2 bg-opacity-80 shadow-none hover:bg-red-2-dark rounded w-full px-0 py-0"
+                onClick={requestDeleteContent}
             />
         </div>
     );

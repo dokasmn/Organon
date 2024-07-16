@@ -40,7 +40,6 @@ const PopUpConfirmCode: React.FC<PopUpConfirmCodeProps> = ({ onSave, onClose, us
     };
 
     const resendData = async (): Promise<void> => {
-        console.log(userEmail)
         try {
             const response = await axiosInstance.post('login/user/resend_code/', {
                 email: `${userEmail}`

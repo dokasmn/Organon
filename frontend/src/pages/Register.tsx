@@ -84,9 +84,7 @@ const Register: React.FC = () => {
         } catch (error: any) {
             showError(error);
         }
-    };
-
-    
+    };    
 
     const confirmData = async (data: { email: string, confirmationCode: string }): Promise<void> => {
         setShowLoading(true);

@@ -1,4 +1,4 @@
-// REACT
+// src/pages/Home.tsx
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../axiosConfig';
 
@@ -25,12 +25,11 @@ import { useAuth } from '../contexts/AuthContext';
 import useRequests from '../hooks/useRequests';
 
 // UTILS
-import { getSubjectImage } from '../utils';
+import { getSubjectImage, formatDate } from '../utils';
 
 const Home: React.FC = () => {
     const { showError, showUnespectedResponse, headersJsonToken } = useRequests();
     const [slides, setSlides] = useState<slidesContent[]>([]);
-    
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredSlides, setFilteredSlides] = useState<slidesContent[]>([]);
 
@@ -48,7 +47,7 @@ const Home: React.FC = () => {
                         objContentCard.push({
                             contentSubject: content.content_subject,
                             contentName: content.content_name,
-                            contentDate: content.content_date,
+                            contentDate: formatDate(content.content_date),
                             contentImage: getSubjectImage(content.content_subject)
                         });
                         cont++;
@@ -58,7 +57,7 @@ const Home: React.FC = () => {
                     }
                     setSlides(objContentCard);
                 }
-            }else{
+            } else {
                 showUnespectedResponse(response);
             }
         } catch (error: any) {
@@ -81,12 +80,11 @@ const Home: React.FC = () => {
         }
     }, [searchQuery, slides]);
 
-
     return (
         <>
             <div className='xl:flex xl:flex-col xl:items-center'>
                 <HeaderHome searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-                <NavigationSubject/>
+                <NavigationSubject />
                 <main className={' pt-5 max-w-7xl w-full '}>
                     <section className={' relative w-full overflow-hidden h-128 '} >
                         <div className='bg-black-opacity-65 absolute h-full w-full text-white px-10 flex justify-center items-center '>
@@ -121,7 +119,7 @@ const Home: React.FC = () => {
                     </section>
                 </main>
             </div>
-            <Footer/>
+            <Footer />
         </>
     )
 }
