@@ -103,7 +103,8 @@ const SecurityAccount: React.FC = () => {
     const updatePassword = async (code: string, passwordReset: string): Promise<void> => {
         setShowLoading(true);
         try {
-            const response = await axiosInstance.put('login/user/set_password/', {
+            const response = await axiosInstance.patch(`login/user/set_password/`, {
+                user_id: user.id,
                 password: passwordReset,
                 code: code,
             },{

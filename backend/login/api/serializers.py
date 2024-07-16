@@ -146,3 +146,9 @@ class SchoolSerializer(serializers.ModelSerializer):
     class Meta:
         model = School
         fields = ['id', 'school_name', 'school_state']
+        
+
+class PasswordResetSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField()
+    password = serializers.CharField(write_only=True)
+    code = serializers.CharField()

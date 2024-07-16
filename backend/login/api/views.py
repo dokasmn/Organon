@@ -140,23 +140,28 @@ class CustomUserViewSet(viewsets.ModelViewSet):
         except Exception as e:
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-    @action(detail=True, methods=['patch'])
-    def set_password(self, request, pk=None):
-        user = self.get_object()
-        code = request.data.get('code')
-        try:
-            confirmation_code = ConfirmationCode.objects.get(user=user, code=code, purpose='password_reset')
-            if confirmation_code.created_at + timezone.timedelta(minutes=10) > timezone.now():
-                serializer = UserSerializer(data=request.data)
-                if serializer.is_valid():
+    @action(detail=False, methods=['patch'])
+    def set_password(self, request):
+        serializer = PasswordResetSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                user = CustomUser.objects.get(id=serializer.validated_data['user_id'])
+                code = serializer.validated_data['code']
+                confirmation_code = ConfirmationCode.objects.get(user=user, code=code, purpose='password_reset')
+                if confirmation_code.created_at + timezone.timedelta(minutes=10) > timezone.now():
                     user.set_password(serializer.validated_data['password'])
                     confirmation_code.delete()
                     user.save()
                     return Response({'success': 'Senha alterada'}, status=status.HTTP_200_OK)
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-            return Response({'detail': 'Código de confirmação expirado.'}, status=status.HTTP_400_BAD_REQUEST)
-        except ConfirmationCode.DoesNotExist:
-            return Response({'detail': 'Código de confirmação inválido.'}, status=status.HTTP_400_BAD_REQUEST)
+                else:
+                    return Response({'detail': 'Código de confirmação expirado.'}, status=status.HTTP_400_BAD_REQUEST)
+            except ConfirmationCode.DoesNotExist:
+                return Response({'detail': 'Código de confirmação inválido.'}, status=status.HTTP_400_BAD_REQUEST)
+            except Exception as e:
+                print(e)
+                return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=False, methods=['post'])
     def logout(self, request):
