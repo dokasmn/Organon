@@ -65,7 +65,7 @@ const SecurityAccount: React.FC = () => {
     const updateEmail = async () => {
         setShowLoading(true);
         try {
-            const response = await axiosInstance.put(`login/user/${user.id}/`, { email: emailReset, username: user.username }, {
+            const response = await axiosInstance.patch(`login/user/${user.id}/`, { email: emailReset}, {
                 headers: headersJsonToken,
             });
             setShowLoading(false);
