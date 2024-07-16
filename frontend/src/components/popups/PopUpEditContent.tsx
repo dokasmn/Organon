@@ -17,10 +17,9 @@ import axiosInstance from '../../axiosConfig.ts';
 interface PopUpEditContentProps {
     contentId: string,
     onClose: () => void,
-    onDelete: () => void,
 }
 
-const PopUpEditContent: React.FC<PopUpEditContentProps> = ({ onClose, contentId, onDelete }) => {
+const PopUpEditContent: React.FC<PopUpEditContentProps> = ({ onClose, contentId}) => {
     const popupRef = useRef<HTMLDivElement | null>(null);
 
     const { setShowLoading } = useLoading();
@@ -69,7 +68,6 @@ const PopUpEditContent: React.FC<PopUpEditContentProps> = ({ onClose, contentId,
 
             />
             <Button
-                onClick={onDelete}
                 text="Remover"
                 style="bg-red-2 bg-opacity-80 shadow-none hover:bg-red-2-dark rounded w-full px-0 py-0"
                 onClick={requestDeleteContent}
