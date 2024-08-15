@@ -6,7 +6,7 @@ Este projeto foi desenvolvido por alunos da instituição SESI SENAI para a SA(S
 ![login (2)](https://github.com/user-attachments/assets/15980835-ec93-4748-a9f8-3c54506084c7)
 
 ## :closed_book: Sobre o Projeto
-Com o intuito de ser um sistema para facilitar a organização dos estudos nas escolas, o projeto Organon apresenta recursos para professores e estudantes interagirm de forma a disponibilizar conteúdos e atividades, de forma organizada, com links de rápido acesso.
+Com o intuito de ser um sistema para facilitar a organização dos estudos nas escolas, o projeto Organon apresenta recursos para professores e estudantes interagirem de forma a disponibilizar conteúdos e atividades, de modo organizado, com links de rápido acesso.
 
 ## :clipboard: Pré-requisitos
   Para a implementação do sistema, você deve possuir esses recursos instalados na sua máquina
